@@ -13,10 +13,10 @@ const base = SEED_PRODUCTS[0]!;
 const make = (over: Partial<Product>): Product => ({ ...base, id: Math.random().toString(36), ...over });
 
 describe("seed catalog", () => {
-  it("ships exactly 100 products with unique ids and slugs", () => {
-    expect(SEED_PRODUCTS).toHaveLength(100);
-    expect(new Set(SEED_PRODUCTS.map((p) => p.id)).size).toBe(100);
-    expect(new Set(SEED_PRODUCTS.map((p) => p.slug)).size).toBe(100);
+  it("ships 250 products with unique ids and slugs", () => {
+    expect(SEED_PRODUCTS).toHaveLength(250);
+    expect(new Set(SEED_PRODUCTS.map((p) => p.id)).size).toBe(250);
+    expect(new Set(SEED_PRODUCTS.map((p) => p.slug)).size).toBe(250);
   });
 
   it("every product has an image and a positive price", () => {
@@ -54,10 +54,10 @@ describe("scoreProduct", () => {
 describe("queryProducts", () => {
   it("paginates and clamps out-of-range pages", () => {
     const r = queryProducts(SEED_PRODUCTS, { pageSize: 12, page: 999 });
-    expect(r.total).toBe(100);
-    expect(r.pageCount).toBe(9);
-    expect(r.page).toBe(9);
-    expect(r.items).toHaveLength(4);
+    expect(r.total).toBe(250);
+    expect(r.pageCount).toBe(21);
+    expect(r.page).toBe(21);
+    expect(r.items).toHaveLength(10);
   });
 
   it("filters by category, price, rating and stock together", () => {

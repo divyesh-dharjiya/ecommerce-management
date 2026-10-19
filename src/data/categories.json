@@ -214,5 +214,41 @@
     "image": "https://cdn.dummyjson.com/product-images/womens-watches/iwc-ingenieur-automatic-steel/thumbnail.webp",
     "icon": "Watch",
     "accent": "#9333ea"
+  },
+  {
+    "id": "cat_travel",
+    "slug": "travel",
+    "name": "Bags & Travel",
+    "description": "Backpacks and luggage that go the distance.",
+    "image": "https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_t.png",
+    "icon": "ShoppingBag",
+    "accent": "#7a5c3e"
+  },
+  {
+    "id": "cat_outerwear",
+    "slug": "outerwear",
+    "name": "Outerwear",
+    "description": "Jackets and coats for every kind of weather.",
+    "image": "https://fakestoreapi.com/img/71li-ujtlUL._AC_UX679_t.png",
+    "icon": "Shirt",
+    "accent": "#3f6d5b"
+  },
+  {
+    "id": "cat_computing",
+    "slug": "computing",
+    "name": "Computing",
+    "description": "Storage, monitors and peripherals for work and play.",
+    "image": "https://fakestoreapi.com/img/61IBBVJvSDL._AC_SY879_t.png",
+    "icon": "Laptop",
+    "accent": "#2f5d8a"
+  },
+  {
+    "id": "cat_streetwear",
+    "slug": "streetwear",
+    "name": "Streetwear",
+    "description": "Hoodies, tees, joggers and caps built for everyday wear.",
+    "image": "https://i.imgur.com/QkIa5tT.jpeg",
+    "icon": "Shirt",
+    "accent": "#d9482b"
   }
 ]

@@ -64,6 +64,8 @@ function ProductCardBase({ product, priority, layout = "grid", className, style 
   const hoverImage = product.images.find((i) => i !== product.thumbnail);
   const href = `/products/${product.slug}`;
   const isList = layout === "list";
+  // Studio photos fill the tile; transparent cut-outs sit padded on the tint.
+  const fit = product.imageStyle === "photo" ? "object-cover" : "object-contain p-6";
 
   return (
     <article
@@ -84,7 +86,7 @@ function ProductCardBase({ product, priority, layout = "grid", className, style 
             priority={priority}
             sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
             className={cn(
-              "object-contain p-6 transition-[transform,opacity] duration-700 ease-[var(--ease-out-expo)] group-hover:scale-105",
+              `${fit} transition-[transform,opacity] duration-700 ease-[var(--ease-out-expo)] group-hover:scale-105`,
               hoverImage && "group-hover:opacity-0",
               soldOut && "opacity-50 grayscale",
             )}
@@ -95,7 +97,7 @@ function ProductCardBase({ product, priority, layout = "grid", className, style 
               alt=""
               fill
               sizes="(max-width: 640px) 50vw, 25vw"
-              className="object-contain p-6 opacity-0 transition-[transform,opacity] duration-700 ease-[var(--ease-out-expo)] group-hover:opacity-100 group-hover:scale-105"
+              className={`${fit} opacity-0 transition-[transform,opacity] duration-700 ease-[var(--ease-out-expo)] group-hover:opacity-100 group-hover:scale-105`}
             />
           )}
         </Link>

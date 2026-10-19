@@ -6,7 +6,11 @@ const nextConfig: NextConfig = {
   // Hide the floating Next.js dev badge.
   devIndicators: false,
   images: {
-    remotePatterns: [{ protocol: "https", hostname: "cdn.dummyjson.com" }],
+    remotePatterns: [
+      { protocol: "https", hostname: "cdn.dummyjson.com" },
+      { protocol: "https", hostname: "fakestoreapi.com" },
+      { protocol: "https", hostname: "i.imgur.com" },
+    ],
     formats: ["image/avif", "image/webp"],
   },
   async headers() {

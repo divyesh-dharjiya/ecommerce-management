@@ -5,7 +5,7 @@ import Image, { type ImageProps } from "next/image";
 import { ImageOff } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-const OPTIMIZED_HOSTS = new Set(["cdn.dummyjson.com"]);
+const OPTIMIZED_HOSTS = new Set(["cdn.dummyjson.com", "fakestoreapi.com", "i.imgur.com"]);
 
 const isOptimizable = (src: string) => {
   try {

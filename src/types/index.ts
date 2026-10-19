@@ -32,6 +32,8 @@ export interface Product {
   tags: string[];
   thumbnail: string;
   images: string[];
+  /** cutout = transparent product shot (padded on a tint); photo = full-bleed studio photo. */
+  imageStyle?: "cutout" | "photo";
   weight?: number;
   dimensions?: Dimensions;
   warranty?: string;
