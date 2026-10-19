@@ -21,13 +21,22 @@ interface PageSeo {
   other?: Record<string, string>;
 }
 
-export function buildMetadata({ title, description = siteConfig.description, path, images, noIndex, keywords, other }: PageSeo): Metadata {
+export function buildMetadata({
+  title,
+  description = siteConfig.description,
+  path,
+  images,
+  noIndex,
+  keywords,
+  other,
+}: PageSeo): Metadata {
   const fullTitle = title ? `${title} · ${siteConfig.fullName}` : siteConfig.fullName;
   return {
     title,
     description,
     keywords,
-    alternates: { canonical: path },
+    // noindex pages deliberately omit a canonical: Google treats noindex + canonical as conflicting signals.
+    alternates: noIndex ? undefined : { canonical: path },
     openGraph: {
       type: "website",
       siteName: siteConfig.fullName,

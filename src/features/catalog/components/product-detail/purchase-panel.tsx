@@ -38,17 +38,19 @@ function Perks({ product }: { product: Product }) {
   const hydrated = useHydrated();
   const now = useNow(60_000);
   // Rendered after hydration so server and client dates can never disagree.
-  const delivery = hydrated ? formatDate(new Date(now + 3 * 86_400_000).toISOString(), { weekday: "short", month: "short", day: "numeric" }) : "in 2–3 days";
+  const delivery = hydrated
+    ? formatDate(new Date(now + 3 * 86_400_000).toISOString(), { weekday: "short", month: "short", day: "numeric" })
+    : "in 2–3 days";
   const perks = [
     { icon: Truck, title: "Get it by", body: delivery },
     { icon: RotateCcw, title: "Returns", body: product.returnPolicy ?? "30 days return policy" },
     { icon: ShieldCheck, title: "Warranty", body: product.warranty ?? "1 year warranty" },
   ];
   return (
-    <ul className="mt-8 grid grid-cols-1 gap-3 rounded-3xl border border-border p-5 text-sm sm:grid-cols-3">
+    <ul className="mt-8 grid grid-cols-1 gap-3 rounded-xl border border-border p-5 text-sm sm:grid-cols-3">
       {perks.map(({ icon: Icon, title, body }) => (
         <li key={title} className="flex items-start gap-3">
-          <Icon className="mt-0.5 size-5 shrink-0 text-primary" />
+          <Icon className="mt-0.5 size-5 shrink-0 text-accent" />
           <span>
             <strong className="block">{title}</strong>
             <span className="text-muted-foreground">{body}</span>
@@ -93,7 +95,7 @@ export function PurchasePanel({ product }: { product: Product }) {
         {off > 0 && <Badge tone="sale">-{off}% OFF</Badge>}
         {product.isNew && <Badge tone="solid">New arrival</Badge>}
       </div>
-      <h1 className="mt-4 font-display text-3xl font-bold leading-tight tracking-tight sm:text-4xl">{product.title}</h1>
+      <h1 className="mt-4 font-display text-3xl leading-tight tracking-tight sm:text-4xl">{product.title}</h1>
       <div className="mt-3 flex flex-wrap items-center gap-4">
         <Rating value={product.rating} showValue count={product.reviewCount} size={16} />
         <span className="text-sm text-muted-foreground">{formatNumber(product.soldCount)} sold</span>
@@ -115,12 +117,19 @@ export function PurchasePanel({ product }: { product: Product }) {
         <Button size="lg" className="flex-1" disabled={soldOut} onClick={() => addToCart(product, qty)}>
           <ShoppingBag className="size-5" /> Add to bag
         </Button>
-        <Button size="icon" variant="outline" className="size-13 rounded-2xl" onClick={() => toggleWish(product)} aria-label="Toggle wishlist" aria-pressed={wished}>
+        <Button
+          size="icon"
+          variant="outline"
+          className="size-13 rounded-lg"
+          onClick={() => toggleWish(product)}
+          aria-label="Toggle wishlist"
+          aria-pressed={wished}
+        >
           <motion.span key={String(wished)} initial={{ scale: 0.5 }} animate={{ scale: 1 }} transition={spring.bouncy}>
-            <Heart className={cn("size-5", wished && "fill-rose-500 text-rose-500")} />
+            <Heart className={cn("size-5", wished && "fill-accent text-accent")} />
           </motion.span>
         </Button>
-        <Button size="icon" variant="outline" className="size-13 rounded-2xl" onClick={share} aria-label="Share">
+        <Button size="icon" variant="outline" className="size-13 rounded-lg" onClick={share} aria-label="Share">
           <Share2 className="size-5" />
         </Button>
       </div>

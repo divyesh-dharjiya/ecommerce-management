@@ -17,5 +17,14 @@ export function listingCanonical(path: string, query: ProductQuery) {
 
 /** Faceted combinations shouldn't be indexed — only clean and paginated listings. */
 export function isFacetedQuery(query: ProductQuery) {
-  return Boolean(query.search || query.brands || query.minPrice !== undefined || query.maxPrice !== undefined || query.minRating || query.inStock || query.onSale || (query.sort && query.sort !== "featured"));
+  return Boolean(
+    query.search ||
+    query.brands ||
+    query.minPrice !== undefined ||
+    query.maxPrice !== undefined ||
+    query.minRating ||
+    query.inStock ||
+    query.onSale ||
+    (query.sort && query.sort !== "featured"),
+  );
 }

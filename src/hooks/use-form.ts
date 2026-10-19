@@ -3,7 +3,6 @@
 import { useCallback, useState } from "react";
 import { hasErrors, type FieldErrors } from "@/lib/validation";
 
-
 /**
  * Minimal, typed form state: values, field errors, validation and
  * accessible input bindings. Errors clear as the user fixes a field.

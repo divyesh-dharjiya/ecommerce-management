@@ -12,7 +12,6 @@ import { buttonClasses, Card, Container, EmptyState, Skeleton, Thumb } from "@/c
 import { OrderTimeline } from "@/features/orders/components/order-status";
 import { PAYMENT_LABEL } from "@/features/checkout/config";
 
-
 function Confetti() {
   const colors = ["#8b5cf6", "#ec4899", "#f97316", "#22c55e", "#3b82f6", "#eab308"];
   return (
@@ -59,7 +58,11 @@ export function OrderDetail({ id }: { id: string }) {
         icon={<PackageX className="size-9" />}
         title="Order not found"
         description="We couldn't find this order on this device."
-        action={<Link href="/orders" className={buttonClasses()}>View all orders</Link>}
+        action={
+          <Link href="/orders" className={buttonClasses()}>
+            View all orders
+          </Link>
+        }
       />
     );
   }
@@ -78,7 +81,7 @@ export function OrderDetail({ id }: { id: string }) {
             <Check className="size-10" strokeWidth={3} />
           </motion.span>
         )}
-        <h1 className="font-display text-4xl font-bold tracking-tight">
+        <h1 className="font-display text-4xl tracking-tight">
           {justPlaced ? "Thank you for your order!" : `Order ${order.number}`}
         </h1>
         <p className="mt-2 text-muted-foreground">
@@ -99,28 +102,48 @@ export function OrderDetail({ id }: { id: string }) {
               <Thumb src={l.thumbnail} size="lg" />
               <div className="min-w-0 flex-1">
                 <p className="truncate font-medium">{l.title}</p>
-                <p className="text-sm text-muted-foreground">Qty {l.quantity} × {formatPrice(l.unitPrice)}</p>
+                <p className="text-sm text-muted-foreground">
+                  Qty {l.quantity} × {formatPrice(l.unitPrice)}
+                </p>
               </div>
               <p className="font-semibold">{formatPrice(l.unitPrice * l.quantity)}</p>
             </li>
           ))}
         </ul>
         <dl className="space-y-2 p-5 text-sm">
-          <div className="flex justify-between"><dt className="text-muted-foreground">Subtotal</dt><dd>{formatPrice(order.subtotal)}</dd></div>
+          <div className="flex justify-between">
+            <dt className="text-muted-foreground">Subtotal</dt>
+            <dd>{formatPrice(order.subtotal)}</dd>
+          </div>
           {order.discount > 0 && (
-            <div className="flex justify-between"><dt className="text-muted-foreground">Discount ({order.couponCode})</dt><dd className="text-success">−{formatPrice(order.discount)}</dd></div>
+            <div className="flex justify-between">
+              <dt className="text-muted-foreground">Discount ({order.couponCode})</dt>
+              <dd className="text-success">−{formatPrice(order.discount)}</dd>
+            </div>
           )}
-          <div className="flex justify-between"><dt className="text-muted-foreground">Shipping</dt><dd>{order.shipping === 0 ? "Free" : formatPrice(order.shipping)}</dd></div>
-          <div className="flex justify-between"><dt className="text-muted-foreground">Tax</dt><dd>{formatPrice(order.tax)}</dd></div>
-          <div className="flex justify-between pt-2 text-base font-bold"><dt>Total</dt><dd>{formatPrice(order.total)}</dd></div>
+          <div className="flex justify-between">
+            <dt className="text-muted-foreground">Shipping</dt>
+            <dd>{order.shipping === 0 ? "Free" : formatPrice(order.shipping)}</dd>
+          </div>
+          <div className="flex justify-between">
+            <dt className="text-muted-foreground">Tax</dt>
+            <dd>{formatPrice(order.tax)}</dd>
+          </div>
+          <div className="flex justify-between pt-2 text-base font-bold">
+            <dt>Total</dt>
+            <dd>{formatPrice(order.total)}</dd>
+          </div>
         </dl>
         <div className="grid grid-cols-1 gap-6 p-5 text-sm sm:grid-cols-2">
           <div>
             <p className="font-semibold">Shipping to</p>
             <p className="mt-1 text-muted-foreground">
-              {order.customer.fullName}<br />
-              {order.customer.address}<br />
-              {order.customer.city}, {order.customer.postalCode}<br />
+              {order.customer.fullName}
+              <br />
+              {order.customer.address}
+              <br />
+              {order.customer.city}, {order.customer.postalCode}
+              <br />
               {order.customer.country}
             </p>
           </div>
@@ -132,8 +155,12 @@ export function OrderDetail({ id }: { id: string }) {
       </Card>
 
       <div className="mt-8 flex flex-wrap justify-center gap-3">
-        <Link href="/products" className={buttonClasses("primary")}>Continue shopping</Link>
-        <Link href="/orders" className={buttonClasses("outline")}>View all orders</Link>
+        <Link href="/products" className={buttonClasses("primary")}>
+          Continue shopping
+        </Link>
+        <Link href="/orders" className={buttonClasses("outline")}>
+          View all orders
+        </Link>
       </div>
     </Container>
   );

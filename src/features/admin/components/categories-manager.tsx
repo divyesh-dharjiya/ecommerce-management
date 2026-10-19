@@ -49,7 +49,11 @@ function CategoriesView() {
       <AdminPageHeader
         title="Categories"
         description={`${categories.length} categories`}
-        actions={<Button onClick={() => setEditing("new")}><Plus className="size-4" /> Add category</Button>}
+        actions={
+          <Button onClick={() => setEditing("new")}>
+            <Plus className="size-4" /> Add category
+          </Button>
+        }
       />
 
       <ul className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
@@ -57,9 +61,19 @@ function CategoriesView() {
           {categories.map((c, i) => {
             const s = stats.get(c.slug);
             return (
-              <motion.li key={c.id} layout initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.9 }} transition={{ ...spring.gentle, delay: Math.min(i, 12) * 0.02 }}>
+              <motion.li
+                key={c.id}
+                layout
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.9 }}
+                transition={{ ...spring.gentle, delay: Math.min(i, 12) * 0.02 }}
+              >
                 <Card className="group flex items-center gap-4 p-4">
-                  <div className="relative size-16 shrink-0 overflow-hidden rounded-2xl" style={{ backgroundColor: `${c.accent}22` }}>
+                  <div
+                    className="relative size-16 shrink-0 overflow-hidden rounded-lg"
+                    style={{ backgroundColor: `${c.accent}22` }}
+                  >
                     <ProductImage src={c.image} alt="" fill sizes="64px" className="object-contain p-1.5" />
                   </div>
                   <div className="min-w-0 flex-1">
@@ -72,7 +86,12 @@ function CategoriesView() {
                     </p>
                   </div>
                   <div className="flex gap-1 transition sm:opacity-0 sm:group-focus-within:opacity-100 sm:group-hover:opacity-100">
-                    <button type="button" onClick={() => setEditing(c)} aria-label={`Edit ${c.name}`} className="grid size-8 place-items-center rounded-lg text-muted-foreground hover:bg-muted hover:text-foreground">
+                    <button
+                      type="button"
+                      onClick={() => setEditing(c)}
+                      aria-label={`Edit ${c.name}`}
+                      className="grid size-8 place-items-center rounded-lg text-muted-foreground hover:bg-muted hover:text-foreground"
+                    >
                       <Pencil className="size-4" />
                     </button>
                     <button
@@ -94,8 +113,15 @@ function CategoriesView() {
         </AnimatePresence>
       </ul>
 
-      <Modal open={editing !== null} onClose={() => setEditing(null)} title={editing === "new" ? "Add category" : "Edit category"} className="max-w-xl">
-        {editing !== null && <CategoryForm category={editing === "new" ? undefined : editing} onDone={() => setEditing(null)} />}
+      <Modal
+        open={editing !== null}
+        onClose={() => setEditing(null)}
+        title={editing === "new" ? "Add category" : "Edit category"}
+        className="max-w-xl"
+      >
+        {editing !== null && (
+          <CategoryForm category={editing === "new" ? undefined : editing} onDone={() => setEditing(null)} />
+        )}
       </Modal>
 
       <ConfirmDialog
@@ -116,13 +142,19 @@ function CategoriesView() {
         {deletingCount > 0 && (
           <div className="mt-4">
             <Select value={reassignTo} onChange={(e) => setReassignTo(e.target.value)} aria-label="Move products to">
-              {categories.filter((c) => c.id !== deleting?.id).map((c) => (
-                <option key={c.id} value={c.slug}>Move products to {c.name}</option>
-              ))}
+              {categories
+                .filter((c) => c.id !== deleting?.id)
+                .map((c) => (
+                  <option key={c.id} value={c.slug}>
+                    Move products to {c.name}
+                  </option>
+                ))}
               <option value="">Delete products as well</option>
             </Select>
             <p className={cn("mt-2 text-xs", reassignTo ? "text-muted-foreground" : "font-semibold text-danger")}>
-              {reassignTo ? "Products will be kept and recategorised." : `${deletingCount} products will be permanently removed.`}
+              {reassignTo
+                ? "Products will be kept and recategorised."
+                : `${deletingCount} products will be permanently removed.`}
             </p>
           </div>
         )}

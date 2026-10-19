@@ -28,5 +28,4 @@ export const useWishlistStore = create<WishlistState>()(
   ),
 );
 
-export const useIsWishlisted = (productId: string) =>
-  useWishlistStore((s) => s.ids.includes(productId));
+export const useIsWishlisted = (productId: string) => useWishlistStore((s) => s.ids.includes(productId));

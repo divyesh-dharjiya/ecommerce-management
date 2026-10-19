@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
-import { Outfit, Plus_Jakarta_Sans } from "next/font/google";
+import { Geist, Instrument_Serif } from "next/font/google";
+import { THEME_COLORS } from "@/config/brand";
 import { siteConfig } from "@/config/site";
 import { SITE_URL, organizationSchema, websiteSchema } from "@/lib/seo";
 import { themeInitScript } from "@/lib/theme";
@@ -7,8 +8,14 @@ import { AppProviders } from "@/components/providers/app-providers";
 import { JsonLd } from "@/components/seo/json-ld";
 import "./globals.css";
 
-const jakarta = Plus_Jakarta_Sans({ subsets: ["latin"], variable: "--font-jakarta", display: "swap" });
-const outfit = Outfit({ subsets: ["latin"], variable: "--font-outfit", display: "swap" });
+const geist = Geist({ subsets: ["latin"], variable: "--font-geist", display: "swap" });
+const instrument = Instrument_Serif({
+  subsets: ["latin"],
+  weight: "400",
+  style: ["normal", "italic"],
+  variable: "--font-instrument",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -29,7 +36,11 @@ export const metadata: Metadata = {
     description: siteConfig.description,
   },
   twitter: { card: "summary_large_image", title: siteConfig.fullName, description: siteConfig.description },
-  robots: { index: true, follow: true, googleBot: { index: true, follow: true, "max-image-preview": "large", "max-snippet": -1 } },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: { index: true, follow: true, "max-image-preview": "large", "max-snippet": -1 },
+  },
 };
 
 export const viewport: Viewport = {
@@ -40,17 +51,17 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" dir="ltr" suppressHydrationWarning className={`${jakarta.variable} ${outfit.variable}`}>
+    <html lang="en" dir="ltr" suppressHydrationWarning className={`${geist.variable} ${instrument.variable}`}>
       <head>
         {/* Updated at runtime to follow the active theme (see lib/theme). */}
-        <meta name="theme-color" content="#fbfbfd" />
+        <meta name="theme-color" content={THEME_COLORS.light} />
         <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
         <JsonLd data={[organizationSchema(), websiteSchema()]} />
       </head>
       <body className="min-h-dvh font-sans">
         <a
           href="#main"
-          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-xl focus:bg-primary focus:px-4 focus:py-2 focus:text-primary-foreground"
+          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-md focus:bg-primary focus:px-4 focus:py-2 focus:text-primary-foreground"
         >
           Skip to content
         </a>

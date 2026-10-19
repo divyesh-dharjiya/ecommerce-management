@@ -3,7 +3,17 @@ import type { Category, Product } from "@/types";
 
 export type ProductDraft = Pick<
   Product,
-  "title" | "description" | "brand" | "category" | "price" | "compareAtPrice" | "stock" | "thumbnail" | "status" | "tags" | "isFeatured"
+  | "title"
+  | "description"
+  | "brand"
+  | "category"
+  | "price"
+  | "compareAtPrice"
+  | "stock"
+  | "thumbnail"
+  | "status"
+  | "tags"
+  | "isFeatured"
 >;
 
 export function validateProduct(p: ProductDraft, categories: Category[]): FieldErrors<ProductDraft> {
@@ -24,7 +34,11 @@ export function validateProduct(p: ProductDraft, categories: Category[]): FieldE
 
 export type CategoryDraft = Pick<Category, "name" | "description" | "image" | "accent" | "icon">;
 
-export function validateCategory(c: CategoryDraft, existing: Category[], editingId?: string): FieldErrors<CategoryDraft> {
+export function validateCategory(
+  c: CategoryDraft,
+  existing: Category[],
+  editingId?: string,
+): FieldErrors<CategoryDraft> {
   const e: FieldErrors<CategoryDraft> = {};
   const name = c.name.trim();
   if (!minLength(name, 2)) e.name = "Name must be at least 2 characters.";

@@ -32,7 +32,11 @@ export function ProductDetail({ slug }: { slug: string }) {
         icon={<PackageX className="size-9" />}
         title="Product not found"
         description="This product may have been removed or is no longer available."
-        action={<Link href="/products" className={buttonClasses()}>Continue shopping</Link>}
+        action={
+          <Link href="/products" className={buttonClasses()}>
+            Continue shopping
+          </Link>
+        }
       />
     );
   }
@@ -72,7 +76,11 @@ function ProductDetailView({ product }: { product: Product }) {
         <section className="py-12">
           <Container>
             <Reveal>
-              <SectionHeading eyebrow="You may also like" title="Related products" href={`/categories/${product.category}`} />
+              <SectionHeading
+                eyebrow="You may also like"
+                title="Related products"
+                href={`/categories/${product.category}`}
+              />
             </Reveal>
             <ProductGrid products={related} priorityCount={0} />
           </Container>
@@ -86,7 +94,7 @@ function ProductDetailView({ product }: { product: Product }) {
 function DetailSkeleton() {
   return (
     <Container className="grid grid-cols-1 gap-10 py-14 lg:grid-cols-2">
-      <Skeleton className="aspect-square rounded-[2rem]" />
+      <Skeleton className="aspect-square rounded-2xl" />
       <div className="space-y-4">
         <Skeleton className="h-6 w-24" />
         <Skeleton className="h-10 w-4/5" />

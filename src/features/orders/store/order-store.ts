@@ -63,9 +63,7 @@ export const useOrderStore = create<OrderState>()(
           createdAt: new Date().toISOString(),
         };
         set((s) => ({ orders: [order, ...s.orders] }));
-        useCatalogStore
-          .getState()
-          .recordSales(Object.fromEntries(lines.map((l) => [l.productId, l.quantity])));
+        useCatalogStore.getState().recordSales(Object.fromEntries(lines.map((l) => [l.productId, l.quantity])));
         return order;
       },
 
@@ -73,14 +71,11 @@ export const useOrderStore = create<OrderState>()(
         set((s) => {
           // Cap simulated orders so localStorage doesn't grow unbounded.
           let liveSeen = 0;
-          const trimmed = s.orders.filter(
-            (o) => o.source !== "live" || ++liveSeen < liveConfig.maxLiveOrders,
-          );
+          const trimmed = s.orders.filter((o) => o.source !== "live" || ++liveSeen < liveConfig.maxLiveOrders);
           return { orders: [order, ...trimmed] };
         }),
 
-      updateStatus: (id, status) =>
-        set((s) => ({ orders: s.orders.map((o) => (o.id === id ? { ...o, status } : o)) })),
+      updateStatus: (id, status) => set((s) => ({ orders: s.orders.map((o) => (o.id === id ? { ...o, status } : o)) })),
 
       seedHistory: () => {
         if (get().seeded) return;

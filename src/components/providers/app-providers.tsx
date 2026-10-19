@@ -19,9 +19,9 @@ export function AppProviders({ children }: { children: React.ReactNode }) {
       <SearchCommand />
       <Toaster
         theme={resolved}
-        position="top-right"
+        position="top-center"
         closeButton
-        toastOptions={{ className: "!rounded-2xl !border-border !bg-card !text-foreground !shadow-lift !font-sans" }}
+        toastOptions={{ className: "!rounded-lg !border-border !bg-card !text-foreground !shadow-lift !font-sans" }}
       />
     </MotionConfig>
   );

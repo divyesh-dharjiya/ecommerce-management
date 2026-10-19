@@ -4,7 +4,10 @@ import { SEED_CATEGORIES } from "@/data";
 
 describe("filterChips", () => {
   it("creates one removable chip per active filter", () => {
-    const chips = filterChips({ category: "laptops", brands: ["Apple", "Dell"], minPrice: 100, onSale: true }, SEED_CATEGORIES);
+    const chips = filterChips(
+      { category: "laptops", brands: ["Apple", "Dell"], minPrice: 100, onSale: true },
+      SEED_CATEGORIES,
+    );
     expect(chips.map((c) => c.label)).toEqual(["Laptops", "Apple", "Dell", "$100 – any", "On sale"]);
     expect(chips[1]!.clear).toEqual({ brands: ["Dell"] });
   });

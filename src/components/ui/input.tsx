@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils";
 
 /** Shared field chrome — every text-like control looks and behaves the same. */
 export const fieldClasses =
-  "w-full rounded-xl border border-border bg-card px-3.5 text-sm outline-none transition placeholder:text-muted-foreground/70 focus:border-primary focus:ring-4 focus:ring-primary/15 disabled:opacity-60 aria-[invalid=true]:border-danger aria-[invalid=true]:ring-danger/15";
+  "w-full rounded-md border border-border bg-card px-3.5 text-sm outline-none transition placeholder:text-muted-foreground/70 focus:border-primary focus:ring-4 focus:ring-primary/15 disabled:opacity-60 aria-[invalid=true]:border-danger aria-[invalid=true]:ring-danger/15";
 
 export const Input = forwardRef<HTMLInputElement, InputHTMLAttributes<HTMLInputElement>>(function Input(
   { className, ...props },

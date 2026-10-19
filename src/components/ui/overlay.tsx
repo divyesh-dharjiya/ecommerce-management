@@ -1,9 +1,9 @@
 "use client";
 
-import { useEffect, useId, useRef, type ReactNode } from "react";
+import { useId, type ReactNode } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { X } from "lucide-react";
-import { useKeydown, useLockBodyScroll } from "@/hooks";
+import { useFocusTrap, useKeydown, useLockBodyScroll } from "@/hooks";
 import { cn } from "@/lib/utils";
 
 interface OverlayProps {
@@ -12,25 +12,6 @@ interface OverlayProps {
   title?: string;
   children: ReactNode;
   className?: string;
-}
-
-function useFocusOnOpen(open: boolean) {
-  const ref = useRef<HTMLDivElement>(null);
-  useEffect(() => {
-    if (!open) return;
-    const previous = document.activeElement as HTMLElement | null;
-    const t = setTimeout(() => {
-      const focusable = ref.current?.querySelector<HTMLElement>(
-        "[data-autofocus], input, button, [href], select, textarea",
-      );
-      (focusable ?? ref.current)?.focus();
-    }, 50);
-    return () => {
-      clearTimeout(t);
-      previous?.focus?.();
-    };
-  }, [open]);
-  return ref;
 }
 
 const Backdrop = ({ onClick }: { onClick: () => void }) => (
@@ -46,7 +27,7 @@ const Backdrop = ({ onClick }: { onClick: () => void }) => (
 
 export function Modal({ open, onClose, title, children, className }: OverlayProps) {
   const titleId = useId();
-  const ref = useFocusOnOpen(open);
+  const ref = useFocusTrap<HTMLDivElement>(open);
   useLockBodyScroll(open);
   useKeydown("Escape", onClose, open);
 
@@ -67,7 +48,7 @@ export function Modal({ open, onClose, title, children, className }: OverlayProp
               exit={{ opacity: 0, scale: 0.97, y: 8 }}
               transition={{ type: "spring", damping: 28, stiffness: 340 }}
               className={cn(
-                "pointer-events-auto relative max-h-[90vh] w-full max-w-lg overflow-y-auto rounded-3xl border border-border bg-card shadow-lift outline-none",
+                "pointer-events-auto relative max-h-[90vh] w-full max-w-lg overflow-y-auto rounded-xl border border-border bg-card shadow-lift outline-none",
                 className,
               )}
             >
@@ -98,7 +79,7 @@ export function Drawer({
   side = "right",
 }: OverlayProps & { side?: "left" | "right" }) {
   const titleId = useId();
-  const ref = useFocusOnOpen(open);
+  const ref = useFocusTrap<HTMLDivElement>(open);
   useLockBodyScroll(open);
   useKeydown("Escape", onClose, open);
   const offset = side === "right" ? "100%" : "-100%";

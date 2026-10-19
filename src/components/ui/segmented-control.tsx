@@ -36,13 +36,34 @@ export function SegmentedControl<T extends string>({
   className,
 }: SegmentedControlProps<T>) {
   const layoutId = useId();
+
+  // WAI-ARIA radio group: arrows move + select, Home/End jump, only the active option is tabbable.
+  const onKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
+    const keys = ["ArrowRight", "ArrowDown", "ArrowLeft", "ArrowUp", "Home", "End"];
+    if (!keys.includes(e.key)) return;
+    e.preventDefault();
+    const group = e.currentTarget; // React clears currentTarget once the handler returns
+    const i = options.findIndex((o) => o.value === value);
+    const next =
+      e.key === "Home"
+        ? 0
+        : e.key === "End"
+          ? options.length - 1
+          : (i + (e.key === "ArrowRight" || e.key === "ArrowDown" ? 1 : -1) + options.length) % options.length;
+    const target = options[next];
+    if (!target) return;
+    onChange(target.value);
+    requestAnimationFrame(() => group.querySelectorAll<HTMLButtonElement>("[role=radio]")[next]?.focus());
+  };
+
   return (
     <div
       role="radiogroup"
       aria-label={label}
+      onKeyDown={onKeyDown}
       className={cn(
         "inline-flex items-center gap-0.5 p-1",
-        variant === "pill" ? "rounded-full bg-muted" : "rounded-xl border border-border bg-card",
+        variant === "pill" ? "rounded-full bg-muted" : "rounded-md border border-border bg-card",
         className,
       )}
     >
@@ -55,6 +76,7 @@ export function SegmentedControl<T extends string>({
             role="radio"
             aria-checked={active}
             aria-label={o.ariaLabel}
+            tabIndex={active ? 0 : -1}
             onClick={() => onChange(o.value)}
             className={cn(
               "relative inline-flex items-center justify-center gap-1.5 font-semibold transition-colors",

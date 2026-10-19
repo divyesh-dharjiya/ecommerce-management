@@ -12,16 +12,14 @@ export const SORT_OPTIONS: { value: SortOption; label: string }[] = [
   { value: "discount", label: "Biggest discount" },
 ];
 
-export const isSortOption = (value: unknown): value is SortOption =>
-  SORT_OPTIONS.some((o) => o.value === value);
+export const isSortOption = (value: unknown): value is SortOption => SORT_OPTIONS.some((o) => o.value === value);
 
-const normalise = (s: string) =>
-  s
-    .toLowerCase()
-    .normalize("NFKD")
-    .replace(/[̀-ͯ]/g, "");
+const normalise = (s: string) => s.toLowerCase().normalize("NFKD").replace(/[̀-ͯ]/g, "");
 
-export const tokenize = (s: string) => normalise(s).split(/[^a-z0-9]+/).filter(Boolean);
+export const tokenize = (s: string) =>
+  normalise(s)
+    .split(/[^a-z0-9]+/)
+    .filter(Boolean);
 
 /**
  * Relevance score for a product against a free-text query.
@@ -66,8 +64,7 @@ const comparators: Record<Exclude<SortOption, "featured">, (a: Product, b: Produ
   "price-desc": (a, b) => b.price - a.price,
   rating: (a, b) => b.rating - a.rating || b.reviewCount - a.reviewCount,
   "best-selling": (a, b) => b.soldCount - a.soldCount,
-  discount: (a, b) =>
-    discountPercent(b.price, b.compareAtPrice) - discountPercent(a.price, a.compareAtPrice),
+  discount: (a, b) => discountPercent(b.price, b.compareAtPrice) - discountPercent(a.price, a.compareAtPrice),
 };
 
 export function sortProducts(products: Product[], sort: SortOption = "featured"): Product[] {
@@ -145,9 +142,7 @@ export interface CatalogFacets {
 }
 
 export function getFacets(products: Product[], category?: string): CatalogFacets {
-  const scoped = products.filter(
-    (p) => p.status === "active" && (!category || p.category === category),
-  );
+  const scoped = products.filter((p) => p.status === "active" && (!category || p.category === category));
   const brandCounts = new Map<string, number>();
   let min = Infinity;
   let max = 0;

@@ -8,25 +8,80 @@ import { createId, mulberry32, pick } from "@/lib/utils";
 import type { LiveEvent, Order, OrderLine, OrderStatus, PaymentMethod, Product } from "@/types";
 
 const FIRST_NAMES = [
-  "Aarav", "Olivia", "Liam", "Priya", "Noah", "Emma", "Mateo", "Sofia", "Kenji", "Amara",
-  "Lucas", "Isla", "Arjun", "Mia", "Ethan", "Zara", "Leo", "Ananya", "Hugo", "Chloe",
-  "Ravi", "Aisha", "Daniel", "Yuki", "Omar", "Elena", "Kabir", "Grace", "Diego", "Nora",
+  "Aarav",
+  "Olivia",
+  "Liam",
+  "Priya",
+  "Noah",
+  "Emma",
+  "Mateo",
+  "Sofia",
+  "Kenji",
+  "Amara",
+  "Lucas",
+  "Isla",
+  "Arjun",
+  "Mia",
+  "Ethan",
+  "Zara",
+  "Leo",
+  "Ananya",
+  "Hugo",
+  "Chloe",
+  "Ravi",
+  "Aisha",
+  "Daniel",
+  "Yuki",
+  "Omar",
+  "Elena",
+  "Kabir",
+  "Grace",
+  "Diego",
+  "Nora",
 ];
 const LAST_NAMES = [
-  "Sharma", "Johnson", "Patel", "Garcia", "Kim", "Müller", "Rossi", "Silva", "Tanaka", "Okafor",
-  "Brown", "Singh", "Martin", "Lee", "Nguyen", "Cohen", "Haddad", "Wilson", "Mehta", "Dubois",
+  "Sharma",
+  "Johnson",
+  "Patel",
+  "Garcia",
+  "Kim",
+  "Müller",
+  "Rossi",
+  "Silva",
+  "Tanaka",
+  "Okafor",
+  "Brown",
+  "Singh",
+  "Martin",
+  "Lee",
+  "Nguyen",
+  "Cohen",
+  "Haddad",
+  "Wilson",
+  "Mehta",
+  "Dubois",
 ];
 const CITIES: [string, string][] = [
-  ["Mumbai", "India"], ["New York", "United States"], ["London", "United Kingdom"],
-  ["Berlin", "Germany"], ["Tokyo", "Japan"], ["Toronto", "Canada"], ["Sydney", "Australia"],
-  ["Bengaluru", "India"], ["Paris", "France"], ["Dubai", "United Arab Emirates"],
-  ["San Francisco", "United States"], ["Singapore", "Singapore"], ["Amsterdam", "Netherlands"],
-  ["Ahmedabad", "India"], ["Austin", "United States"], ["Madrid", "Spain"],
+  ["Mumbai", "India"],
+  ["New York", "United States"],
+  ["London", "United Kingdom"],
+  ["Berlin", "Germany"],
+  ["Tokyo", "Japan"],
+  ["Toronto", "Canada"],
+  ["Sydney", "Australia"],
+  ["Bengaluru", "India"],
+  ["Paris", "France"],
+  ["Dubai", "United Arab Emirates"],
+  ["San Francisco", "United States"],
+  ["Singapore", "Singapore"],
+  ["Amsterdam", "Netherlands"],
+  ["Ahmedabad", "India"],
+  ["Austin", "United States"],
+  ["Madrid", "Spain"],
 ];
 const PAYMENT: PaymentMethod[] = ["card", "card", "card", "upi", "cod"];
 
-const orderNumber = (random: () => number) =>
-  `LX-${Math.floor(100000 + random() * 900000)}`;
+const orderNumber = (random: () => number) => `LX-${Math.floor(100000 + random() * 900000)}`;
 
 function buildCustomer(random: () => number) {
   const first = pick(FIRST_NAMES, random);
@@ -34,9 +89,7 @@ function buildCustomer(random: () => number) {
   const [city, country] = pick(CITIES, random);
   return {
     fullName: `${first} ${last}`,
-    email: `${first}.${last}${Math.floor(random() * 90) + 10}@example.com`
-      .toLowerCase()
-      .replace(/[^a-z0-9.@]/g, ""),
+    email: `${first}.${last}${Math.floor(random() * 90) + 10}@example.com`.toLowerCase().replace(/[^a-z0-9.@]/g, ""),
     phone: `+1 555 ${String(Math.floor(random() * 9000) + 1000)}`,
     address: `${Math.floor(random() * 900) + 10} Market Street`,
     city,
@@ -131,9 +184,7 @@ export function generateHistoricalOrders(
       const at = new Date(day);
       at.setHours(8 + Math.floor(random() * 14), Math.floor(random() * 60), 0, 0);
       if (at.getTime() > now) continue;
-      orders.push(
-        assembleOrder(buildLines(active, random), random, at, statusForAge(d, random), "seed"),
-      );
+      orders.push(assembleOrder(buildLines(active, random), random, at, statusForAge(d, random), "seed"));
     }
   }
   return orders.sort((a, b) => b.createdAt.localeCompare(a.createdAt));

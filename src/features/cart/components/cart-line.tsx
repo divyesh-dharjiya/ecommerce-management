@@ -42,7 +42,7 @@ export function CartLine({ line, compact }: { line: CartLineData; compact?: bool
         href={`/products/${product.slug}`}
         onClick={() => closeCart(false)}
         className={cn(
-          "relative shrink-0 overflow-hidden rounded-2xl bg-muted",
+          "relative shrink-0 overflow-hidden rounded-lg bg-muted",
           compact ? "size-20" : "size-24 sm:size-28",
         )}
       >
@@ -54,7 +54,7 @@ export function CartLine({ line, compact }: { line: CartLineData; compact?: bool
             <Link
               href={`/products/${product.slug}`}
               onClick={() => closeCart(false)}
-              className="line-clamp-2 text-sm font-semibold leading-snug hover:text-primary"
+              className="line-clamp-2 text-sm font-semibold leading-snug hover:text-accent"
             >
               {product.title}
             </Link>
@@ -63,9 +63,7 @@ export function CartLine({ line, compact }: { line: CartLineData; compact?: bool
           <p className="shrink-0 font-semibold">{formatPrice(product.price * item.quantity)}</p>
         </div>
         {exceeds && (
-          <p className="mt-1 text-xs font-medium text-danger">
-            Only {product.stock} left — please reduce quantity.
-          </p>
+          <p className="mt-1 text-xs font-medium text-danger">Only {product.stock} left — please reduce quantity.</p>
         )}
         <div className="mt-auto flex items-center justify-between pt-3">
           <QuantityStepper

@@ -26,7 +26,7 @@ export const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(functi
         placeholder={placeholder}
         aria-label={props["aria-label"] ?? placeholder}
         className={cn(
-          "w-full rounded-xl border border-border bg-card pl-10 pr-10 text-sm outline-none transition focus:border-primary focus:ring-4 focus:ring-primary/15 [&::-webkit-search-cancel-button]:hidden",
+          "w-full rounded-md border border-border bg-card pl-10 pr-10 text-sm outline-none transition focus:border-primary focus:ring-4 focus:ring-primary/15 [&::-webkit-search-cancel-button]:hidden",
           size === "md" ? "h-10" : "h-11",
         )}
         {...props}

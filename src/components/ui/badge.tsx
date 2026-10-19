@@ -3,12 +3,12 @@ import { cn } from "@/lib/utils";
 
 const tones = {
   neutral: "bg-muted text-foreground/80",
-  primary: "bg-primary/12 text-primary",
+  primary: "bg-accent/12 text-accent",
   success: "bg-success/15 text-success",
   danger: "bg-danger/12 text-danger",
   warning: "bg-warning/20 text-amber-700 dark:text-warning",
   solid: "bg-foreground text-background",
-  sale: "bg-gradient-to-r from-rose-500 to-orange-500 text-white",
+  sale: "bg-accent text-accent-foreground",
 } as const;
 
 export type BadgeTone = keyof typeof tones;
@@ -20,7 +20,11 @@ export interface BadgeProps extends HTMLAttributes<HTMLSpanElement> {
 export function Badge({ tone = "neutral", className, ...props }: BadgeProps) {
   return (
     <span
-      className={cn("inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-semibold", tones[tone], className)}
+      className={cn(
+        "inline-flex items-center gap-1 rounded-sm px-2 py-1 text-[11px] font-semibold leading-none tracking-wide",
+        tones[tone],
+        className,
+      )}
       {...props}
     />
   );

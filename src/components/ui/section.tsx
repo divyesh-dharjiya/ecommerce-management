@@ -19,17 +19,29 @@ export interface SectionHeadingProps {
   children?: React.ReactNode;
 }
 
-export function SectionHeading({ eyebrow, title, description, href, linkLabel = "View all", className, as: Heading = "h2", children }: SectionHeadingProps) {
+export function SectionHeading({
+  eyebrow,
+  title,
+  description,
+  href,
+  linkLabel = "View all",
+  className,
+  as: Heading = "h2",
+  children,
+}: SectionHeadingProps) {
   return (
     <div className={cn("mb-8 flex flex-wrap items-end justify-between gap-4", className)}>
       <div className="max-w-2xl">
-        {eyebrow && <p className="mb-2 text-xs font-bold uppercase tracking-[0.2em] text-primary">{eyebrow}</p>}
-        <Heading className="font-display text-3xl font-bold tracking-tight sm:text-4xl">{title}</Heading>
+        {eyebrow && <p className="eyebrow mb-3 text-accent">{eyebrow}</p>}
+        <Heading className="font-display text-4xl leading-[1.05] sm:text-5xl">{title}</Heading>
         {description && <p className="mt-2 text-muted-foreground">{description}</p>}
       </div>
       {children}
       {href && (
-        <Link href={href} className="group inline-flex items-center gap-1.5 text-sm font-semibold text-foreground/80 transition hover:text-primary">
+        <Link
+          href={href}
+          className="group inline-flex items-center gap-1.5 text-sm font-semibold text-foreground/80 transition hover:text-accent"
+        >
           {linkLabel}
           <ArrowRight className="size-4 transition-transform duration-300 group-hover:translate-x-1" />
         </Link>
@@ -48,11 +60,10 @@ export interface PageHeaderProps {
 /** Page hero with breadcrumbs (+ BreadcrumbList JSON-LD) and the page's h1. */
 export function PageHeader({ title, description, breadcrumbs, children }: PageHeaderProps) {
   return (
-    <div className="relative overflow-hidden border-b border-border bg-gradient-to-b from-muted/60 to-background">
-      <div className="bg-grid pointer-events-none absolute inset-0 [mask-image:radial-gradient(ellipse_at_top,black,transparent_70%)]" />
-      <Container className="relative py-10 sm:py-14">
+    <div className="border-b border-border">
+      <Container className="py-10 sm:py-16">
         {breadcrumbs && <Breadcrumbs items={breadcrumbs} className="mb-4 animate-fade-in" />}
-        <h1 className="animate-fade-up font-display text-4xl font-bold tracking-tight sm:text-5xl">{title}</h1>
+        <h1 className="animate-fade-up font-display text-5xl leading-[1.02] sm:text-6xl">{title}</h1>
         {description && (
           <p className="mt-3 max-w-2xl animate-fade-up text-muted-foreground [animation-delay:80ms]">{description}</p>
         )}

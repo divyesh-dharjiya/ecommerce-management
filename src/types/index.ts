@@ -101,14 +101,7 @@ export interface Order {
   createdAt: string;
 }
 
-export type SortOption =
-  | "featured"
-  | "newest"
-  | "price-asc"
-  | "price-desc"
-  | "rating"
-  | "best-selling"
-  | "discount";
+export type SortOption = "featured" | "newest" | "price-asc" | "price-desc" | "rating" | "best-selling" | "discount";
 
 export interface ProductQuery {
   search?: string;

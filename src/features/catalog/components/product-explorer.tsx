@@ -81,7 +81,7 @@ export function ProductExplorer({ lockedCategory }: { lockedCategory?: string })
           <div className="mb-4 flex items-center justify-between">
             <h2 className="font-semibold">Filters</h2>
             {activeFilters > 0 && (
-              <button type="button" onClick={clearAll} className="text-sm font-medium text-primary">
+              <button type="button" onClick={clearAll} className="text-sm font-medium text-accent">
                 Clear all
               </button>
             )}
@@ -92,15 +92,27 @@ export function ProductExplorer({ lockedCategory }: { lockedCategory?: string })
 
       <section className="min-w-0" aria-label="Results">
         <div className="mb-5 flex flex-wrap items-center gap-3">
-          <SearchInput value={term} onValueChange={setTerm} size="lg" placeholder="Search products, brands…" className="min-w-0 flex-1 basis-60" />
+          <SearchInput
+            value={term}
+            onValueChange={setTerm}
+            size="lg"
+            placeholder="Search products, brands…"
+            className="min-w-0 flex-1 basis-60"
+          />
           <Button variant="outline" className="lg:hidden" onClick={() => setFiltersOpen(true)}>
             <SlidersHorizontal className="size-4" /> Filters
             {activeFilters > 0 && (
-              <span className="grid size-5 place-items-center rounded-full bg-primary text-[10px] text-primary-foreground">{activeFilters}</span>
+              <span className="grid size-5 place-items-center rounded-full bg-primary text-[10px] text-primary-foreground">
+                {activeFilters}
+              </span>
             )}
           </Button>
           <div className="w-52">
-            <Select value={query.sort ?? "featured"} onChange={(e) => update({ sort: e.target.value as SortOption })} aria-label="Sort products">
+            <Select
+              value={query.sort ?? "featured"}
+              onChange={(e) => update({ sort: e.target.value as SortOption })}
+              aria-label="Sort products"
+            >
               {SORT_OPTIONS.map((o) => (
                 <option key={o.value} value={o.value}>
                   {o.label}
@@ -108,15 +120,24 @@ export function ProductExplorer({ lockedCategory }: { lockedCategory?: string })
               ))}
             </Select>
           </div>
-          <SegmentedControl label="Layout" variant="solid" value={viewMode} onChange={setViewMode} options={VIEW_OPTIONS} className="max-sm:hidden" />
+          <SegmentedControl
+            label="Layout"
+            variant="solid"
+            value={viewMode}
+            onChange={setViewMode}
+            options={VIEW_OPTIONS}
+            className="max-sm:hidden"
+          />
         </div>
 
         <div className="mb-5 flex min-h-7 flex-wrap items-center gap-2">
           <p className="mr-2 text-sm text-muted-foreground" aria-live="polite">
-            <span className="font-semibold text-foreground">{result.total}</span> {result.total === 1 ? "product" : "products"}
+            <span className="font-semibold text-foreground">{result.total}</span>{" "}
+            {result.total === 1 ? "product" : "products"}
             {query.search && (
               <>
-                {" "}for <span className="font-semibold text-foreground">“{query.search}”</span>
+                {" "}
+                for <span className="font-semibold text-foreground">“{query.search}”</span>
               </>
             )}
           </p>
@@ -146,7 +167,9 @@ export function ProductExplorer({ lockedCategory }: { lockedCategory?: string })
       <Drawer open={filtersOpen} onClose={() => setFiltersOpen(false)} side="left" title="Filters" className="max-w-sm">
         <div className="flex-1 overflow-y-auto p-6">{filters}</div>
         <div className="grid grid-cols-2 gap-3 border-t border-border p-4">
-          <Button variant="outline" onClick={clearAll}>Clear all</Button>
+          <Button variant="outline" onClick={clearAll}>
+            Clear all
+          </Button>
           <Button onClick={() => setFiltersOpen(false)}>Show {result.total} results</Button>
         </div>
       </Drawer>

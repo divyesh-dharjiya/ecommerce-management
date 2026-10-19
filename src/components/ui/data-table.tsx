@@ -117,12 +117,26 @@ export function DataTable<T>({
                   key={c.id}
                   scope="col"
                   aria-sort={active ? (sort.dir === 1 ? "ascending" : "descending") : undefined}
-                  className={cn("px-3 py-3 font-medium first:pl-5 last:pr-5", c.align === "right" && "text-right", c.className)}
+                  className={cn(
+                    "px-3 py-3 font-medium first:pl-5 last:pr-5",
+                    c.align === "right" && "text-right",
+                    c.className,
+                  )}
                 >
                   {c.sortValue ? (
-                    <button type="button" onClick={() => toggleSort(c.id)} className="inline-flex items-center gap-1 uppercase transition hover:text-foreground">
+                    <button
+                      type="button"
+                      onClick={() => toggleSort(c.id)}
+                      className="inline-flex items-center gap-1 uppercase transition hover:text-foreground"
+                    >
                       {c.header}
-                      {!active ? <ArrowUpDown className="size-3 opacity-50" /> : sort.dir === 1 ? <ArrowUp className="size-3" /> : <ArrowDown className="size-3" />}
+                      {!active ? (
+                        <ArrowUpDown className="size-3 opacity-50" />
+                      ) : sort.dir === 1 ? (
+                        <ArrowUp className="size-3" />
+                      ) : (
+                        <ArrowDown className="size-3" />
+                      )}
                     </button>
                   ) : (
                     c.header
@@ -135,7 +149,10 @@ export function DataTable<T>({
         <tbody>
           {pageRows.length === 0 && (
             <tr>
-              <td colSpan={columns.length + (selectable ? 1 : 0)} className="px-4 py-16 text-center text-muted-foreground">
+              <td
+                colSpan={columns.length + (selectable ? 1 : 0)}
+                className="px-4 py-16 text-center text-muted-foreground"
+              >
                 {emptyMessage}
               </td>
             </tr>
@@ -150,17 +167,26 @@ export function DataTable<T>({
                 className={cn(
                   "border-b border-border transition-colors last:border-0 hover:bg-muted/40",
                   onRowClick && "cursor-pointer",
-                  isSelected && "bg-primary/5",
+                  isSelected && "bg-accent/5",
                   rowClassName?.(row),
                 )}
               >
                 {selectable && (
                   <td className="px-4 py-3" onClick={(e) => e.stopPropagation()}>
-                    <input type="checkbox" checked={isSelected} onChange={() => toggle([id], !isSelected)} aria-label="Select row" className="size-4 accent-[var(--primary)]" />
+                    <input
+                      type="checkbox"
+                      checked={isSelected}
+                      onChange={() => toggle([id], !isSelected)}
+                      aria-label="Select row"
+                      className="size-4 accent-[var(--primary)]"
+                    />
                   </td>
                 )}
                 {columns.map((c) => (
-                  <td key={c.id} className={cn("px-3 py-3 first:pl-5 last:pr-5", c.align === "right" && "text-right", c.className)}>
+                  <td
+                    key={c.id}
+                    className={cn("px-3 py-3 first:pl-5 last:pr-5", c.align === "right" && "text-right", c.className)}
+                  >
                     {c.cell(row)}
                   </td>
                 ))}
@@ -178,7 +204,7 @@ export function DataTable<T>({
     <Card className="overflow-hidden">
       {toolbar && <div className="flex flex-wrap items-center gap-3 border-b border-border p-4">{toolbar}</div>}
       {selectable && selectedIds.length > 0 && (
-        <div className="flex animate-fade-in items-center justify-between gap-3 bg-primary/5 px-4 py-2.5 text-sm">
+        <div className="flex animate-fade-in items-center justify-between gap-3 bg-accent/5 px-4 py-2.5 text-sm">
           <span className="font-medium">{selectedIds.length} selected</span>
           <div className="flex gap-2">{bulkActions?.(selectedIds, () => setSelected(new Set()))}</div>
         </div>
@@ -186,7 +212,8 @@ export function DataTable<T>({
       {table}
       <div className="flex flex-wrap items-center justify-between gap-3 border-t border-border p-4 text-sm text-muted-foreground">
         <span>
-          Showing {sorted.length === 0 ? 0 : (safePage - 1) * pageSize + 1}–{Math.min(safePage * pageSize, sorted.length)} of {sorted.length}
+          Showing {sorted.length === 0 ? 0 : (safePage - 1) * pageSize + 1}–
+          {Math.min(safePage * pageSize, sorted.length)} of {sorted.length}
         </span>
         <Pagination page={safePage} pageCount={pageCount} onChange={setPage} />
       </div>

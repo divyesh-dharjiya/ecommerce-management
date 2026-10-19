@@ -1,6 +1,12 @@
 import { describe, expect, it } from "vitest";
 import { SEED_PRODUCTS } from "@/data";
-import { getFacets, getRelatedProducts, queryProducts, scoreProduct, sortProducts } from "@/features/catalog/services/catalog";
+import {
+  getFacets,
+  getRelatedProducts,
+  queryProducts,
+  scoreProduct,
+  sortProducts,
+} from "@/features/catalog/services/catalog";
 import type { Product } from "@/types";
 
 const base = SEED_PRODUCTS[0]!;
@@ -22,7 +28,13 @@ describe("seed catalog", () => {
 });
 
 describe("scoreProduct", () => {
-  const phone = make({ title: "iPhone 13 Pro", brand: "Apple", category: "smartphones", tags: ["mobile"], description: "A phone" });
+  const phone = make({
+    title: "iPhone 13 Pro",
+    brand: "Apple",
+    category: "smartphones",
+    tags: ["mobile"],
+    description: "A phone",
+  });
 
   it("matches title prefixes and ranks title above description", () => {
     expect(scoreProduct(phone, "iph")).toBeGreaterThan(0);
@@ -49,7 +61,14 @@ describe("queryProducts", () => {
   });
 
   it("filters by category, price, rating and stock together", () => {
-    const r = queryProducts(SEED_PRODUCTS, { category: "smartphones", minPrice: 100, maxPrice: 1000, minRating: 3, inStock: true, pageSize: 100 });
+    const r = queryProducts(SEED_PRODUCTS, {
+      category: "smartphones",
+      minPrice: 100,
+      maxPrice: 1000,
+      minRating: 3,
+      inStock: true,
+      pageSize: 100,
+    });
     expect(r.items.length).toBeGreaterThan(0);
     for (const p of r.items) {
       expect(p.category).toBe("smartphones");
@@ -93,7 +112,9 @@ describe("sortProducts", () => {
 describe("facets & related", () => {
   it("computes brand counts and price range for a category", () => {
     const f = getFacets(SEED_PRODUCTS, "laptops");
-    expect(f.brands.reduce((n, b) => n + b.count, 0)).toBe(SEED_PRODUCTS.filter((p) => p.category === "laptops").length);
+    expect(f.brands.reduce((n, b) => n + b.count, 0)).toBe(
+      SEED_PRODUCTS.filter((p) => p.category === "laptops").length,
+    );
     expect(f.priceRange.max).toBeGreaterThanOrEqual(f.priceRange.min);
   });
 

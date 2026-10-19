@@ -31,7 +31,13 @@ export function ProductForm({ product, onDone }: { product?: Product; onDone: ()
   const addProduct = useCatalogStore((s) => s.addProduct);
   const updateProduct = useCatalogStore((s) => s.updateProduct);
   const validate = useCallback((d: ProductDraft) => validateProduct(d, categories), [categories]);
-  const { values, errors, setField, bind, validate: runValidation } = useForm<ProductDraft>(() => toDraft(product), validate);
+  const {
+    values,
+    errors,
+    setField,
+    bind,
+    validate: runValidation,
+  } = useForm<ProductDraft>(() => toDraft(product), validate);
   const [tags, setTags] = useState(values.tags.join(", "));
 
   const numberField = (key: "price" | "stock") => ({
@@ -51,7 +57,10 @@ export function ProductForm({ product, onDone }: { product?: Product; onDone: ()
       title: values.title.trim(),
       brand: values.brand.trim(),
       description: values.description.trim(),
-      tags: tags.split(",").map((t) => t.trim().toLowerCase()).filter(Boolean),
+      tags: tags
+        .split(",")
+        .map((t) => t.trim().toLowerCase())
+        .filter(Boolean),
     };
     if (runValidation(payload)) return;
     if (product) updateProduct(product.id, payload);
@@ -75,14 +84,21 @@ export function ProductForm({ product, onDone }: { product?: Product; onDone: ()
         <Select {...bind("category")}>
           <option value="">Select a category</option>
           {categories.map((c) => (
-            <option key={c.id} value={c.slug}>{c.name}</option>
+            <option key={c.id} value={c.slug}>
+              {c.name}
+            </option>
           ))}
         </Select>
       </Field>
       <Field label="Price (USD)" htmlFor="price" error={errors.price}>
         <Input {...numberField("price")} step="0.01" />
       </Field>
-      <Field label="Compare-at price" htmlFor="compareAtPrice" error={errors.compareAtPrice} hint="Optional — shows as a strikethrough sale price.">
+      <Field
+        label="Compare-at price"
+        htmlFor="compareAtPrice"
+        error={errors.compareAtPrice}
+        hint="Optional — shows as a strikethrough sale price."
+      >
         <Input
           id="compareAtPrice"
           type="number"
@@ -103,18 +119,33 @@ export function ProductForm({ product, onDone }: { product?: Product; onDone: ()
           <option value="archived">Archived — hidden</option>
         </Select>
       </Field>
-      <Field label="Image URL" htmlFor="thumbnail" error={errors.thumbnail} className="sm:col-span-2" hint="Any public https image URL.">
+      <Field
+        label="Image URL"
+        htmlFor="thumbnail"
+        error={errors.thumbnail}
+        className="sm:col-span-2"
+        hint="Any public https image URL."
+      >
         <div className="flex gap-3">
           <Input {...bind("thumbnail")} type="url" placeholder="https://…" />
-          <div className="relative size-11 shrink-0 overflow-hidden rounded-xl border border-border bg-muted">
-            {values.thumbnail.startsWith("http") && <ProductImage key={values.thumbnail} src={values.thumbnail} alt="Preview" fill sizes="44px" className="object-contain" />}
+          <div className="relative size-11 shrink-0 overflow-hidden rounded-md border border-border bg-muted">
+            {values.thumbnail.startsWith("http") && (
+              <ProductImage
+                key={values.thumbnail}
+                src={values.thumbnail}
+                alt="Preview"
+                fill
+                sizes="44px"
+                className="object-contain"
+              />
+            )}
           </div>
         </div>
       </Field>
       <Field label="Tags" htmlFor="tags" hint="Comma separated — improves search relevance." className="sm:col-span-2">
         <Input id="tags" value={tags} onChange={(e) => setTags(e.target.value)} placeholder="summer, bestseller" />
       </Field>
-      <div className="flex items-center justify-between rounded-xl bg-muted/60 p-4 sm:col-span-2">
+      <div className="flex items-center justify-between rounded-md bg-muted/60 p-4 sm:col-span-2">
         <div>
           <p className="text-sm font-medium">Featured product</p>
           <p className="text-xs text-muted-foreground">Boosts placement in “Featured” sorting.</p>
@@ -122,7 +153,9 @@ export function ProductForm({ product, onDone }: { product?: Product; onDone: ()
         <Switch checked={values.isFeatured} onChange={(v) => setField("isFeatured", v)} label="Featured product" />
       </div>
       <div className="flex justify-end gap-3 border-t border-border pt-5 sm:col-span-2">
-        <Button variant="outline" onClick={onDone}>Cancel</Button>
+        <Button variant="outline" onClick={onDone}>
+          Cancel
+        </Button>
         <Button type="submit">{product ? "Save changes" : "Create product"}</Button>
       </div>
     </form>

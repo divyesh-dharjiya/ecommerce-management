@@ -22,22 +22,27 @@ export function LiveFeed() {
   return (
     <section className="py-12" aria-labelledby="live-feed-title">
       <Container>
-        <Reveal className="grid grid-cols-1 gap-8 rounded-[2rem] border border-border bg-card p-6 shadow-soft sm:p-10 lg:grid-cols-[1fr_1.6fr]">
+        <Reveal className="grid grid-cols-1 gap-8 rounded-2xl border border-border bg-card p-6 shadow-soft sm:p-10 lg:grid-cols-[1fr_1.6fr]">
           <div>
-            <p className="flex items-center gap-2 text-xs font-bold uppercase tracking-[0.2em] text-primary">
+            <p className="flex items-center gap-2 text-xs font-bold uppercase tracking-[0.2em] text-accent">
               <LiveDot /> Happening now
             </p>
-            <h2 id="live-feed-title" className="mt-3 font-display text-3xl font-bold tracking-tight">
+            <h2 id="live-feed-title" className="mt-3 font-display text-3xl tracking-tight">
               Shoppers around the world
             </h2>
             <p className="mt-3 text-muted-foreground">
-              A real-time stream of orders placed on Luxe. Stock levels and best-seller rankings update live across every open tab.
+              A real-time stream of orders placed on Luxe. Stock levels and best-seller rankings update live across
+              every open tab.
             </p>
           </div>
           <ul className="min-w-0 space-y-3" aria-live="polite">
             <AnimatePresence initial={false} mode="popLayout">
               {events.length === 0 && (
-                <motion.li key="waiting" exit={{ opacity: 0 }} className="flex items-center gap-3 rounded-2xl border border-dashed border-border p-5 text-sm text-muted-foreground">
+                <motion.li
+                  key="waiting"
+                  exit={{ opacity: 0 }}
+                  className="flex items-center gap-3 rounded-lg border border-dashed border-border p-5 text-sm text-muted-foreground"
+                >
                   <Activity className="size-4 animate-pulse" /> Listening for new orders…
                 </motion.li>
               )}

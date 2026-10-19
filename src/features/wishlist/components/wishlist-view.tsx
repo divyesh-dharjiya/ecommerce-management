@@ -36,7 +36,11 @@ export function WishlistView() {
 
   return (
     <>
-      <PageHeader title="Wishlist" description="Your saved favourites, all in one place." breadcrumbs={[{ href: "/", label: "Home" }, { label: "Wishlist" }]}>
+      <PageHeader
+        title="Wishlist"
+        description="Your saved favourites, all in one place."
+        breadcrumbs={[{ href: "/", label: "Home" }, { label: "Wishlist" }]}
+      >
         {hydrated && items.length > 0 && (
           <Button className="mt-6" onClick={addAll}>
             <ShoppingBag className="size-4" /> Add all to bag
@@ -51,7 +55,11 @@ export function WishlistView() {
             icon={<Heart className="size-9" />}
             title="Your wishlist is empty"
             description="Tap the heart on any product to save it here for later."
-            action={<Link href="/products" className={buttonClasses()}>Discover products</Link>}
+            action={
+              <Link href="/products" className={buttonClasses()}>
+                Discover products
+              </Link>
+            }
           />
         ) : (
           <ProductGrid products={items} />

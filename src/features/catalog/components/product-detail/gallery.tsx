@@ -19,7 +19,11 @@ export function ProductGallery({ images, title }: { images: string[]; title: str
   return (
     <div className="flex flex-col-reverse gap-4 md:flex-row">
       {images.length > 1 && (
-        <div className="flex gap-3 overflow-x-auto scrollbar-none md:flex-col" role="tablist" aria-label="Product images">
+        <div
+          className="flex gap-3 overflow-x-auto scrollbar-none md:flex-col"
+          role="tablist"
+          aria-label="Product images"
+        >
           {images.map((img, i) => (
             <button
               key={img}
@@ -29,7 +33,7 @@ export function ProductGallery({ images, title }: { images: string[]; title: str
               aria-label={`Image ${i + 1}`}
               onClick={() => setIndex(i)}
               className={cn(
-                "relative size-20 shrink-0 overflow-hidden rounded-2xl border-2 bg-muted transition",
+                "relative size-20 shrink-0 overflow-hidden rounded-lg border-2 bg-muted transition",
                 i === index ? "border-primary" : "border-transparent opacity-60 hover:opacity-100",
               )}
             >
@@ -39,7 +43,7 @@ export function ProductGallery({ images, title }: { images: string[]; title: str
         </div>
       )}
       <div
-        className="relative aspect-square flex-1 cursor-zoom-in overflow-hidden rounded-[2rem] bg-gradient-to-br from-muted to-muted/30"
+        className="relative aspect-square flex-1 cursor-zoom-in overflow-hidden rounded-2xl bg-gradient-to-br from-muted to-muted/30"
         onMouseMove={onMove}
         onMouseLeave={() => setZoom(null)}
       >
@@ -66,7 +70,13 @@ export function ProductGallery({ images, title }: { images: string[]; title: str
         {images.length > 1 && (
           <div className="absolute bottom-4 left-1/2 flex -translate-x-1/2 gap-1.5 md:hidden">
             {images.map((img, i) => (
-              <span key={img} className={cn("h-1.5 rounded-full transition-all", i === index ? "w-6 bg-foreground" : "w-1.5 bg-foreground/30")} />
+              <span
+                key={img}
+                className={cn(
+                  "h-1.5 rounded-full transition-all",
+                  i === index ? "w-6 bg-foreground" : "w-1.5 bg-foreground/30",
+                )}
+              />
             ))}
           </div>
         )}

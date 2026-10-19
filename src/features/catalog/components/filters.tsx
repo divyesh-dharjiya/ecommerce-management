@@ -77,12 +77,18 @@ export function Filters({ query, facets, categories, lockedCategory, onChange }:
       {!lockedCategory && (
         <Group title="Category">
           <div className="max-h-64 space-y-0.5 overflow-y-auto pr-1">
-            <CheckRow checked={!query.category} onChange={() => onChange({ category: undefined })} label="All categories" />
+            <CheckRow
+              checked={!query.category}
+              onChange={() => onChange({ category: undefined })}
+              label="All categories"
+            />
             {categories.map((c) => (
               <CheckRow
                 key={c.id}
                 checked={query.category === c.slug}
-                onChange={() => onChange({ category: query.category === c.slug ? undefined : c.slug, brands: undefined })}
+                onChange={() =>
+                  onChange({ category: query.category === c.slug ? undefined : c.slug, brands: undefined })
+                }
                 label={c.name}
               />
             ))}
@@ -101,11 +107,13 @@ export function Filters({ query, facets, categories, lockedCategory, onChange }:
                 onClick={() => {
                   setMin(p.min?.toString() ?? "");
                   setMax(p.max?.toString() ?? "");
-                  onChange(active ? { minPrice: undefined, maxPrice: undefined } : { minPrice: p.min, maxPrice: p.max });
+                  onChange(
+                    active ? { minPrice: undefined, maxPrice: undefined } : { minPrice: p.min, maxPrice: p.max },
+                  );
                 }}
                 className={cn(
                   "rounded-full border px-3 py-1 text-xs font-medium transition",
-                  active ? "border-primary bg-primary/10 text-primary" : "border-border hover:border-primary/50",
+                  active ? "border-primary bg-accent/10 text-accent" : "border-border hover:border-primary/50",
                 )}
               >
                 {p.label}
@@ -123,7 +131,7 @@ export function Filters({ query, facets, categories, lockedCategory, onChange }:
             onBlur={() => applyPrice()}
             placeholder={`$${facets.priceRange.min}`}
             aria-label="Minimum price"
-            className="h-10 w-full rounded-xl border border-border bg-card px-3 text-sm outline-none focus:border-primary"
+            className="h-10 w-full rounded-md border border-border bg-card px-3 text-sm outline-none focus:border-primary"
           />
           <span className="text-muted-foreground">–</span>
           <input
@@ -135,7 +143,7 @@ export function Filters({ query, facets, categories, lockedCategory, onChange }:
             onBlur={() => applyPrice()}
             placeholder={`$${facets.priceRange.max}`}
             aria-label="Maximum price"
-            className="h-10 w-full rounded-xl border border-border bg-card px-3 text-sm outline-none focus:border-primary"
+            className="h-10 w-full rounded-md border border-border bg-card px-3 text-sm outline-none focus:border-primary"
           />
         </form>
       </Group>
@@ -176,7 +184,11 @@ export function Filters({ query, facets, categories, lockedCategory, onChange }:
             ))}
           </div>
           {facets.brands.length > 8 && (
-            <button type="button" onClick={() => setShowAllBrands((v) => !v)} className="mt-2 text-sm font-semibold text-primary">
+            <button
+              type="button"
+              onClick={() => setShowAllBrands((v) => !v)}
+              className="mt-2 text-sm font-semibold text-accent"
+            >
               {showAllBrands ? "Show less" : `Show all ${facets.brands.length}`}
             </button>
           )}
@@ -184,8 +196,16 @@ export function Filters({ query, facets, categories, lockedCategory, onChange }:
       )}
 
       <Group title="Availability">
-        <CheckRow checked={!!query.inStock} onChange={() => onChange({ inStock: !query.inStock || undefined })} label="In stock only" />
-        <CheckRow checked={!!query.onSale} onChange={() => onChange({ onSale: !query.onSale || undefined })} label="On sale" />
+        <CheckRow
+          checked={!!query.inStock}
+          onChange={() => onChange({ inStock: !query.inStock || undefined })}
+          label="In stock only"
+        />
+        <CheckRow
+          checked={!!query.onSale}
+          onChange={() => onChange({ onSale: !query.onSale || undefined })}
+          label="On sale"
+        />
       </Group>
     </div>
   );

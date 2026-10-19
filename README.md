@@ -14,13 +14,13 @@ cp .env.example .env.local   # set NEXT_PUBLIC_SITE_URL for production
 npm run dev                  # http://localhost:3000
 ```
 
-| Script | Purpose |
-| --- | --- |
-| `npm run dev` | Start the dev server (Turbopack) |
+| Script                        | Purpose                                                                          |
+| ----------------------------- | -------------------------------------------------------------------------------- |
+| `npm run dev`                 | Start the dev server (Turbopack)                                                 |
 | `npm run build` / `npm start` | Build for production (244 pre-rendered routes, including OG images) and serve it |
-| `npm run check` | Type-check, lint and unit tests (run this before every PR) |
-| `npm test` | Vitest unit tests for the business logic |
-| `npm run seed:generate` | Regenerate `src/data/*.json` from the DummyJSON catalog |
+| `npm run check`               | Type-check, lint and unit tests (run this before every PR)                       |
+| `npm test`                    | Vitest unit tests for the business logic                                         |
+| `npm run seed:generate`       | Regenerate `src/data/*.json` from the DummyJSON catalog                          |
 
 Admin dashboard: **`/admin`**. Demo coupon codes: `WELCOME10`, `LUXE20`, `SAVE15`, `FREESHIP`.
 
@@ -29,6 +29,7 @@ Admin dashboard: **`/admin`**. Demo coupon codes: `WELCOME10`, `LUXE20`, `SAVE15
 ## Features
 
 ### Storefront
+
 - **Home page**: animated hero with floating products, brand marquee, category rail, tabbed collections (trending, new, top rated), flash deals with a live countdown, bento promo tiles, live purchase feed and recently viewed items.
 - **Catalog with 100 products** in 24 categories, each with real product images, a gallery, reviews, specs, stock levels and discounts.
 - **Search**: a global ⌘K / Ctrl+K command palette with keyboard navigation, plus weighted relevance ranking.
@@ -39,6 +40,7 @@ Admin dashboard: **`/admin`**. Demo coupon codes: `WELCOME10`, `LUXE20`, `SAVE15
 - **Order history and tracking**, wishlist, a light / dark / system theme, and a fully responsive layout.
 
 ### Admin (`/admin`)
+
 - **Dashboard**: KPI cards with period-over-period change, a 7/30/60-day revenue chart, a per-minute live sales chart, a live activity stream, sales by category, top products, low-stock alerts with one-click restock, and recent orders.
 - **Products**: create, edit and delete, with search, filters, sortable columns, pagination, bulk delete and inline status changes.
 - **Categories**: create, edit and delete, with icon and color pickers. Deleting a category lets you move its products to another category or delete them too.
@@ -46,6 +48,7 @@ Admin dashboard: **`/admin`**. Demo coupon codes: `WELCOME10`, `LUXE20`, `SAVE15
 - **Settings**: theme, live-simulation toggles, JSON backup export and import, store reset, and storage usage.
 
 ### Live data
+
 - **Simulated shoppers.** Realistic orders arrive every 5–11 seconds. Each one lowers stock, increases sold counts, feeds the dashboard and shows social-proof toasts on the storefront.
 - **Leader election.** Only one browser tab runs the simulation, chosen through a `localStorage` lease with a heartbeat (`features/live/services/leader-election.ts`). Events reach the other tabs through `BroadcastChannel`.
 - **Cross-tab sync.** Every persisted store rehydrates when it receives a `storage` event, so admin edits appear instantly in storefront tabs.
@@ -82,23 +85,33 @@ src/
 ```
 
 ### Reusable building blocks
-| Building block | What it does | Used by |
-| --- | --- | --- |
-| `DataTable<T>` | Typed table driven by column definitions: sorting, pagination, multi-select, bulk actions, row click | Admin products, orders, recent orders |
-| `useForm<T>` | Values, field errors, validation and accessible `bind(field)` bindings | Checkout, product form, category form |
-| `useStableOrder` | Keeps a sorted list in place while live data changes underneath | Shop grid, home collections |
-| `useProductQuery` | Reads and writes the listing state in the URL | Shop page and every category page |
-| `SegmentedControl`, `Tabs`, `DropdownMenu` | Accessible, animated selection controls | Theme, view toggle, date ranges, status filter, product tabs |
-| `Breadcrumbs` | Visual breadcrumbs plus BreadcrumbList JSON-LD | Every page with breadcrumbs |
-| `ClientGate`, `Thumb`, `SearchInput`, `Panel`, `AdminPageHeader` | Shared patterns that remove repeated markup | Across features |
+
+| Building block                                                   | What it does                                                                                         | Used by                                                      |
+| ---------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- | ------------------------------------------------------------ |
+| `DataTable<T>`                                                   | Typed table driven by column definitions: sorting, pagination, multi-select, bulk actions, row click | Admin products, orders, recent orders                        |
+| `useForm<T>`                                                     | Values, field errors, validation and accessible `bind(field)` bindings                               | Checkout, product form, category form                        |
+| `useStableOrder`                                                 | Keeps a sorted list in place while live data changes underneath                                      | Shop grid, home collections                                  |
+| `useProductQuery`                                                | Reads and writes the listing state in the URL                                                        | Shop page and every category page                            |
+| `SegmentedControl`, `Tabs`, `DropdownMenu`                       | Accessible, animated selection controls                                                              | Theme, view toggle, date ranges, status filter, product tabs |
+| `Breadcrumbs`                                                    | Visual breadcrumbs plus BreadcrumbList JSON-LD                                                       | Every page with breadcrumbs                                  |
+| `ClientGate`, `Thumb`, `SearchInput`, `Panel`, `AdminPageHeader` | Shared patterns that remove repeated markup                                                          | Across features                                              |
+
+### Visual design
+
+- **Direction:** editorial and minimal. Warm paper background, near-black ink for primary actions, and a single vermilion accent used sparingly (sale badges, highlights, emphasis).
+- **Type:** Instrument Serif for display headlines (with italic emphasis) and Geist for the interface. Serif display type is single-weight, so headings never use faux bold.
+- **Surfaces:** borderless product cards on soft tinted tiles (sand, sage, blush, sky), thin rules instead of heavy shadows, and tighter corner radii.
+- **Tokens:** every colour, tint and font is a semantic token in `globals.css`, so a rebrand is a token change, not a component rewrite. Brand colours that must exist in JavaScript live in `config/brand.ts`.
 
 ### Theme
+
 - **Three modes:** Light, Dark and **System**, which follows the OS setting as it changes. The choice is saved, synced across tabs, and mirrored to `<meta name="theme-color">`.
 - **No flash on load:** an inline script applies the theme before the first paint.
 - **Animated switch:** switching plays a circular reveal from the toggle using the View Transitions API. Unsupported browsers and reduced-motion users get an instant switch.
 - **Tokens:** semantic colors are tuned separately for each mode in `globals.css`. Charts resolve them through `useThemeColors`.
 
 ### Motion
+
 - **One source of tokens:** easing, durations and springs live in `lib/motion.ts`, with matching CSS variables.
 - **Content above the fold animates with CSS:** `animate-fade-up` and staggered delays play on first paint, so the hero, headings and product grids never wait for JavaScript and never render blank.
 - **Content below the fold uses `Reveal` / `Stagger`:** each section animates once, when it scrolls into view.
@@ -106,6 +119,7 @@ src/
 - **Reduced motion:** `prefers-reduced-motion` is respected everywhere, through both CSS and `MotionConfig`.
 
 ### SEO
+
 - **Metadata:** `buildMetadata()` (`lib/seo.ts`) gives every route a canonical URL, Open Graph and Twitter cards. Set `NEXT_PUBLIC_SITE_URL` in production.
 - **Structured data (JSON-LD):** Organization and WebSite with a search box, Product with offers, ratings and reviews, BreadcrumbList, and ItemList on listing pages.
 - **Generated share images:** for the site, each of the 100 products (photo, price, rating) and each category, plus the app icons and the web manifest.
@@ -113,13 +127,24 @@ src/
 - **Sitemap and markup:** the sitemap includes images. Each page has a single `h1` and semantic landmarks.
 
 ### Design principles
-- **Business logic lives in `services/` folders.** These are pure functions with no React and no storage, and they are covered by 47 unit tests.
+
+- **Business logic lives in `services/` folders.** These are pure functions with no React and no storage, and they are covered by 70 unit and component tests.
 - **Money is calculated in one place.** `calculateTotals()` drives the cart, checkout and order creation, and `placeOrder()` recalculates totals instead of trusting numbers from the UI.
 - **No hydration mismatches.** Persisted stores rehydrate after mount, and views that depend only on device data use `ClientGate`.
 - **Persistence is versioned and safe.** Keys are namespaced as `luxe:v1:*`, storage failures are caught without crashing the app, and the simulated order history is capped.
 - **Security and accessibility:** security headers are set, JSON-LD output is escaped, focus is managed in dialogs and menus, and live regions announce live content.
 
+### Testing
+
+- **Pure logic:** pricing, search/sort, analytics, URL query parsing and catalog merging.
+- **Stores:** order placement (totals recomputed, stock decremented, coupons, unique order numbers), cart limits and deletion tracking.
+- **Components:** focus trap and focus restore in dialogs, arrow-key navigation, and `DataTable` sorting, selection and paging, run in jsdom.
+- **Realtime:** cross-tab leader election, including takeover from a frozen tab.
+- There are no end-to-end browser tests yet.
+
 ## Data and limitations
+
 - The catalog seed was generated once from the public [DummyJSON](https://dummyjson.com) dataset and is stored in `src/data/`. The app never calls that API at runtime. Product images load from `cdn.dummyjson.com`. Building the OG images fetches those images, so the build needs network access; if it fails, the cards fall back to text only.
+- Returning visitors keep their saved catalog, and new seed products are merged in without overwriting admin edits or resurrecting deleted items.
 - All data is stored in each browser's `localStorage`, so data is per device. There is no authentication, and the admin area is open. A real launch needs a backend, authentication and a payment provider. The service layer is designed so these can replace the current pieces without rewriting the UI.
 - Payments are simulated. No card details are ever collected.

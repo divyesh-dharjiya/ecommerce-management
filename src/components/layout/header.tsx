@@ -39,7 +39,7 @@ function CountBadge({ count }: { count: number }) {
 function PrimaryNav() {
   const pathname = usePathname();
   return (
-    <nav aria-label="Primary" className="ml-6 hidden items-center gap-1 lg:flex">
+    <nav aria-label="Primary" className="ml-8 hidden items-center gap-2 lg:flex">
       {PRIMARY_NAV.map((link) => {
         const active = isNavActive(link.href, pathname);
         return (
@@ -48,12 +48,18 @@ function PrimaryNav() {
             href={link.href}
             aria-current={active ? "page" : undefined}
             className={cn(
-              "relative rounded-full px-4 py-2 text-sm font-medium transition-colors",
+              "relative flex h-16 items-center px-3 text-sm font-medium transition-colors lg:h-[72px]",
               active ? "text-foreground" : "text-muted-foreground hover:text-foreground",
             )}
           >
-            {active && <motion.span layoutId="nav-pill" className="absolute inset-0 rounded-full bg-muted" transition={spring.snappy} />}
-            <span className="relative">{link.label}</span>
+            {link.label}
+            {active && (
+              <motion.span
+                layoutId="nav-underline"
+                className="absolute inset-x-3 -bottom-px h-px bg-foreground"
+                transition={spring.snappy}
+              />
+            )}
           </Link>
         );
       })}
@@ -72,11 +78,16 @@ export function Header() {
     <header
       className={cn(
         "sticky top-0 z-40 border-b transition-[background-color,box-shadow,border-color] duration-300",
-        scrolled ? "glass border-x-0 border-t-0 shadow-soft" : "border-transparent bg-background",
+        scrolled ? "glass border-x-0 border-t-0" : "border-border bg-background",
       )}
     >
       <div className="mx-auto flex h-16 max-w-7xl items-center gap-4 px-4 sm:px-6 lg:h-[72px] lg:px-8">
-        <button type="button" className={cn(iconButton, "lg:hidden")} onClick={() => setMobileNavOpen(true)} aria-label="Open menu">
+        <button
+          type="button"
+          className={cn(iconButton, "lg:hidden")}
+          onClick={() => setMobileNavOpen(true)}
+          aria-label="Open menu"
+        >
           <Menu className="size-5" />
         </button>
 
@@ -87,24 +98,41 @@ export function Header() {
           <button
             type="button"
             onClick={() => setSearchOpen(true)}
-            className="mr-1 hidden h-10 w-56 items-center gap-2 whitespace-nowrap rounded-full border border-border bg-muted/50 px-4 text-sm text-muted-foreground transition hover:border-primary/40 hover:bg-muted md:flex xl:w-72"
+            className="mr-1 hidden h-10 w-56 items-center gap-2 whitespace-nowrap rounded-md border border-border bg-card px-3.5 text-sm text-muted-foreground transition hover:border-foreground/40 md:flex xl:w-72"
           >
             <Search className="size-4 shrink-0" />
             <span className="truncate">Search products…</span>
-            <kbd className="ml-auto rounded-md border border-border bg-card px-1.5 py-0.5 font-mono text-[10px]">Ctrl K</kbd>
+            <kbd className="ml-auto rounded-sm border border-border bg-muted px-1.5 py-0.5 font-mono text-[10px]">
+              Ctrl K
+            </kbd>
           </button>
-          <button type="button" className={cn(iconButton, "md:hidden")} onClick={() => setSearchOpen(true)} aria-label="Search">
+          <button
+            type="button"
+            className={cn(iconButton, "md:hidden")}
+            onClick={() => setSearchOpen(true)}
+            aria-label="Search"
+          >
             <Search className="size-5" />
           </button>
           <ThemeMenu className="max-sm:hidden" />
-          <Link href="/admin" className={cn(iconButton, "max-sm:hidden")} aria-label="Admin dashboard" title="Admin dashboard">
+          <Link
+            href="/admin"
+            className={cn(iconButton, "max-sm:hidden")}
+            aria-label="Admin dashboard"
+            title="Admin dashboard"
+          >
             <LayoutDashboard className="size-5" />
           </Link>
           <Link href="/wishlist" className={iconButton} aria-label={`Wishlist (${wishCount})`}>
             <Heart className="size-5" />
             {hydrated && <CountBadge count={wishCount} />}
           </Link>
-          <button type="button" onClick={() => setCartOpen(true)} className={iconButton} aria-label={`Open bag (${cartCount} items)`}>
+          <button
+            type="button"
+            onClick={() => setCartOpen(true)}
+            className={iconButton}
+            aria-label={`Open bag (${cartCount} items)`}
+          >
             <ShoppingBag className="size-5" />
             {hydrated && <CountBadge count={cartCount} />}
           </button>

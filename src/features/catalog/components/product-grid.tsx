@@ -3,7 +3,7 @@ import { staggerDelay } from "@/lib/motion";
 import { ProductCard, ProductCardSkeleton } from "@/features/catalog/components/product-card";
 import type { Product } from "@/types";
 
-const gridClasses = "grid grid-cols-2 gap-3 sm:gap-5 md:grid-cols-3 xl:grid-cols-4";
+const gridClasses = "grid grid-cols-2 gap-x-3 gap-y-9 sm:gap-x-5 sm:gap-y-12 md:grid-cols-3 xl:grid-cols-4";
 
 export interface ProductGridProps {
   products: Product[];

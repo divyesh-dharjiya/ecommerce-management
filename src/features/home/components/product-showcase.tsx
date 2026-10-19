@@ -21,7 +21,14 @@ export function ProductShowcase() {
   const products = useCatalogStore((s) => s.products);
   const [sort, setSort] = useState<TabValue>("best-selling");
 
-  const ranked = useMemo(() => sortProducts(products.filter((p) => p.status === "active"), sort).slice(0, 8), [products, sort]);
+  const ranked = useMemo(
+    () =>
+      sortProducts(
+        products.filter((p) => p.status === "active"),
+        sort,
+      ).slice(0, 8),
+    [products, sort],
+  );
   // Live sales change sold counts constantly — don't reshuffle cards under the cursor.
   const items = useStableOrder(ranked, (p) => p.id, sort);
 

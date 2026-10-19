@@ -1,4 +1,5 @@
 import type { MetadataRoute } from "next";
+import { BRAND_ACCENT, THEME_COLORS } from "@/config/brand";
 import { siteConfig } from "@/config/site";
 
 export default function manifest(): MetadataRoute.Manifest {
@@ -8,8 +9,8 @@ export default function manifest(): MetadataRoute.Manifest {
     description: siteConfig.description,
     start_url: "/",
     display: "standalone",
-    background_color: "#fbfbfd",
-    theme_color: "#7c3aed",
+    background_color: THEME_COLORS.light,
+    theme_color: BRAND_ACCENT,
     icons: [
       { src: "/icon", sizes: "64x64", type: "image/png" },
       { src: "/apple-icon", sizes: "180x180", type: "image/png" },

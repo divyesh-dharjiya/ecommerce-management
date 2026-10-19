@@ -74,12 +74,19 @@ function SettingsView() {
   const importData = async (file: File) => {
     try {
       const data = JSON.parse(await file.text()) as Partial<Backup>;
-      if (data.version !== 1 || !Array.isArray(data.products) || !Array.isArray(data.categories) || !Array.isArray(data.orders)) {
+      if (
+        data.version !== 1 ||
+        !Array.isArray(data.products) ||
+        !Array.isArray(data.categories) ||
+        !Array.isArray(data.orders)
+      ) {
         throw new Error("Unrecognised backup format");
       }
       useCatalogStore.setState({ products: data.products, categories: data.categories });
       useOrderStore.setState({ orders: data.orders, seeded: true });
-      toast.success("Backup restored", { description: `${data.products.length} products, ${data.orders.length} orders` });
+      toast.success("Backup restored", {
+        description: `${data.products.length} products, ${data.orders.length} orders`,
+      });
     } catch (e) {
       toast.error("Import failed", { description: e instanceof Error ? e.message : "Invalid file" });
     }
@@ -97,24 +104,52 @@ function SettingsView() {
     <div className="max-w-3xl space-y-6">
       <AdminPageHeader title="Settings" description="Appearance, realtime simulation and data management." />
 
-      <Panel title={<><Palette className="size-4 text-primary" /> Appearance</>}>
+      <Panel
+        title={
+          <>
+            <Palette className="size-4 text-accent" /> Appearance
+          </>
+        }
+      >
         <Row title="Theme" description="Light, dark, or follow your operating system. Syncs across open tabs.">
           <ThemeSwitcher />
         </Row>
       </Panel>
 
-      <Panel title={<><Zap className="size-4 text-primary" /> Realtime</>}>
+      <Panel
+        title={
+          <>
+            <Zap className="size-4 text-accent" /> Realtime
+          </>
+        }
+      >
         <div className="divide-y divide-border">
-          <Row title="Live shopper simulation" description="Generates realistic orders every few seconds, decrementing stock and updating analytics across all open tabs.">
+          <Row
+            title="Live shopper simulation"
+            description="Generates realistic orders every few seconds, decrementing stock and updating analytics across all open tabs."
+          >
             <Switch checked={prefs.liveSimulation} onChange={prefs.setLiveSimulation} label="Live shopper simulation" />
           </Row>
-          <Row title="Storefront purchase notifications" description="Show “someone just bought…” social-proof toasts to shoppers.">
-            <Switch checked={prefs.liveToasts} onChange={prefs.setLiveToasts} label="Storefront purchase notifications" />
+          <Row
+            title="Storefront purchase notifications"
+            description="Show “someone just bought…” social-proof toasts to shoppers."
+          >
+            <Switch
+              checked={prefs.liveToasts}
+              onChange={prefs.setLiveToasts}
+              label="Storefront purchase notifications"
+            />
           </Row>
         </div>
       </Panel>
 
-      <Panel title={<><Database className="size-4 text-primary" /> Data</>}>
+      <Panel
+        title={
+          <>
+            <Database className="size-4 text-accent" /> Data
+          </>
+        }
+      >
         <dl className="mb-6 grid grid-cols-2 gap-4 sm:grid-cols-4">
           {[
             ["Products", formatNumber(products.length)],
@@ -122,7 +157,7 @@ function SettingsView() {
             ["Orders", formatNumber(orders.length)],
             ["Storage used", `${(storageUsage() / 1024).toFixed(0)} KB`],
           ].map(([k, v]) => (
-            <div key={k} className="rounded-2xl bg-muted/60 p-4">
+            <div key={k} className="rounded-lg bg-muted/60 p-4">
               <dt className="text-xs text-muted-foreground">{k}</dt>
               <dd className="mt-1 text-xl font-bold">{v}</dd>
             </div>
@@ -130,20 +165,35 @@ function SettingsView() {
         </dl>
         <div className="divide-y divide-border">
           <Row title="Export backup" description="Download the full catalogue and order history as JSON.">
-            <Button variant="outline" onClick={exportData}><Download className="size-4" /> Export</Button>
+            <Button variant="outline" onClick={exportData}>
+              <Download className="size-4" /> Export
+            </Button>
           </Row>
           <Row title="Import backup" description="Restore a previously exported JSON backup. Replaces current data.">
             <>
-              <input ref={fileRef} type="file" accept="application/json" className="hidden" onChange={(e) => {
-                const f = e.target.files?.[0];
-                if (f) void importData(f);
-                e.target.value = "";
-              }} />
-              <Button variant="outline" onClick={() => fileRef.current?.click()}><Upload className="size-4" /> Import</Button>
+              <input
+                ref={fileRef}
+                type="file"
+                accept="application/json"
+                className="hidden"
+                onChange={(e) => {
+                  const f = e.target.files?.[0];
+                  if (f) void importData(f);
+                  e.target.value = "";
+                }}
+              />
+              <Button variant="outline" onClick={() => fileRef.current?.click()}>
+                <Upload className="size-4" /> Import
+              </Button>
             </>
           </Row>
-          <Row title="Reset store" description="Restore the original 100-product catalogue and regenerate order history.">
-            <Button variant="danger" onClick={() => setConfirmReset(true)}><RotateCcw className="size-4" /> Reset</Button>
+          <Row
+            title="Reset store"
+            description="Restore the original 100-product catalogue and regenerate order history."
+          >
+            <Button variant="danger" onClick={() => setConfirmReset(true)}>
+              <RotateCcw className="size-4" /> Reset
+            </Button>
           </Row>
         </div>
       </Panel>

@@ -35,7 +35,11 @@ export function CartView() {
           icon={<ShoppingBag className="size-9" />}
           title="Your bag is empty"
           description="Once you add something to your bag, it will appear here. Ready to get started?"
-          action={<Link href="/products" className={buttonClasses("primary", "lg")}>Start shopping <ArrowRight className="size-5" /></Link>}
+          action={
+            <Link href="/products" className={buttonClasses("primary", "lg")}>
+              Start shopping <ArrowRight className="size-5" />
+            </Link>
+          }
         />
       </Container>
     );
@@ -45,7 +49,7 @@ export function CartView() {
     <Container className="py-12">
       <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
         <div>
-          <h1 className="font-display text-4xl font-bold tracking-tight">Shopping bag</h1>
+          <h1 className="font-display text-4xl tracking-tight">Shopping bag</h1>
           <p className="mt-1 text-muted-foreground">{totals.itemCount} items</p>
         </div>
         <button type="button" onClick={clear} className="text-sm font-medium text-muted-foreground hover:text-danger">
@@ -63,7 +67,7 @@ export function CartView() {
               ))}
             </AnimatePresence>
           </ul>
-          <Link href="/products" className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-primary">
+          <Link href="/products" className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-accent">
             <ArrowLeft className="size-4" /> Continue shopping
           </Link>
         </div>
@@ -72,14 +76,18 @@ export function CartView() {
           <h2 className="mb-5 text-lg font-bold">Order summary</h2>
           <OrderSummary totals={totals} coupon={coupon}>
             {hasStockIssue && (
-              <p className="rounded-xl bg-danger/10 p-3 text-sm font-medium text-danger">
+              <p className="rounded-md bg-danger/10 p-3 text-sm font-medium text-danger">
                 Some items exceed available stock. Please update quantities to continue.
               </p>
             )}
             <Link
               href="/checkout"
               aria-disabled={hasStockIssue}
-              className={buttonClasses("primary", "lg", `w-full ${hasStockIssue ? "pointer-events-none opacity-50" : ""}`)}
+              className={buttonClasses(
+                "primary",
+                "lg",
+                `w-full ${hasStockIssue ? "pointer-events-none opacity-50" : ""}`,
+              )}
             >
               <Lock className="size-4" /> Secure checkout
             </Link>

@@ -22,7 +22,10 @@ export function StockMeter({ stock, capacity = 100 }: { stock: number; capacity?
       </p>
       <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-muted" role="presentation">
         <div
-          className={cn("h-full origin-left animate-grow rounded-full transition-[width] duration-700", low ? "bg-amber-500" : "bg-success")}
+          className={cn(
+            "h-full origin-left animate-grow rounded-full transition-[width] duration-700",
+            low ? "bg-amber-500" : "bg-success",
+          )}
           style={{ width: `${pct}%` }}
         />
       </div>

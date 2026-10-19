@@ -49,14 +49,11 @@ export const useCartStore = create<CartState>()(
             quantity <= 0
               ? s.items.filter((i) => i.productId !== productId)
               : s.items.map((i) =>
-                  i.productId === productId
-                    ? { ...i, quantity: Math.min(quantity, maxFor(maxStock)) }
-                    : i,
+                  i.productId === productId ? { ...i, quantity: Math.min(quantity, maxFor(maxStock)) } : i,
                 ),
         })),
 
-      removeItem: (productId) =>
-        set((s) => ({ items: s.items.filter((i) => i.productId !== productId) })),
+      removeItem: (productId) => set((s) => ({ items: s.items.filter((i) => i.productId !== productId) })),
 
       clear: () => set({ items: [], couponCode: null }),
 
@@ -103,5 +100,4 @@ export function useCartSummary(): { lines: CartLine[]; totals: CartTotals; coupo
   }, [lines, couponCode]);
 }
 
-export const useCartCount = () =>
-  useCartStore((s) => s.items.reduce((n, i) => n + i.quantity, 0));
+export const useCartCount = () => useCartStore((s) => s.items.reduce((n, i) => n + i.quantity, 0));

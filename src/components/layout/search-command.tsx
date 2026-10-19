@@ -57,7 +57,7 @@ export function SearchCommand() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -10, scale: 0.98 }}
             transition={{ type: "spring", damping: 30, stiffness: 380 }}
-            className="fixed inset-x-3 top-[8vh] z-50 mx-auto max-w-2xl overflow-hidden rounded-3xl border border-border bg-card shadow-lift"
+            className="fixed inset-x-3 top-[8vh] z-50 mx-auto max-w-2xl overflow-hidden rounded-xl border border-border bg-card shadow-lift"
           >
             <SearchBody onClose={() => setOpen(false)} />
           </motion.div>
@@ -123,7 +123,9 @@ function SearchBody({ onClose }: { onClose: () => void }) {
           aria-expanded={items.length > 0}
           aria-controls="search-results"
         />
-        <kbd className="rounded-md border border-border px-1.5 py-0.5 font-mono text-[10px] text-muted-foreground">ESC</kbd>
+        <kbd className="rounded-md border border-border px-1.5 py-0.5 font-mono text-[10px] text-muted-foreground">
+          ESC
+        </kbd>
       </div>
 
       <div className="max-h-[60vh] overflow-y-auto p-2">
@@ -138,7 +140,7 @@ function SearchBody({ onClose }: { onClose: () => void }) {
                   key={t}
                   type="button"
                   onClick={() => setTerm(t)}
-                  className="rounded-full border border-border px-4 py-1.5 text-sm transition hover:border-primary hover:bg-primary/5 hover:text-primary"
+                  className="rounded-full border border-border px-4 py-1.5 text-sm transition hover:border-primary hover:bg-accent/5 hover:text-accent"
                 >
                   {t}
                 </button>
@@ -161,10 +163,7 @@ function SearchBody({ onClose }: { onClose: () => void }) {
                   href={`/products/${p.slug}`}
                   onClick={onClose}
                   onMouseEnter={() => setActive(i)}
-                  className={cn(
-                    "flex items-center gap-4 rounded-2xl p-2.5 transition",
-                    active === i && "bg-muted",
-                  )}
+                  className={cn("flex items-center gap-4 rounded-lg p-2.5 transition", active === i && "bg-muted")}
                 >
                   <Thumb src={p.thumbnail} size="lg" />
                   <div className="min-w-0 flex-1">
@@ -184,8 +183,8 @@ function SearchBody({ onClose }: { onClose: () => void }) {
                 onClick={() => go(`/products?q=${encodeURIComponent(term.trim())}`)}
                 onMouseEnter={() => setActive(items.length)}
                 className={cn(
-                  "flex w-full items-center justify-between rounded-2xl px-4 py-3 text-sm font-semibold text-primary transition",
-                  active === items.length && "bg-primary/10",
+                  "flex w-full items-center justify-between rounded-lg px-4 py-3 text-sm font-semibold text-accent transition",
+                  active === items.length && "bg-accent/10",
                 )}
               >
                 See all {results?.total} results for “{term.trim()}”

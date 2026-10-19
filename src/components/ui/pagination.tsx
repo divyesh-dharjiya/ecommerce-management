@@ -25,7 +25,7 @@ export interface PaginationProps {
   className?: string;
 }
 
-const base = "grid h-10 min-w-10 place-items-center rounded-xl px-3 text-sm font-semibold transition";
+const base = "grid h-10 min-w-10 place-items-center rounded-md px-3 text-sm font-semibold transition";
 
 interface ItemProps {
   to: number;
@@ -38,13 +38,21 @@ interface ItemProps {
 }
 
 function Item({ to, label, children, active, disabled, getHref, onChange }: ItemProps) {
-  const cls = cn(base, active ? "bg-foreground text-background" : "hover:bg-muted", disabled && "pointer-events-none opacity-40");
+  const cls = cn(
+    base,
+    active ? "bg-foreground text-background" : "hover:bg-muted",
+    disabled && "pointer-events-none opacity-40",
+  );
   const common = { "aria-label": label, "aria-current": active ? ("page" as const) : undefined, className: cls };
   if (getHref) {
     return disabled ? (
-      <span {...common} aria-disabled>{children}</span>
+      <span {...common} aria-disabled>
+        {children}
+      </span>
     ) : (
-      <Link href={getHref(to)} {...common}>{children}</Link>
+      <Link href={getHref(to)} {...common}>
+        {children}
+      </Link>
     );
   }
   return (
@@ -64,7 +72,9 @@ export function Pagination({ page, pageCount, getHref, onChange, className }: Pa
       </Item>
       {pageWindow(page, pageCount).map((p, i) =>
         p === "…" ? (
-          <span key={`gap-${i}`} className="px-1 text-muted-foreground">…</span>
+          <span key={`gap-${i}`} className="px-1 text-muted-foreground">
+            …
+          </span>
         ) : (
           <Item getHref={getHref} onChange={onChange} key={p} to={p} active={p === page} label={`Page ${p}`}>
             {p}

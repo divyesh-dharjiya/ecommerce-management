@@ -14,7 +14,12 @@ const FIELDS: {
   { key: "fullName", label: "Full name", wide: true, input: { autoComplete: "name", placeholder: "Jane Appleseed" } },
   { key: "email", label: "Email", input: { type: "email", autoComplete: "email", placeholder: "jane@example.com" } },
   { key: "phone", label: "Phone", input: { type: "tel", autoComplete: "tel", placeholder: "+1 555 0100" } },
-  { key: "address", label: "Street address", wide: true, input: { autoComplete: "street-address", placeholder: "123 Market Street, Apt 4" } },
+  {
+    key: "address",
+    label: "Street address",
+    wide: true,
+    input: { autoComplete: "street-address", placeholder: "123 Market Street, Apt 4" },
+  },
   { key: "city", label: "City", input: { autoComplete: "address-level2" } },
   { key: "postalCode", label: "Postal code", input: { autoComplete: "postal-code" } },
 ];
@@ -24,7 +29,13 @@ export function ShippingFields({ bind, errors }: { bind: Bind; errors: FieldErro
   return (
     <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
       {FIELDS.map((f) => (
-        <Field key={f.key} label={f.label} htmlFor={f.key} error={errors[f.key]} className={f.wide ? "sm:col-span-2" : undefined}>
+        <Field
+          key={f.key}
+          label={f.label}
+          htmlFor={f.key}
+          error={errors[f.key]}
+          className={f.wide ? "sm:col-span-2" : undefined}
+        >
           <Input {...bind(f.key)} {...f.input} />
         </Field>
       ))}

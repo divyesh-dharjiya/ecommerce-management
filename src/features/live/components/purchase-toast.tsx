@@ -6,7 +6,7 @@ import type { LiveEvent } from "@/types";
 /** Social-proof toast: "Priya from Mumbai purchased …". */
 export function PurchaseToast({ event }: { event: LiveEvent }) {
   return (
-    <div className="glass flex w-[min(340px,calc(100vw-32px))] items-center gap-3 rounded-2xl p-3 shadow-lift">
+    <div className="glass flex w-[min(340px,calc(100vw-32px))] items-center gap-3 rounded-lg p-3 shadow-lift">
       <Thumb src={event.thumbnail} size="md" />
       <div className="min-w-0 text-sm">
         <p className="font-semibold">

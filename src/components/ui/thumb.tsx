@@ -3,10 +3,10 @@ import { ProductImage } from "@/components/ui/product-image";
 
 const sizes = {
   xs: { box: "size-8 rounded-lg", px: 32 },
-  sm: { box: "size-10 rounded-xl", px: 40 },
-  md: { box: "size-12 rounded-xl", px: 48 },
-  lg: { box: "size-16 rounded-2xl", px: 64 },
-  xl: { box: "size-20 rounded-2xl", px: 80 },
+  sm: { box: "size-10 rounded-md", px: 40 },
+  md: { box: "size-12 rounded-md", px: 48 },
+  lg: { box: "size-16 rounded-lg", px: 64 },
+  xl: { box: "size-20 rounded-lg", px: 80 },
 } as const;
 
 export interface ThumbProps {

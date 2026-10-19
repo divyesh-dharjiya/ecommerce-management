@@ -35,7 +35,10 @@ export function ProductTabs({ product, category }: { product: Product; category?
                 <ul className="flex flex-wrap gap-2 pt-2" aria-label="Tags">
                   {product.tags.map((t) => (
                     <li key={t}>
-                      <Link href={`/products?q=${encodeURIComponent(t)}`} className="rounded-full bg-muted px-3 py-1 text-xs font-medium capitalize text-foreground transition hover:bg-primary/10 hover:text-primary">
+                      <Link
+                        href={`/products?q=${encodeURIComponent(t)}`}
+                        className="rounded-full bg-muted px-3 py-1 text-xs font-medium capitalize text-foreground transition hover:bg-accent/10 hover:text-accent"
+                      >
                         #{t}
                       </Link>
                     </li>

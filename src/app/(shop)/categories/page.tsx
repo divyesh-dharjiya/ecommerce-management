@@ -12,7 +12,11 @@ export const metadata: Metadata = buildMetadata({
 export default function CategoriesPage() {
   return (
     <>
-      <PageHeader title="Categories" description="Explore every department in our store." breadcrumbs={[{ href: "/", label: "Home" }, { label: "Categories" }]} />
+      <PageHeader
+        title="Categories"
+        description="Explore every department in our store."
+        breadcrumbs={[{ href: "/", label: "Home" }, { label: "Categories" }]}
+      />
       <Container className="py-10">
         <CategoryGrid />
       </Container>

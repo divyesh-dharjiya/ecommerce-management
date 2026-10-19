@@ -7,9 +7,7 @@ export interface PricedLine {
   quantity: number;
 }
 
-export type CouponValidation =
-  | { ok: true; coupon: Coupon }
-  | { ok: false; reason: string };
+export type CouponValidation = { ok: true; coupon: Coupon } | { ok: false; reason: string };
 
 export function validateCoupon(coupon: Coupon | undefined, subtotal: number): CouponValidation {
   if (!coupon) return { ok: false, reason: "This code isn't valid." };
@@ -40,8 +38,7 @@ export function calculateTotals(lines: PricedLine[], coupon?: Coupon | null): Ca
   if (applicable?.type === "fixed") discount = Math.min(applicable.value, subtotal);
 
   const discounted = round2(subtotal - discount);
-  const qualifiesForFreeShipping =
-    subtotal >= freeShippingThreshold || applicable?.type === "free-shipping";
+  const qualifiesForFreeShipping = subtotal >= freeShippingThreshold || applicable?.type === "free-shipping";
   const shipping = itemCount === 0 || qualifiesForFreeShipping ? 0 : flatShippingRate;
   const tax = round2(discounted * taxRate);
 
@@ -52,8 +49,6 @@ export function calculateTotals(lines: PricedLine[], coupon?: Coupon | null): Ca
     shipping,
     tax,
     total: round2(discounted + shipping + tax),
-    freeShippingRemaining: qualifiesForFreeShipping
-      ? 0
-      : round2(Math.max(0, freeShippingThreshold - subtotal)),
+    freeShippingRemaining: qualifiesForFreeShipping ? 0 : round2(Math.max(0, freeShippingThreshold - subtotal)),
   };
 }

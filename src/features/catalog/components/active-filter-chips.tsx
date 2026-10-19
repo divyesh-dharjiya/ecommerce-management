@@ -14,7 +14,10 @@ interface Chip {
 export function filterChips(query: ProductQuery, categories: Category[], lockedCategory?: string): Chip[] {
   const chips: Chip[] = [];
   if (query.category && !lockedCategory) {
-    chips.push({ label: categories.find((c) => c.slug === query.category)?.name ?? query.category, clear: { category: undefined } });
+    chips.push({
+      label: categories.find((c) => c.slug === query.category)?.name ?? query.category,
+      clear: { category: undefined },
+    });
   }
   for (const brand of query.brands ?? []) {
     const rest = query.brands!.filter((b) => b !== brand);
@@ -32,7 +35,13 @@ export function filterChips(query: ProductQuery, categories: Category[], lockedC
   return chips;
 }
 
-export function ActiveFilterChips({ chips, onClear }: { chips: Chip[]; onClear: (patch: Partial<ProductQuery>) => void }) {
+export function ActiveFilterChips({
+  chips,
+  onClear,
+}: {
+  chips: Chip[];
+  onClear: (patch: Partial<ProductQuery>) => void;
+}) {
   return (
     <AnimatePresence initial={false} mode="popLayout">
       {chips.map((c) => (
@@ -46,7 +55,7 @@ export function ActiveFilterChips({ chips, onClear }: { chips: Chip[]; onClear: 
           type="button"
           onClick={() => onClear(c.clear)}
           aria-label={`Remove filter ${c.label}`}
-          className="inline-flex items-center gap-1 rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold text-primary transition-colors hover:bg-primary/20"
+          className="inline-flex items-center gap-1 rounded-full bg-accent/10 px-3 py-1 text-xs font-semibold text-accent transition-colors hover:bg-accent/20"
         >
           {c.label} <X className="size-3" />
         </motion.button>

@@ -40,14 +40,17 @@ export function CategoryGrid() {
           >
             <Link
               href={`/categories/${c.slug}`}
-              className="group relative flex h-64 flex-col overflow-hidden rounded-[2rem] border border-border bg-card p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-lift"
+              className="group relative flex h-64 flex-col overflow-hidden rounded-2xl border border-border bg-card p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-lift"
             >
               <div
                 className="absolute inset-0 opacity-[0.12] transition-opacity duration-500 group-hover:opacity-25"
                 style={{ background: `radial-gradient(circle at 85% 90%, ${c.accent}, transparent 60%)` }}
               />
               <div className="relative flex items-start justify-between">
-                <span className="grid size-11 place-items-center rounded-2xl text-white shadow-lg" style={{ backgroundColor: c.accent }}>
+                <span
+                  className="grid size-11 place-items-center rounded-lg text-white shadow-lg"
+                  style={{ backgroundColor: c.accent }}
+                >
                   <CategoryIcon name={c.icon} className="size-5" />
                 </span>
                 <span className="grid size-10 place-items-center rounded-full border border-border bg-card transition group-hover:rotate-45 group-hover:bg-foreground group-hover:text-background">
@@ -55,7 +58,7 @@ export function CategoryGrid() {
                 </span>
               </div>
               <div className="relative mt-4 max-w-[55%]">
-                <h2 className="font-display text-2xl font-bold tracking-tight">{c.name}</h2>
+                <h2 className="font-display text-2xl tracking-tight">{c.name}</h2>
                 <p className="mt-1 text-sm text-muted-foreground">
                   {s?.count ?? 0} products{s && Number.isFinite(s.from) ? ` · from ${formatPrice(s.from)}` : ""}
                 </p>
@@ -64,7 +67,7 @@ export function CategoryGrid() {
                 {(s?.images ?? [c.image]).map((img, idx) => (
                   <div
                     key={img}
-                    className="relative -ml-10 size-28 overflow-hidden rounded-2xl border-4 border-card bg-muted shadow-lg transition-transform duration-500 first:ml-0 group-hover:-translate-y-1"
+                    className="relative -ml-10 size-28 overflow-hidden rounded-lg border-4 border-card bg-muted shadow-lg transition-transform duration-500 first:ml-0 group-hover:-translate-y-1"
                     style={{ transitionDelay: `${idx * 60}ms`, zIndex: 3 - idx, rotate: `${(idx - 1) * 6}deg` }}
                   >
                     <ProductImage src={img} alt="" fill sizes="112px" className="object-contain p-2" />

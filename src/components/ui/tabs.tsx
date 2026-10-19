@@ -12,7 +12,17 @@ export interface TabItem {
 }
 
 /** Underlined tabs with an animated indicator and accessible tab/tabpanel wiring. */
-export function Tabs({ items, label, className, defaultId }: { items: TabItem[]; label: string; className?: string; defaultId?: string }) {
+export function Tabs({
+  items,
+  label,
+  className,
+  defaultId,
+}: {
+  items: TabItem[];
+  label: string;
+  className?: string;
+  defaultId?: string;
+}) {
   const [active, setActive] = useState(defaultId ?? items[0]?.id);
   const uid = useId();
   const current = items.find((t) => t.id === active) ?? items[0];
@@ -29,7 +39,12 @@ export function Tabs({ items, label, className, defaultId }: { items: TabItem[];
 
   return (
     <div className={className}>
-      <div role="tablist" aria-label={label} onKeyDown={onKeyDown} className="flex gap-6 overflow-x-auto border-b border-border scrollbar-none">
+      <div
+        role="tablist"
+        aria-label={label}
+        onKeyDown={onKeyDown}
+        className="flex gap-6 overflow-x-auto border-b border-border scrollbar-none"
+      >
         {items.map((t) => {
           const selected = t.id === current?.id;
           return (
@@ -48,7 +63,13 @@ export function Tabs({ items, label, className, defaultId }: { items: TabItem[];
               )}
             >
               {t.label}
-              {selected && <motion.span layoutId={`${uid}-indicator`} transition={spring.snappy} className="absolute inset-x-0 -bottom-px h-0.5 rounded-full bg-primary" />}
+              {selected && (
+                <motion.span
+                  layoutId={`${uid}-indicator`}
+                  transition={spring.snappy}
+                  className="absolute inset-x-0 -bottom-px h-0.5 rounded-full bg-primary"
+                />
+              )}
             </button>
           );
         })}

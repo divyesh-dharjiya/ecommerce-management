@@ -17,9 +17,7 @@ export const useRecentlyViewedStore = create<RecentlyViewedState>()(
       ids: [],
       track: (productId) =>
         set((s) =>
-          s.ids[0] === productId
-            ? s
-            : { ids: [productId, ...s.ids.filter((id) => id !== productId)].slice(0, LIMIT) },
+          s.ids[0] === productId ? s : { ids: [productId, ...s.ids.filter((id) => id !== productId)].slice(0, LIMIT) },
         ),
     }),
     persistOptions<RecentlyViewedState>("recently-viewed", {

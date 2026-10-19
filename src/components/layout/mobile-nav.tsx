@@ -17,7 +17,7 @@ export function MobileNav() {
   const categories = useCatalogStore((s) => s.categories);
   const pathname = usePathname();
   const close = () => setOpen(false);
-  const linkClass = "flex items-center gap-2 rounded-xl px-4 py-3 font-semibold transition hover:bg-muted";
+  const linkClass = "flex items-center gap-2 rounded-md px-4 py-3 font-semibold transition hover:bg-muted";
 
   return (
     <Drawer open={open} onClose={close} side="left" title="Menu" className="max-w-xs">
@@ -25,7 +25,11 @@ export function MobileNav() {
         <ul className="space-y-1">
           {PRIMARY_NAV.map((l) => (
             <li key={l.href}>
-              <Link href={l.href} onClick={close} className={cn(linkClass, isNavActive(l.href, pathname) && "bg-muted text-primary")}>
+              <Link
+                href={l.href}
+                onClick={close}
+                className={cn(linkClass, isNavActive(l.href, pathname) && "bg-muted text-accent")}
+              >
                 {l.label}
               </Link>
             </li>
@@ -36,11 +40,17 @@ export function MobileNav() {
             </Link>
           </li>
         </ul>
-        <p className="mb-2 mt-6 px-4 text-xs font-semibold uppercase tracking-wider text-muted-foreground">Categories</p>
+        <p className="mb-2 mt-6 px-4 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+          Categories
+        </p>
         <ul className="space-y-0.5">
           {categories.map((c) => (
             <li key={c.id}>
-              <Link href={`/categories/${c.slug}`} onClick={close} className="flex items-center gap-3 rounded-xl px-4 py-2.5 text-sm transition hover:bg-muted">
+              <Link
+                href={`/categories/${c.slug}`}
+                onClick={close}
+                className="flex items-center gap-3 rounded-md px-4 py-2.5 text-sm transition hover:bg-muted"
+              >
                 <CategoryIcon name={c.icon} className="size-4 text-muted-foreground" />
                 {c.name}
               </Link>

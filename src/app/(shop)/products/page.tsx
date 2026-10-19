@@ -12,7 +12,8 @@ export async function generateMetadata({ searchParams }: Props): Promise<Metadat
   const title = query.search ? `Results for “${query.search}”` : "Shop all products";
   return buildMetadata({
     title,
-    description: "Browse 100+ curated products across tech, fashion, beauty and home. Filter by category, brand, price and rating.",
+    description:
+      "Browse 100+ curated products across tech, fashion, beauty and home. Filter by category, brand, price and rating.",
     path: listingCanonical("/products", query),
     noIndex: isFacetedQuery(query),
   });

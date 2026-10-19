@@ -46,7 +46,11 @@ const CATEGORY_META = {
 };
 
 const slugify = (s) =>
-  s.toLowerCase().replace(/['’]/g, "").replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+  s
+    .toLowerCase()
+    .replace(/['’]/g, "")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)/g, "");
 
 // Deterministic PRNG so regenerating yields identical "random" fields.
 function mulberry32(seed) {
@@ -91,8 +95,7 @@ const normalised = picked.map((p, i) => {
 
   const discount = Math.round(p.discountPercentage);
   const price = Number(p.price.toFixed(2));
-  const compareAtPrice =
-    discount >= 5 ? Number((price / (1 - discount / 100)).toFixed(2)) : null;
+  const compareAtPrice = discount >= 5 ? Number((price / (1 - discount / 100)).toFixed(2)) : null;
 
   return {
     id: `prd_${String(p.id).padStart(4, "0")}`,
@@ -136,7 +139,10 @@ const categories = [...new Set(normalised.map((p) => p.category))].map((slug) =>
   return {
     id: `cat_${slug}`,
     slug,
-    name: slug.split("-").map((w) => w[0].toUpperCase() + w.slice(1)).join(" "),
+    name: slug
+      .split("-")
+      .map((w) => w[0].toUpperCase() + w.slice(1))
+      .join(" "),
     description: `Curated ${slug.replace(/-/g, " ")} picked for quality and value.`,
     image: items[0].thumbnail,
     icon: meta.icon,

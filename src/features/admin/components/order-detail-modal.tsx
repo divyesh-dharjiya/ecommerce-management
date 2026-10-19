@@ -17,9 +17,11 @@ export function OrderDetailModal({ orderId, onClose }: { orderId: string | null;
         <div className="space-y-5 p-6">
           <div className="flex items-center justify-between">
             <OrderStatusBadge status={order.status} />
-            <span className="text-sm text-muted-foreground">{formatDate(order.createdAt, { dateStyle: "medium", timeStyle: "short" })}</span>
+            <span className="text-sm text-muted-foreground">
+              {formatDate(order.createdAt, { dateStyle: "medium", timeStyle: "short" })}
+            </span>
           </div>
-          <ul className="divide-y divide-border rounded-2xl border border-border">
+          <ul className="divide-y divide-border rounded-lg border border-border">
             {order.lines.map((l) => (
               <li key={l.productId} className="flex items-center gap-3 p-3">
                 <Thumb src={l.thumbnail} size="md" />
@@ -37,7 +39,9 @@ export function OrderDetailModal({ orderId, onClose }: { orderId: string | null;
             </div>
             <div>
               <dt className="text-muted-foreground">Ship to</dt>
-              <dd>{order.customer.address}, {order.customer.city}, {order.customer.country}</dd>
+              <dd>
+                {order.customer.address}, {order.customer.city}, {order.customer.country}
+              </dd>
             </div>
             <div>
               <dt className="text-muted-foreground">Payment</dt>
@@ -50,7 +54,14 @@ export function OrderDetailModal({ orderId, onClose }: { orderId: string | null;
           </dl>
           <div className="flex flex-wrap gap-2 border-t border-border pt-5" role="group" aria-label="Set status">
             {ORDER_STATUSES.map((s) => (
-              <Button key={s} size="sm" variant={order.status === s ? "dark" : "outline"} className="capitalize" onClick={() => updateStatus(order.id, s)} aria-pressed={order.status === s}>
+              <Button
+                key={s}
+                size="sm"
+                variant={order.status === s ? "dark" : "outline"}
+                className="capitalize"
+                onClick={() => updateStatus(order.id, s)}
+                aria-pressed={order.status === s}
+              >
                 {s}
               </Button>
             ))}

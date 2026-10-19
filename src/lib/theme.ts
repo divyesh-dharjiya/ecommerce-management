@@ -1,3 +1,4 @@
+import { THEME_COLORS } from "@/config/brand";
 import { storageKey } from "@/config/site";
 
 /**
@@ -28,15 +29,13 @@ function readPreference(): ThemePreference {
 
 const systemTheme = (): ResolvedTheme => (window.matchMedia(DARK_QUERY).matches ? "dark" : "light");
 
-export const resolveTheme = (pref: ThemePreference): ResolvedTheme =>
-  pref === "system" ? systemTheme() : pref;
+export const resolveTheme = (pref: ThemePreference): ResolvedTheme => (pref === "system" ? systemTheme() : pref);
 
 function apply(resolved: ResolvedTheme) {
   const root = document.documentElement;
   root.classList.toggle("dark", resolved === "dark");
   root.style.colorScheme = resolved;
-  const color = getComputedStyle(root).getPropertyValue("--theme-color").trim();
-  document.querySelector('meta[name="theme-color"]')?.setAttribute("content", color);
+  document.querySelector('meta[name="theme-color"]')?.setAttribute("content", THEME_COLORS[resolved]);
 }
 
 // ── External store ───────────────────────────────────────────────────────────
@@ -115,4 +114,4 @@ export function setThemePreference(preference: ThemePreference, origin?: { x: nu
 }
 
 /** Inlined in <head> so the correct theme paints on the very first frame. */
-export const themeInitScript = `(function(){try{var p=localStorage.getItem('${THEME_STORAGE_KEY}');var d=p==='dark'||((p!=='light')&&window.matchMedia('${DARK_QUERY}').matches);var r=document.documentElement;r.classList.toggle('dark',d);r.style.colorScheme=d?'dark':'light';var m=document.querySelector('meta[name="theme-color"]');if(m)m.setAttribute('content',d?'#121019':'#fbfbfd');}catch(e){}})();`;
+export const themeInitScript = `(function(){try{var p=localStorage.getItem('${THEME_STORAGE_KEY}');var d=p==='dark'||((p!=='light')&&window.matchMedia('${DARK_QUERY}').matches);var r=document.documentElement;r.classList.toggle('dark',d);r.style.colorScheme=d?'dark':'light';var m=document.querySelector('meta[name="theme-color"]');if(m)m.setAttribute('content',d?'${THEME_COLORS.dark}':'${THEME_COLORS.light}');}catch(e){}})();`;

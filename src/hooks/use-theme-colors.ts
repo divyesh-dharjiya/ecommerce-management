@@ -3,7 +3,7 @@
 import { useMemo } from "react";
 import { useTheme } from "@/components/providers/theme";
 
-const TOKENS = ["primary", "muted-foreground", "border", "muted", "card"] as const;
+const TOKENS = ["primary", "accent", "muted-foreground", "border", "muted", "card"] as const;
 type Token = (typeof TOKENS)[number];
 
 /**

@@ -32,8 +32,7 @@ export const useUiStore = create<UiState>()((set) => ({
   setSearchOpen: (searchOpen) => set({ searchOpen }),
   setQuickViewId: (quickViewId) => set({ quickViewId }),
   setMobileNavOpen: (mobileNavOpen) => set({ mobileNavOpen }),
-  pushLiveEvent: (event) =>
-    set((s) => ({ liveEvents: [event, ...s.liveEvents].slice(0, liveConfig.maxEvents) })),
+  pushLiveEvent: (event) => set((s) => ({ liveEvents: [event, ...s.liveEvents].slice(0, liveConfig.maxEvents) })),
 }));
 
 export const useHydrated = () => useUiStore((s) => s.hydrated);

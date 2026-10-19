@@ -32,7 +32,9 @@ function Step({ n, title, children }: { n: number; title: string; children: Reac
   return (
     <Card className="p-6 sm:p-8">
       <h2 className="mb-6 flex items-center gap-3 text-lg font-bold">
-        <span className="grid size-7 place-items-center rounded-full bg-primary text-xs text-primary-foreground">{n}</span>
+        <span className="grid size-7 place-items-center rounded-full bg-primary text-xs text-primary-foreground">
+          {n}
+        </span>
         {title}
       </h2>
       {children}
@@ -44,7 +46,7 @@ function PlacingOrder() {
   return (
     <Container className="grid min-h-[60vh] place-items-center">
       <div className="flex animate-fade-up flex-col items-center gap-4 text-center" role="status">
-        <Loader2 className="size-10 animate-spin text-primary" />
+        <Loader2 className="size-10 animate-spin text-accent" />
         <p className="text-lg font-semibold">Placing your order…</p>
         <p className="text-sm text-muted-foreground">Authorising payment and reserving stock.</p>
       </div>
@@ -85,7 +87,11 @@ function CheckoutForm() {
           icon={<ShoppingBag className="size-9" />}
           title="Nothing to check out"
           description="Your bag is empty. Add a few items and come back."
-          action={<Link href="/products" className={buttonClasses()}>Browse products</Link>}
+          action={
+            <Link href="/products" className={buttonClasses()}>
+              Browse products
+            </Link>
+          }
         />
       </Container>
     );
@@ -108,7 +114,12 @@ function CheckoutForm() {
     setSubmitting(true);
     await new Promise((r) => setTimeout(r, 1200)); // simulated payment authorisation
     const customer = { ...form.values, email: form.values.email.trim().toLowerCase() };
-    const order = placeOrder({ lines: toOrderLines(lines), customer, paymentMethod: payment, couponCode: coupon?.code ?? null });
+    const order = placeOrder({
+      lines: toOrderLines(lines),
+      customer,
+      paymentMethod: payment,
+      couponCode: coupon?.code ?? null,
+    });
     saveAddress(form.values);
     router.replace(`/orders/${order.id}?placed=1`);
     clearCart();
@@ -116,7 +127,7 @@ function CheckoutForm() {
 
   return (
     <Container className="py-12">
-      <h1 className="animate-fade-up font-display text-4xl font-bold tracking-tight">Checkout</h1>
+      <h1 className="animate-fade-up font-display text-4xl tracking-tight">Checkout</h1>
       <p className="mt-1 flex items-center gap-1.5 text-sm text-muted-foreground">
         <Lock className="size-3.5" /> Secure, encrypted checkout
       </p>
@@ -128,7 +139,7 @@ function CheckoutForm() {
           </Step>
           <Step n={2} title="Payment">
             <PaymentMethodPicker value={payment} onChange={setPayment} />
-            <p className="mt-5 rounded-xl bg-muted/60 p-3 text-xs text-muted-foreground">
+            <p className="mt-5 rounded-md bg-muted/60 p-3 text-xs text-muted-foreground">
               This is a demo store — no payment details are collected and no real charge is made.
             </p>
           </Step>

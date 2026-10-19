@@ -11,7 +11,17 @@ import { useCartStore } from "@/features/cart/store/cart-store";
 import { Button, Input } from "@/components/ui";
 import type { CartTotals, Coupon } from "@/types";
 
-function Row({ label, value, muted, children }: { label: ReactNode; value: ReactNode; muted?: boolean; children?: ReactNode }) {
+function Row({
+  label,
+  value,
+  muted,
+  children,
+}: {
+  label: ReactNode;
+  value: ReactNode;
+  muted?: boolean;
+  children?: ReactNode;
+}) {
   return (
     <div className="flex items-center justify-between text-sm">
       <span className={muted ? "text-muted-foreground" : undefined}>{label}</span>
@@ -41,12 +51,17 @@ export function CouponForm({ subtotal, coupon }: { subtotal: number; coupon: Cou
 
   if (coupon) {
     return (
-      <div className="flex items-center justify-between rounded-xl border border-dashed border-success/50 bg-success/10 px-3 py-2.5 text-sm">
+      <div className="flex items-center justify-between rounded-md border border-dashed border-success/50 bg-success/10 px-3 py-2.5 text-sm">
         <span className="flex items-center gap-2 font-semibold text-success">
           <Tag className="size-4" /> {coupon.code}
           <span className="font-normal text-foreground/70">· {coupon.description}</span>
         </span>
-        <button type="button" onClick={() => applyCoupon(null)} aria-label="Remove coupon" className="rounded-full p-1 hover:bg-success/20">
+        <button
+          type="button"
+          onClick={() => applyCoupon(null)}
+          aria-label="Remove coupon"
+          className="rounded-full p-1 hover:bg-success/20"
+        >
           <X className="size-4" />
         </button>
       </div>
@@ -78,9 +93,7 @@ export function CouponForm({ subtotal, coupon }: { subtotal: number; coupon: Cou
         </Button>
       </div>
       {error && <p className="text-xs font-medium text-danger">{error}</p>}
-      <p className="text-xs text-muted-foreground">
-        Try: {COUPONS.map((c) => c.code).join(", ")}
-      </p>
+      <p className="text-xs text-muted-foreground">Try: {COUPONS.map((c) => c.code).join(", ")}</p>
     </div>
   );
 }
@@ -103,8 +116,16 @@ export function OrderSummary({
         <Row label={`Subtotal (${totals.itemCount} items)`} value={formatPrice(totals.subtotal)} muted />
         <AnimatePresence>
           {totals.discount > 0 && (
-            <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} exit={{ opacity: 0, height: 0 }}>
-              <Row label="Discount" value={<span className="text-success">−{formatPrice(totals.discount)}</span>} muted />
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: "auto" }}
+              exit={{ opacity: 0, height: 0 }}
+            >
+              <Row
+                label="Discount"
+                value={<span className="text-success">−{formatPrice(totals.discount)}</span>}
+                muted
+              />
             </motion.div>
           )}
         </AnimatePresence>

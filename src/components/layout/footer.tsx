@@ -34,7 +34,9 @@ export function Footer() {
           </nav>
         </div>
         <div className="mt-14 flex flex-col items-center justify-between gap-4 border-t border-border pt-8 text-xs text-muted-foreground sm:flex-row">
-          <p>© {new Date().getFullYear()} {siteConfig.fullName}. All rights reserved.</p>
+          <p>
+            © {new Date().getFullYear()} {siteConfig.fullName}. All rights reserved.
+          </p>
           <ul className="flex flex-wrap items-center justify-center gap-2" aria-label="Accepted payment methods">
             {PAYMENT_METHODS.map((p) => (
               <li key={p} className="rounded-md border border-border bg-card px-2 py-1 font-semibold">

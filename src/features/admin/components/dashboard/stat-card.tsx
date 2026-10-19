@@ -47,11 +47,11 @@ export function StatCard({
       initial={{ opacity: 0, y: 16 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: index * 0.06 }}
-      className="rounded-2xl border border-border bg-card p-5 shadow-soft"
+      className="rounded-lg border border-border bg-card p-5 shadow-soft"
     >
       <div className="flex items-center justify-between">
         <p className="text-sm font-medium text-muted-foreground">{label}</p>
-        <span className="grid size-9 place-items-center rounded-xl bg-primary/10 text-primary">
+        <span className="grid size-9 place-items-center rounded-md bg-accent/10 text-accent">
           <Icon className="size-[18px]" />
         </span>
       </div>

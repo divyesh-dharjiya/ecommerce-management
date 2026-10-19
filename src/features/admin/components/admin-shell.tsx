@@ -33,12 +33,16 @@ function SidebarNav({ onNavigate }: { onNavigate?: () => void }) {
             href={href}
             onClick={onNavigate}
             className={cn(
-              "relative flex items-center gap-3 rounded-xl px-3.5 py-2.5 text-sm font-medium transition-colors",
+              "relative flex items-center gap-3 rounded-md px-3.5 py-2.5 text-sm font-medium transition-colors",
               active ? "text-primary-foreground" : "text-muted-foreground hover:bg-muted hover:text-foreground",
             )}
           >
             {active && (
-              <motion.span layoutId="admin-nav" className="absolute inset-0 -z-0 rounded-xl bg-primary shadow-md shadow-primary/30" transition={spring.snappy} />
+              <motion.span
+                layoutId="admin-nav"
+                className="absolute inset-0 -z-0 rounded-md bg-primary shadow-md shadow-primary/30"
+                transition={spring.snappy}
+              />
             )}
             <Icon className="relative size-[18px]" />
             <span className="relative">{label}</span>
@@ -46,7 +50,11 @@ function SidebarNav({ onNavigate }: { onNavigate?: () => void }) {
         );
       })}
       <div className="mt-auto">
-        <Link href="/" onClick={onNavigate} className="flex items-center gap-3 rounded-xl px-3.5 py-2.5 text-sm font-medium text-muted-foreground transition hover:bg-muted hover:text-foreground">
+        <Link
+          href="/"
+          onClick={onNavigate}
+          className="flex items-center gap-3 rounded-md px-3.5 py-2.5 text-sm font-medium text-muted-foreground transition hover:bg-muted hover:text-foreground"
+        >
           <Store className="size-[18px]" /> View storefront
         </Link>
       </div>
@@ -64,7 +72,9 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
       <aside className="fixed inset-y-0 left-0 z-30 hidden w-64 flex-col border-r border-border bg-card lg:flex">
         <div className="flex h-16 items-center border-b border-border px-6">
           <Logo href="/admin" />
-          <span className="ml-2 rounded-md bg-primary/10 px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-primary">Admin</span>
+          <span className="ml-2 rounded-md bg-accent/10 px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-accent">
+            Admin
+          </span>
         </div>
         <SidebarNav />
       </aside>
@@ -75,16 +85,23 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
 
       <div className="lg:pl-64">
         <header className="glass sticky top-0 z-20 flex h-16 items-center gap-3 border-x-0 border-t-0 px-4 sm:px-6">
-          <button type="button" onClick={() => setNavOpen(true)} className="grid size-10 place-items-center rounded-xl hover:bg-muted lg:hidden" aria-label="Open navigation">
+          <button
+            type="button"
+            onClick={() => setNavOpen(true)}
+            className="grid size-10 place-items-center rounded-md hover:bg-muted lg:hidden"
+            aria-label="Open navigation"
+          >
             <Menu className="size-5" />
           </button>
           <button
             type="button"
             onClick={() => openSearch(true)}
-            className="flex h-10 max-w-sm flex-1 items-center gap-2 rounded-xl border border-border bg-card px-3.5 text-sm text-muted-foreground transition hover:border-primary/40"
+            className="flex h-10 max-w-sm flex-1 items-center gap-2 rounded-md border border-border bg-card px-3.5 text-sm text-muted-foreground transition hover:border-primary/40"
           >
             <Search className="size-4" /> Search catalogue…
-            <kbd className="ml-auto hidden rounded border border-border px-1.5 font-mono text-[10px] sm:inline">Ctrl K</kbd>
+            <kbd className="ml-auto hidden rounded border border-border px-1.5 font-mono text-[10px] sm:inline">
+              Ctrl K
+            </kbd>
           </button>
           <div className="ml-auto flex items-center gap-2">
             <Link
@@ -98,7 +115,10 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
               {live ? "Live" : "Paused"}
             </Link>
             <ThemeMenu />
-            <span className="grid size-9 place-items-center rounded-full bg-gradient-to-br from-primary to-fuchsia-500 text-xs font-bold text-white" aria-label="Signed in as Admin">
+            <span
+              className="grid size-9 place-items-center rounded-full bg-foreground text-background"
+              aria-label="Signed in as Admin"
+            >
               AD
             </span>
           </div>

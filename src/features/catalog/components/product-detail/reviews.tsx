@@ -16,10 +16,10 @@ export function ratingDistribution(reviews: Review[]) {
 
 function ReviewCard({ review }: { review: Review }) {
   return (
-    <li className="rounded-3xl border border-border p-5">
+    <li className="rounded-xl border border-border p-5">
       <div className="flex items-center justify-between gap-3">
         <div className="flex items-center gap-3">
-          <span className="grid size-10 place-items-center rounded-full bg-gradient-to-br from-primary to-fuchsia-500 text-sm font-bold text-white" aria-hidden>
+          <span className="grid size-10 place-items-center rounded-full bg-muted text-foreground" aria-hidden>
             {initials(review.author)}
           </span>
           <div>
@@ -42,7 +42,7 @@ export function Reviews({ product }: { product: Product }) {
   return (
     <div className="grid grid-cols-1 gap-10 lg:grid-cols-[280px_1fr]">
       <div>
-        <p className="font-display text-5xl font-bold">{product.rating.toFixed(1)}</p>
+        <p className="font-display text-5xl">{product.rating.toFixed(1)}</p>
         <Rating value={product.rating} size={18} className="mt-2" />
         <p className="mt-1 text-sm text-muted-foreground">Based on {formatNumber(product.reviewCount)} ratings</p>
         <dl className="mt-6 space-y-2">
@@ -50,7 +50,10 @@ export function Reviews({ product }: { product: Product }) {
             <div key={star} className="flex items-center gap-3 text-sm">
               <dt className="w-3">{star}</dt>
               <dd className="h-2 flex-1 overflow-hidden rounded-full bg-muted">
-                <div className="h-full origin-left animate-grow rounded-full bg-amber-400" style={{ width: `${(count / total) * 100}%` }} />
+                <div
+                  className="h-full origin-left animate-grow rounded-full bg-amber-400"
+                  style={{ width: `${(count / total) * 100}%` }}
+                />
               </dd>
               <dd className="w-6 text-right text-muted-foreground">{count}</dd>
             </div>

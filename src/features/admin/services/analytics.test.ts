@@ -1,6 +1,12 @@
 import { describe, expect, it } from "vitest";
 import { SEED_PRODUCTS } from "@/data";
-import { getCategoryBreakdown, getDailySeries, getKpis, getLiveSeries, getTopProducts } from "@/features/admin/services/analytics";
+import {
+  getCategoryBreakdown,
+  getDailySeries,
+  getKpis,
+  getLiveSeries,
+  getTopProducts,
+} from "@/features/admin/services/analytics";
 import { generateHistoricalOrders, simulatePurchase } from "@/features/live/services/simulation";
 import { mulberry32 } from "@/lib/utils";
 import type { Order } from "@/types";
@@ -24,7 +30,12 @@ describe("generateHistoricalOrders", () => {
 
 describe("getKpis", () => {
   it("excludes cancelled orders from revenue", () => {
-    const one = { ...orders[0]!, createdAt: new Date(NOW - 1000).toISOString(), total: 100, status: "delivered" } as Order;
+    const one = {
+      ...orders[0]!,
+      createdAt: new Date(NOW - 1000).toISOString(),
+      total: 100,
+      status: "delivered",
+    } as Order;
     const cancelled = { ...one, id: "x", total: 999, status: "cancelled" } as Order;
     const k = getKpis([one, cancelled], 30, NOW);
     expect(k.revenue.value).toBe(100);

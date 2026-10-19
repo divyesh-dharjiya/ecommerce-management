@@ -18,7 +18,11 @@ import type { LiveEvent, Order, Product } from "@/types";
 
 export function RevenuePanel({ data, total, days }: { data: SeriesPoint[]; total: number; days: number }) {
   return (
-    <Panel className="xl:col-span-2" title={`Revenue · last ${days} days`} action={<span className="text-sm font-semibold tabular-nums">{formatPrice(total)}</span>}>
+    <Panel
+      className="xl:col-span-2"
+      title={`Revenue · last ${days} days`}
+      action={<span className="text-sm font-semibold tabular-nums">{formatPrice(total)}</span>}
+    >
       <RevenueAreaChart data={data} />
     </Panel>
   );
@@ -28,14 +32,25 @@ export function LiveSalesPanel({ data, events, now }: { data: SeriesPoint[]; eve
   const total = data.reduce((s, p) => s + p.revenue, 0);
   return (
     <Panel
-      title={<><LiveDot /> Live sales · last 20 min</>}
+      title={
+        <>
+          <LiveDot /> Live sales · last 20 min
+        </>
+      }
       action={<span className="text-sm font-semibold tabular-nums text-success">{formatPrice(total)}</span>}
     >
       <LiveBarChart data={data} />
       <ul className="mt-4 space-y-2" aria-live="polite">
         <AnimatePresence initial={false} mode="popLayout">
           {events.slice(0, 4).map((e) => (
-            <motion.li key={e.id} layout initial={{ opacity: 0, x: -12 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0 }} transition={spring.gentle}>
+            <motion.li
+              key={e.id}
+              layout
+              initial={{ opacity: 0, x: -12 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0 }}
+              transition={spring.gentle}
+            >
               <LiveEventRow event={e} now={now} compact />
             </motion.li>
           ))}
@@ -59,7 +74,10 @@ export function CategorySalesPanel({ data }: { data: CategoryShare[] }) {
               <span className="font-semibold tabular-nums">{formatPrice(c.revenue)}</span>
             </div>
             <div className="h-2 overflow-hidden rounded-full bg-muted">
-              <div className="h-full origin-left animate-grow rounded-full bg-primary transition-[width] duration-700" style={{ width: `${(c.revenue / max) * 100}%` }} />
+              <div
+                className="h-full origin-left animate-grow rounded-full bg-primary transition-[width] duration-700"
+                style={{ width: `${(c.revenue / max) * 100}%` }}
+              />
             </div>
           </li>
         ))}
@@ -70,7 +88,14 @@ export function CategorySalesPanel({ data }: { data: CategoryShare[] }) {
 
 export function TopProductsPanel({ data }: { data: TopProduct[] }) {
   return (
-    <Panel title="Top products" action={<Link href="/admin/products" className="text-xs font-semibold text-primary">Manage</Link>}>
+    <Panel
+      title="Top products"
+      action={
+        <Link href="/admin/products" className="text-xs font-semibold text-accent">
+          Manage
+        </Link>
+      }
+    >
       <ol className="space-y-3">
         {data.map((p, i) => (
           <li key={p.productId} className="flex items-center gap-3">
@@ -91,7 +116,13 @@ export function TopProductsPanel({ data }: { data: TopProduct[] }) {
 export function LowStockPanel({ products }: { products: Product[] }) {
   const adjustStock = useCatalogStore((s) => s.adjustStock);
   return (
-    <Panel title={<><AlertTriangle className="size-4 text-amber-500" /> Low stock</>}>
+    <Panel
+      title={
+        <>
+          <AlertTriangle className="size-4 text-amber-500" /> Low stock
+        </>
+      }
+    >
       {products.length === 0 ? (
         <p className="text-sm text-muted-foreground">All products are well stocked.</p>
       ) : (
@@ -101,7 +132,12 @@ export function LowStockPanel({ products }: { products: Product[] }) {
               <Thumb src={p.thumbnail} size="sm" />
               <div className="min-w-0 flex-1">
                 <p className="truncate text-sm font-medium">{p.title}</p>
-                <p className={cn("text-xs font-semibold", p.stock === 0 ? "text-danger" : "text-amber-600 dark:text-amber-400")}>
+                <p
+                  className={cn(
+                    "text-xs font-semibold",
+                    p.stock === 0 ? "text-danger" : "text-amber-600 dark:text-amber-400",
+                  )}
+                >
                   {p.stock === 0 ? "Out of stock" : `${p.stock} left`}
                 </p>
               </div>
@@ -111,7 +147,7 @@ export function LowStockPanel({ products }: { products: Product[] }) {
                   adjustStock({ [p.id]: 50 });
                   toast.success(`Restocked ${p.title}`, { description: "+50 units" });
                 }}
-                className="flex items-center gap-1 rounded-lg border border-border px-2.5 py-1.5 text-xs font-semibold transition hover:border-primary hover:text-primary"
+                className="flex items-center gap-1 rounded-lg border border-border px-2.5 py-1.5 text-xs font-semibold transition hover:border-primary hover:text-accent"
               >
                 <PackagePlus className="size-3.5" /> +50
               </button>
@@ -131,7 +167,11 @@ export function RecentOrdersPanel({ orders, now }: { orders: Order[]; now: numbe
       cell: (o) => (
         <span className="font-semibold">
           {o.number}
-          {o.source === "live" && <span className="ml-2 rounded bg-emerald-500/10 px-1.5 py-0.5 text-[10px] font-bold uppercase text-emerald-600 dark:text-emerald-400">live</span>}
+          {o.source === "live" && (
+            <span className="ml-2 rounded bg-emerald-500/10 px-1.5 py-0.5 text-[10px] font-bold uppercase text-emerald-600 dark:text-emerald-400">
+              live
+            </span>
+          )}
         </span>
       ),
     },
@@ -141,19 +181,30 @@ export function RecentOrdersPanel({ orders, now }: { orders: Order[]; now: numbe
       cell: (o) => (
         <>
           <p className="font-medium">{o.customer.fullName}</p>
-          <p className="text-xs text-muted-foreground">{o.customer.city}, {o.customer.country}</p>
+          <p className="text-xs text-muted-foreground">
+            {o.customer.city}, {o.customer.country}
+          </p>
         </>
       ),
     },
     { id: "status", header: "Status", cell: (o) => <OrderStatusBadge status={o.status} /> },
-    { id: "placed", header: "Placed", cell: (o) => <span className="text-muted-foreground">{formatRelativeTime(o.createdAt, now)}</span> },
-    { id: "total", header: "Total", align: "right", cell: (o) => <span className="font-semibold tabular-nums">{formatPrice(o.total)}</span> },
+    {
+      id: "placed",
+      header: "Placed",
+      cell: (o) => <span className="text-muted-foreground">{formatRelativeTime(o.createdAt, now)}</span>,
+    },
+    {
+      id: "total",
+      header: "Total",
+      align: "right",
+      cell: (o) => <span className="font-semibold tabular-nums">{formatPrice(o.total)}</span>,
+    },
   ];
   return (
     <Panel
       title="Recent orders"
       action={
-        <Link href="/admin/orders" className="flex items-center gap-1 text-xs font-semibold text-primary">
+        <Link href="/admin/orders" className="flex items-center gap-1 text-xs font-semibold text-accent">
           View all <ArrowRight className="size-3" />
         </Link>
       }

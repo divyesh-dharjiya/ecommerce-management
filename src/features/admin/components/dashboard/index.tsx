@@ -44,7 +44,9 @@ function DashboardSkeleton() {
     <div className="space-y-6">
       <Skeleton className="h-10 w-64" />
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
-        {[0, 1, 2, 3].map((i) => <Skeleton key={i} className="h-36" />)}
+        {[0, 1, 2, 3].map((i) => (
+          <Skeleton key={i} className="h-36" />
+        ))}
       </div>
       <Skeleton className="h-80" />
     </div>
@@ -68,7 +70,10 @@ function DashboardView() {
   const days = Number(range);
   const now = useNow(10_000); // slides the live window even when no order arrives
 
-  const inRange = useMemo(() => orders.filter((o) => Date.parse(o.createdAt) >= now - days * 86_400_000), [orders, days, now]);
+  const inRange = useMemo(
+    () => orders.filter((o) => Date.parse(o.createdAt) >= now - days * 86_400_000),
+    [orders, days, now],
+  );
   const kpis = useMemo(() => getKpis(orders, days, now), [orders, days, now]);
   const daily = useMemo(() => getDailySeries(orders, days, now), [orders, days, now]);
   const live = useMemo(() => getLiveSeries(orders, 20, now), [orders, now]);
@@ -89,12 +94,22 @@ function DashboardView() {
       <AdminPageHeader
         title="Dashboard"
         description={`${formatNumber(products.length)} products · inventory value ${formatPrice(inventoryValue)}`}
-        actions={<SegmentedControl label="Date range" variant="solid" value={range} onChange={setRange} options={RANGES} />}
+        actions={
+          <SegmentedControl label="Date range" variant="solid" value={range} onChange={setRange} options={RANGES} />
+        }
       />
 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
         {stats.map((s, i) => (
-          <StatCard key={s.label} index={i} label={s.label} value={s.kpi.value} change={s.kpi.change} format={s.format} icon={s.icon} />
+          <StatCard
+            key={s.label}
+            index={i}
+            label={s.label}
+            value={s.kpi.value}
+            change={s.kpi.change}
+            format={s.format}
+            icon={s.icon}
+          />
         ))}
       </div>
 

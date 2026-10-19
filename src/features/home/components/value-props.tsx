@@ -7,24 +7,23 @@ import { Stagger, StaggerItem } from "@/components/motion/reveal";
 const PROPS = [
   { icon: Truck, title: "Free express shipping", body: "On every order over $100, delivered in 2–3 days." },
   { icon: RotateCcw, title: "30-day returns", body: "Changed your mind? Return it free, no questions asked." },
-  { icon: ShieldCheck, title: "Secure payments", body: "256-bit encryption and fraud protection on every order." },
-  { icon: Headphones, title: "24/7 concierge", body: "Real humans, ready to help whenever you need us." },
+  { icon: ShieldCheck, title: "Secure payments", body: "Encrypted checkout and fraud protection on every order." },
+  { icon: Headphones, title: "Human support", body: "Real people, ready to help whenever you need us." },
 ];
 
 export function ValueProps() {
   return (
-    <section className="py-12" aria-label="Why shop with us">
+    <section className="py-16" aria-label="Why shop with us">
       <Container>
-        <Stagger as="ul" className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <Stagger
+          as="ul"
+          className="grid grid-cols-1 border-y border-border sm:grid-cols-2 lg:grid-cols-4 lg:divide-x lg:divide-border"
+        >
           {PROPS.map(({ icon: Icon, title, body }) => (
-            <StaggerItem as="li" key={title}>
-              <div className="group h-full rounded-3xl border border-border bg-card p-6 transition-[transform,box-shadow] duration-500 ease-[var(--ease-out-expo)] hover:-translate-y-1 hover:shadow-lift">
-                <span className="grid size-12 place-items-center rounded-2xl bg-primary/10 text-primary transition-colors duration-300 group-hover:bg-primary group-hover:text-primary-foreground">
-                  <Icon className="size-5" />
-                </span>
-                <h3 className="mt-4 font-semibold">{title}</h3>
-                <p className="mt-1 text-sm text-muted-foreground">{body}</p>
-              </div>
+            <StaggerItem as="li" key={title} className="p-7 first:pl-0 lg:p-8 lg:first:pl-0">
+              <Icon className="size-6 text-accent" strokeWidth={1.5} />
+              <h3 className="mt-5 font-display text-2xl">{title}</h3>
+              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{body}</p>
             </StaggerItem>
           ))}
         </Stagger>

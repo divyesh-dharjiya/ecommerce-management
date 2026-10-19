@@ -14,7 +14,12 @@ export interface MenuItem<T extends string> {
 
 export interface DropdownMenuProps<T extends string> {
   /** Renders the trigger; receives props that must be spread on a <button>. */
-  trigger: (props: { onClick: (e: React.MouseEvent) => void; "aria-haspopup": "menu"; "aria-expanded": boolean; "aria-controls": string }) => ReactNode;
+  trigger: (props: {
+    onClick: (e: React.MouseEvent) => void;
+    "aria-haspopup": "menu";
+    "aria-expanded": boolean;
+    "aria-controls": string;
+  }) => ReactNode;
   items: readonly MenuItem<T>[];
   value?: T;
   onSelect: (value: T) => void;
@@ -23,7 +28,14 @@ export interface DropdownMenuProps<T extends string> {
 }
 
 /** Accessible popover menu: click-outside, Escape and arrow-key navigation. */
-export function DropdownMenu<T extends string>({ trigger, items, value, onSelect, align = "end", className }: DropdownMenuProps<T>) {
+export function DropdownMenu<T extends string>({
+  trigger,
+  items,
+  value,
+  onSelect,
+  align = "end",
+  className,
+}: DropdownMenuProps<T>) {
   const [open, setOpen] = useState(false);
   const id = useId();
   const root = useRef<HTMLDivElement>(null);
@@ -42,7 +54,10 @@ export function DropdownMenu<T extends string>({ trigger, items, value, onSelect
     };
     document.addEventListener("pointerdown", onDown);
     document.addEventListener("keydown", onKey);
-    const t = setTimeout(() => list.current?.querySelector<HTMLButtonElement>("[aria-checked=true], [role=menuitemradio]")?.focus(), 30);
+    const t = setTimeout(
+      () => list.current?.querySelector<HTMLButtonElement>("[aria-checked=true], [role=menuitemradio]")?.focus(),
+      30,
+    );
     return () => {
       clearTimeout(t);
       document.removeEventListener("pointerdown", onDown);
@@ -52,7 +67,12 @@ export function DropdownMenu<T extends string>({ trigger, items, value, onSelect
 
   return (
     <div ref={root} className={cn("relative", className)}>
-      {trigger({ onClick: () => setOpen((o) => !o), "aria-haspopup": "menu", "aria-expanded": open, "aria-controls": id })}
+      {trigger({
+        onClick: () => setOpen((o) => !o),
+        "aria-haspopup": "menu",
+        "aria-expanded": open,
+        "aria-controls": id,
+      })}
       <AnimatePresence>
         {open && (
           <motion.div
@@ -64,7 +84,7 @@ export function DropdownMenu<T extends string>({ trigger, items, value, onSelect
             exit={{ opacity: 0, scale: 0.97, y: -4 }}
             transition={{ duration: duration.fast, ease: ease.outQuart }}
             className={cn(
-              "absolute top-full z-50 mt-2 min-w-40 origin-top rounded-2xl border border-border bg-card p-1.5 shadow-lift",
+              "absolute top-full z-50 mt-2 min-w-40 origin-top rounded-lg border border-border bg-card p-1.5 shadow-lift",
               align === "end" ? "right-0 origin-top-right" : "left-0 origin-top-left",
             )}
           >
@@ -78,11 +98,11 @@ export function DropdownMenu<T extends string>({ trigger, items, value, onSelect
                   onSelect(item.value);
                   setOpen(false);
                 }}
-                className="flex w-full items-center gap-2.5 rounded-xl px-3 py-2 text-left text-sm font-medium outline-none transition hover:bg-muted focus-visible:bg-muted"
+                className="flex w-full items-center gap-2.5 rounded-md px-3 py-2 text-left text-sm font-medium outline-none transition hover:bg-muted focus-visible:bg-muted"
               >
                 {item.icon && <span className="text-muted-foreground">{item.icon}</span>}
                 <span className="flex-1">{item.label}</span>
-                {item.value === value && <Check className="size-4 text-primary" />}
+                {item.value === value && <Check className="size-4 text-accent" />}
               </button>
             ))}
           </motion.div>

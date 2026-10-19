@@ -15,7 +15,11 @@ const num = (v: string | null) => {
  */
 export function parseProductQuery(params: ParamsLike): ProductQuery {
   const sort = params.get("sort");
-  const brands = params.get("brand")?.split(",").map((b) => b.trim()).filter(Boolean);
+  const brands = params
+    .get("brand")
+    ?.split(",")
+    .map((b) => b.trim())
+    .filter(Boolean);
   const page = num(params.get("page"));
   return {
     search: params.get("q")?.trim() || undefined,

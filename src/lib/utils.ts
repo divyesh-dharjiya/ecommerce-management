@@ -5,8 +5,7 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export const clamp = (value: number, min: number, max: number) =>
-  Math.min(Math.max(value, min), max);
+export const clamp = (value: number, min: number, max: number) => Math.min(Math.max(value, min), max);
 
 export const round2 = (value: number) => Math.round((value + Number.EPSILON) * 100) / 100;
 

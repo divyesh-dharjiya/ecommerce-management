@@ -14,10 +14,7 @@ export const formatPrice = (value: number) => currencyFormatter.format(value);
 export const formatCompact = (value: number) => compactFormatter.format(value);
 export const formatNumber = (value: number) => value.toLocaleString(siteConfig.locale);
 
-export function formatDate(
-  iso: string,
-  opts: Intl.DateTimeFormatOptions = { dateStyle: "medium" },
-) {
+export function formatDate(iso: string, opts: Intl.DateTimeFormatOptions = { dateStyle: "medium" }) {
   return new Intl.DateTimeFormat(siteConfig.locale, opts).format(new Date(iso));
 }
 
