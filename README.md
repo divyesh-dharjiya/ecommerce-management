@@ -1,6 +1,6 @@
 # Luxe Commerce
 
-A Next.js 16 e-commerce storefront and admin dashboard. It ships with a 100-product catalog and simulated live store activity, and it keeps all data in `localStorage`, so it runs without a backend.
+A Next.js 16 e-commerce storefront and admin dashboard. It ships with a 250-product catalog and simulated live store activity, and it keeps all data in `localStorage`, so it runs without a backend.
 
 ![stack](https://img.shields.io/badge/Next.js-16-black) ![react](https://img.shields.io/badge/React-19-61dafb) ![ts](https://img.shields.io/badge/TypeScript-strict-3178c6) ![tw](https://img.shields.io/badge/Tailwind-v4-38bdf8)
 
@@ -31,7 +31,7 @@ Admin dashboard: **`/admin`**. Demo coupon codes: `WELCOME10`, `LUXE20`, `SAVE15
 ### Storefront
 
 - **Home page**: animated hero with floating products, brand marquee, category rail, tabbed collections (trending, new, top rated), flash deals with a live countdown, bento promo tiles, live purchase feed and recently viewed items.
-- **Catalog with 100 products** in 24 categories, each with real product images, a gallery, reviews, specs, stock levels and discounts.
+- **Catalog with 250 products** in 28 categories (from DummyJSON, FakeStore and a curated Platzi selection, every image verified at generation time), each with real product images, a gallery, reviews, specs, stock levels and discounts.
 - **Search**: a global ⌘K / Ctrl+K command palette with keyboard navigation, plus weighted relevance ranking.
 - **Filtering and sorting**: category, brand, price, rating, stock and sale filters, with 7 sort orders. All filter state lives in the URL, so it can be shared, bookmarked and survives the back button.
 - **Product page**: zoom on hover, buy now, wishlist, share, a live viewer count, a stock meter, a delivery estimate, specs and reviews tabs, and related products.
@@ -122,7 +122,7 @@ src/
 
 - **Metadata:** `buildMetadata()` (`lib/seo.ts`) gives every route a canonical URL, Open Graph and Twitter cards. Set `NEXT_PUBLIC_SITE_URL` in production.
 - **Structured data (JSON-LD):** Organization and WebSite with a search box, Product with offers, ratings and reviews, BreadcrumbList, and ItemList on listing pages.
-- **Generated share images:** for the site, each of the 100 products (photo, price, rating) and each category, plus the app icons and the web manifest.
+- **Generated share images:** for the site, each of the 250 products (photo, price, rating) and each category, plus the app icons and the web manifest.
 - **Crawlable listings:** listing pages render real results on the server and use link-based pagination. Filtered URLs are `noindex` with a clean canonical. Personal pages (cart, checkout, orders, wishlist, admin) are `noindex` and blocked in `robots.txt`.
 - **Sitemap and markup:** the sitemap includes images. Each page has a single `h1` and semantic landmarks.
 

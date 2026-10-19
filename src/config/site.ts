@@ -3,7 +3,7 @@ export const siteConfig = {
   fullName: "Luxe Commerce",
   tagline: "Curated goods, delivered beautifully.",
   description:
-    "Luxe Commerce — shop 100+ curated products across beauty, tech, fashion and home with lightning-fast checkout.",
+    "Luxe Commerce — shop 250+ curated products across beauty, tech, fashion and home with lightning-fast checkout.",
   currency: "USD",
   locale: "en-US",
   supportEmail: "support@luxe.example",

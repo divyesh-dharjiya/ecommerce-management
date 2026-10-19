@@ -189,7 +189,7 @@ function SettingsView() {
           </Row>
           <Row
             title="Reset store"
-            description="Restore the original 100-product catalogue and regenerate order history."
+            description="Restore the original 250-product catalogue and regenerate order history."
           >
             <Button variant="danger" onClick={() => setConfirmReset(true)}>
               <RotateCcw className="size-4" /> Reset

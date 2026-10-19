@@ -90,7 +90,7 @@ export function Hero() {
             <em className="text-accent">beautifully</em> chosen.
           </h1>
           <p {...enter(160)} className="mt-7 max-w-md animate-fade-up text-lg leading-relaxed text-muted-foreground">
-            A considered edit of 100+ products across tech, fashion, beauty and home — from the brands worth knowing,
+            A considered edit of 250+ products across tech, fashion, beauty and home — from the brands worth knowing,
             delivered in days.
           </p>
           <div {...enter(240)} className="mt-9 flex animate-fade-up flex-wrap items-center gap-x-6 gap-y-4">

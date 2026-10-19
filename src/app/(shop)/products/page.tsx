@@ -13,7 +13,7 @@ export async function generateMetadata({ searchParams }: Props): Promise<Metadat
   return buildMetadata({
     title,
     description:
-      "Browse 100+ curated products across tech, fashion, beauty and home. Filter by category, brand, price and rating.",
+      "Browse 250+ curated products across tech, fashion, beauty and home. Filter by category, brand, price and rating.",
     path: listingCanonical("/products", query),
     noIndex: isFacetedQuery(query),
   });

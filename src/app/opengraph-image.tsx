@@ -7,7 +7,7 @@ export const contentType = OG_CONTENT_TYPE;
 
 export default function Image() {
   return renderOgCard({
-    eyebrow: "100+ curated products",
+    eyebrow: "250+ curated products",
     title: "Style that moves with you.",
     subtitle: "Tech, fashion, beauty and home — delivered in days.",
   });

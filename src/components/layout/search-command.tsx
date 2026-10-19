@@ -116,7 +116,7 @@ function SearchBody({ onClose }: { onClose: () => void }) {
             setTerm(e.target.value);
             setActive(0);
           }}
-          placeholder="Search 100+ products, brands, categories…"
+          placeholder="Search 250+ products, brands, categories…"
           className="h-16 flex-1 bg-transparent text-base outline-none placeholder:text-muted-foreground"
           aria-label="Search"
           role="combobox"
