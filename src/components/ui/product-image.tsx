@@ -18,17 +18,14 @@ const isOptimizable = (src: string) => {
 /**
  * next/image wrapper that:
  *  - optimises whitelisted hosts and falls back to `unoptimized` for admin-supplied URLs
- *  - fades in on load with a shimmer placeholder
  *  - shows a graceful fallback when the image fails
+ *
+ * Images are visible as soon as the browser has them. They are deliberately
+ * NOT hidden until an `onLoad` handler fires: that handler only exists after
+ * hydration, so server-rendered images would stay blank until JavaScript
+ * boots. The tile behind each image is the placeholder.
  */
-export function ProductImage({
-  src,
-  alt,
-  className,
-  shimmer = true,
-  ...props
-}: ImageProps & { src: string; shimmer?: boolean }) {
-  const [loaded, setLoaded] = useState(false);
+export function ProductImage({ src, alt, className, ...props }: ImageProps & { src: string }) {
   const [failed, setFailed] = useState(false);
 
   if (failed || !src) {
@@ -43,17 +40,13 @@ export function ProductImage({
   }
 
   return (
-    <>
-      {shimmer && !loaded && <div className="skeleton absolute inset-0" aria-hidden />}
-      <Image
-        src={src}
-        alt={alt}
-        unoptimized={!isOptimizable(src)}
-        onLoad={() => setLoaded(true)}
-        onError={() => setFailed(true)}
-        className={cn("transition-opacity duration-500", loaded ? "opacity-100" : "opacity-0", className)}
-        {...props}
-      />
-    </>
+    <Image
+      src={src}
+      alt={alt}
+      unoptimized={!isOptimizable(src)}
+      onError={() => setFailed(true)}
+      className={className}
+      {...props}
+    />
   );
 }

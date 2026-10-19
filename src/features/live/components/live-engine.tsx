@@ -15,7 +15,10 @@ import { PurchaseToast } from "@/features/live/components/purchase-toast";
 import type { LiveEvent } from "@/types";
 
 const CHANNEL = "luxe-live";
-const TOAST_COOLDOWN_MS = 25_000;
+// Social-proof toasts are a nudge, not a stream: rare, capped, and never on small screens.
+const TOAST_COOLDOWN_MS = 45_000;
+const TOAST_MAX_PER_VISIT = 3;
+const TOAST_MIN_VIEWPORT = 768;
 
 /** One simulation step: a purchase, plus occasional warehouse replenishment. */
 function tickSimulation(): LiveEvent[] {
@@ -56,6 +59,7 @@ export function LiveEngine() {
   const pathname = usePathname();
   const pathRef = useRef(pathname);
   const lastToastRef = useRef(0);
+  const toastCountRef = useRef(0);
 
   useEffect(() => {
     pathRef.current = pathname;
@@ -73,8 +77,10 @@ export function LiveEngine() {
       const onStorefront = !path.startsWith("/admin") && !path.startsWith("/checkout");
       const now = Date.now();
       if (event.kind !== "purchase" || !onStorefront || !usePreferencesStore.getState().liveToasts) return;
+      if (window.innerWidth < TOAST_MIN_VIEWPORT || toastCountRef.current >= TOAST_MAX_PER_VISIT) return;
       if (now - lastToastRef.current < TOAST_COOLDOWN_MS) return;
       lastToastRef.current = now;
+      toastCountRef.current += 1;
       toast.custom(() => <PurchaseToast event={event} />, { duration: 5000, position: "bottom-left" });
     };
 

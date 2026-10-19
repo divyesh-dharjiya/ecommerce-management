@@ -10,7 +10,7 @@ import { Container, LiveDot, ProductImage, buttonClasses } from "@/components/ui
 
 /** Mosaic tiles: a tall hero shot plus two supporting products, each on a soft tint. */
 const MOSAIC = [
-  { id: "prd_0088", tint: "bg-sand", span: "row-span-2", aspect: "aspect-[3/4.2]", delay: 120 },
+  { id: "prd_0088", tint: "bg-sand", span: "row-span-2", aspect: "h-full min-h-64", delay: 120 },
   { id: "prd_0101", tint: "bg-sage", span: "", aspect: "aspect-square", delay: 220 },
   { id: "prd_0008", tint: "bg-blush", span: "", aspect: "aspect-square", delay: 320 },
 ];
@@ -61,9 +61,10 @@ function Mosaic() {
             sizes="(max-width: 1024px) 45vw, 26vw"
             className="object-contain p-7 transition-transform duration-700 ease-[var(--ease-out-expo)] group-hover:scale-105"
           />
-          <span className="absolute inset-x-3 bottom-3 flex items-center justify-between gap-2 rounded-md bg-card/90 px-3 py-2 text-xs backdrop-blur">
-            <span className="truncate font-medium">{product.title}</span>
-            <span className="shrink-0 tabular-nums text-muted-foreground">{formatPrice(product.price)}</span>
+          {/* Brand + price never truncate; the full name is the image alt / link label. */}
+          <span className="absolute inset-x-3 bottom-3 flex items-center justify-between gap-2 rounded-md bg-card/95 px-3 py-2 text-xs">
+            <span className="eyebrow truncate">{product.brand}</span>
+            <span className="shrink-0 font-medium tabular-nums">{formatPrice(product.price)}</span>
           </span>
         </Link>
       ))}

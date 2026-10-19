@@ -78,7 +78,9 @@ export function Header() {
     <header
       className={cn(
         "sticky top-0 z-40 border-b transition-[background-color,box-shadow,border-color] duration-300",
-        scrolled ? "glass border-x-0 border-t-0" : "border-border bg-background",
+        scrolled
+          ? "border-border bg-background/90 backdrop-blur-xl backdrop-saturate-150"
+          : "border-border bg-background",
       )}
     >
       <div className="mx-auto flex h-16 max-w-7xl items-center gap-4 px-4 sm:px-6 lg:h-[72px] lg:px-8">

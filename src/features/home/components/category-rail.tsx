@@ -28,7 +28,7 @@ export function CategoryRail() {
         <Stagger
           as="ul"
           step={0.04}
-          className="flex snap-x snap-mandatory gap-4 overflow-x-auto px-4 pb-2 scrollbar-none sm:px-6 lg:px-8"
+          className="flex snap-x snap-mandatory scroll-px-4 gap-4 overflow-x-auto px-4 pb-2 scrollbar-none sm:scroll-px-6 sm:px-6 lg:scroll-px-8 lg:px-8"
         >
           {categories.map((c, i) => (
             <StaggerItem as="li" key={c.id} className="w-40 shrink-0 snap-start sm:w-48">

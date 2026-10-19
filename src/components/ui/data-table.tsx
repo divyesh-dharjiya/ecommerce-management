@@ -95,7 +95,9 @@ export function DataTable<T>({
     });
 
   const table = (
-    <div className="overflow-x-auto">
+    // `relative` keeps absolutely-positioned descendants (e.g. sr-only labels) inside the
+    // scroll container; otherwise they escape it and widen the whole page on mobile.
+    <div className="relative overflow-x-auto">
       <table className="w-full text-sm" style={{ minWidth }}>
         <thead>
           <tr className="border-b border-border text-left text-xs uppercase tracking-wider text-muted-foreground">

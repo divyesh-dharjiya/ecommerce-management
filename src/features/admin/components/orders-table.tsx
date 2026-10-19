@@ -173,7 +173,7 @@ function OrdersView() {
         }
       />
 
-      <div className="overflow-x-auto pb-1 scrollbar-none">
+      <div className="relative overflow-x-auto pb-1 scrollbar-none">
         <SegmentedControl
           label="Filter by status"
           variant="solid"

@@ -94,9 +94,8 @@ function ProductCardBase({ product, priority, layout = "grid", className, style 
               src={hoverImage}
               alt=""
               fill
-              shimmer={false}
               sizes="(max-width: 640px) 50vw, 25vw"
-              className="!opacity-0 object-contain p-6 transition-[transform,opacity] duration-700 ease-[var(--ease-out-expo)] group-hover:!opacity-100 group-hover:scale-105"
+              className="object-contain p-6 opacity-0 transition-[transform,opacity] duration-700 ease-[var(--ease-out-expo)] group-hover:opacity-100 group-hover:scale-105"
             />
           )}
         </Link>

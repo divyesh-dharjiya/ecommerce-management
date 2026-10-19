@@ -84,7 +84,7 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
       </Drawer>
 
       <div className="lg:pl-64">
-        <header className="glass sticky top-0 z-20 flex h-16 items-center gap-3 border-x-0 border-t-0 px-4 sm:px-6">
+        <header className="sticky top-0 z-20 flex h-16 items-center gap-3 border-b border-border bg-background/90 backdrop-blur-xl backdrop-saturate-150 px-4 sm:px-6">
           <button
             type="button"
             onClick={() => setNavOpen(true)}
