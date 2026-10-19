@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, type ReactNode } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, m } from "framer-motion";
 import { Tag, X } from "lucide-react";
 import { toast } from "sonner";
 import { COUPONS, findCoupon } from "@/config/coupons";
@@ -116,7 +116,7 @@ export function OrderSummary({
         <Row label={`Subtotal (${totals.itemCount} items)`} value={formatPrice(totals.subtotal)} muted />
         <AnimatePresence>
           {totals.discount > 0 && (
-            <motion.div
+            <m.div
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: "auto" }}
               exit={{ opacity: 0, height: 0 }}
@@ -126,7 +126,7 @@ export function OrderSummary({
                 value={<span className="text-success">−{formatPrice(totals.discount)}</span>}
                 muted
               />
-            </motion.div>
+            </m.div>
           )}
         </AnimatePresence>
         <Row
@@ -138,14 +138,14 @@ export function OrderSummary({
       </div>
       <div className="flex items-center justify-between border-t border-border pt-4">
         <span className="font-semibold">Total</span>
-        <motion.span
+        <m.span
           key={totals.total}
           initial={{ scale: 1.08, color: "var(--primary)" }}
           animate={{ scale: 1, color: "var(--foreground)" }}
           className="text-2xl font-extrabold tabular-nums tracking-tight"
         >
           {formatPrice(totals.total)}
-        </motion.span>
+        </m.span>
       </div>
       {children}
     </div>

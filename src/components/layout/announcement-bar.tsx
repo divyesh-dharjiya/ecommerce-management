@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, m } from "framer-motion";
 import { commerceConfig } from "@/config/site";
 
 const MESSAGES = [
@@ -19,22 +19,18 @@ export function AnnouncementBar() {
   }, []);
 
   return (
-    <div
-      className="relative h-9 overflow-hidden border-b border-white/10 bg-[#17150f] text-[#f1eee6]"
-      role="region"
-      aria-label="Announcements"
-    >
+    <div className="relative h-9 overflow-hidden bg-muted text-foreground" role="region" aria-label="Announcements">
       <AnimatePresence mode="wait" initial={false}>
-        <motion.p
+        <m.p
           key={index}
           initial={{ y: 16, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           exit={{ y: -16, opacity: 0 }}
           transition={{ duration: 0.35 }}
-          className="absolute inset-0 grid place-items-center px-4 text-center text-xs font-medium tracking-wide"
+          className="absolute inset-0 grid place-items-center px-4 text-center text-[13px] font-medium"
         >
           {MESSAGES[index]}
-        </motion.p>
+        </m.p>
       </AnimatePresence>
     </div>
   );

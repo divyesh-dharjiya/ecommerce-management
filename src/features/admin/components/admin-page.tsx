@@ -13,7 +13,7 @@ export function AdminPageHeader({
   actions?: ReactNode;
 }) {
   return (
-    <div className="flex animate-fade-up flex-wrap items-end justify-between gap-4">
+    <div className="flex flex-wrap items-end justify-between gap-4">
       <div>
         <h1 className="font-display text-3xl tracking-tight">{title}</h1>
         {description && <p className="text-sm text-muted-foreground">{description}</p>}

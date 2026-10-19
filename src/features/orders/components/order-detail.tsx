@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useEffect } from "react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { Check, PackageX } from "lucide-react";
 import { formatDate, formatPrice } from "@/lib/format";
 import { useOrderStore } from "@/features/orders/store/order-store";
@@ -21,7 +21,7 @@ function Confetti() {
         const delay = (i % 10) * 0.05;
         const rotate = (i * 47) % 360;
         return (
-          <motion.span
+          <m.span
             key={i}
             className="absolute top-0 block h-3 w-1.5 rounded-sm"
             style={{ left: `${left}%`, backgroundColor: colors[i % colors.length] }}
@@ -70,16 +70,16 @@ export function OrderDetail({ id }: { id: string }) {
   return (
     <Container className="max-w-3xl py-12">
       {justPlaced && <Confetti />}
-      <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center">
+      <m.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center">
         {justPlaced && (
-          <motion.span
+          <m.span
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}
             transition={{ type: "spring", damping: 10, stiffness: 200, delay: 0.1 }}
             className="mx-auto mb-6 grid size-20 place-items-center rounded-full bg-success text-white shadow-lg shadow-success/30"
           >
             <Check className="size-10" strokeWidth={3} />
-          </motion.span>
+          </m.span>
         )}
         <h1 className="font-display text-4xl tracking-tight">
           {justPlaced ? "Thank you for your order!" : `Order ${order.number}`}
@@ -89,7 +89,7 @@ export function OrderDetail({ id }: { id: string }) {
             ? `Confirmation #${order.number} has been sent to ${order.customer.email}.`
             : `Placed on ${formatDate(order.createdAt, { dateStyle: "long", timeStyle: "short" })}`}
         </p>
-      </motion.div>
+      </m.div>
 
       <Card className="mt-10 p-6 sm:p-8">
         <OrderTimeline status={order.status} />

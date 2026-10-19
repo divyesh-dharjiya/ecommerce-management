@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { animate, motion } from "framer-motion";
+import { animate, m } from "framer-motion";
 import { ArrowDownRight, ArrowUpRight, type LucideIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { ease } from "@/lib/motion";
@@ -43,7 +43,7 @@ export function StatCard({
 }) {
   const up = (change ?? 0) >= 0;
   return (
-    <motion.div
+    <m.div
       initial={{ opacity: 0, y: 16 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: index * 0.06 }}
@@ -72,6 +72,6 @@ export function StatCard({
         )}
         <span className="text-muted-foreground">{hint ?? "vs previous period"}</span>
       </div>
-    </motion.div>
+    </m.div>
   );
 }

@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, m } from "framer-motion";
 import { Activity } from "lucide-react";
 import { useNow } from "@/hooks";
 import { spring } from "@/lib/motion";
@@ -38,18 +38,18 @@ export function LiveFeed() {
           <ul className="min-w-0 space-y-3" aria-live="polite">
             <AnimatePresence initial={false} mode="popLayout">
               {events.length === 0 && (
-                <motion.li
+                <m.li
                   key="waiting"
                   exit={{ opacity: 0 }}
                   className="flex items-center gap-3 rounded-lg border border-dashed border-border p-5 text-sm text-muted-foreground"
                 >
                   <Activity className="size-4 animate-pulse" /> Listening for new orders…
-                </motion.li>
+                </m.li>
               )}
               {events.map((e) => {
                 const slug = slugById.get(e.productId);
                 return (
-                  <motion.li
+                  <m.li
                     key={e.id}
                     layout
                     initial={{ opacity: 0, y: -16, scale: 0.98 }}
@@ -58,7 +58,7 @@ export function LiveFeed() {
                     transition={spring.gentle}
                   >
                     <LiveEventRow event={e} now={now} href={slug ? `/products/${slug}` : "/products"} />
-                  </motion.li>
+                  </m.li>
                 );
               })}
             </AnimatePresence>

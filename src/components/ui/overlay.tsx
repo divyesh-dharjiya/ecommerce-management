@@ -1,7 +1,7 @@
 "use client";
 
 import { useId, type ReactNode } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, m } from "framer-motion";
 import { X } from "lucide-react";
 import { useFocusTrap, useKeydown, useLockBodyScroll } from "@/hooks";
 import { cn } from "@/lib/utils";
@@ -15,7 +15,7 @@ interface OverlayProps {
 }
 
 const Backdrop = ({ onClick }: { onClick: () => void }) => (
-  <motion.div
+  <m.div
     className="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm"
     initial={{ opacity: 0 }}
     animate={{ opacity: 1 }}
@@ -37,7 +37,7 @@ export function Modal({ open, onClose, title, children, className }: OverlayProp
         <>
           <Backdrop onClick={onClose} />
           <div className="pointer-events-none fixed inset-0 z-50 grid place-items-center p-4">
-            <motion.div
+            <m.div
               ref={ref}
               role="dialog"
               aria-modal="true"
@@ -62,7 +62,7 @@ export function Modal({ open, onClose, title, children, className }: OverlayProp
               )}
               {!title && <CloseButton onClick={onClose} className="absolute right-4 top-4 z-10" />}
               {children}
-            </motion.div>
+            </m.div>
           </div>
         </>
       )}
@@ -89,7 +89,7 @@ export function Drawer({
       {open && (
         <>
           <Backdrop onClick={onClose} />
-          <motion.aside
+          <m.aside
             ref={ref}
             role="dialog"
             aria-modal="true"
@@ -112,7 +112,7 @@ export function Drawer({
               <CloseButton onClick={onClose} />
             </div>
             {children}
-          </motion.aside>
+          </m.aside>
         </>
       )}
     </AnimatePresence>

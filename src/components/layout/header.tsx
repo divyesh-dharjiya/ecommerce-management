@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, m } from "framer-motion";
 import { Heart, LayoutDashboard, Menu, Search, ShoppingBag } from "lucide-react";
 import { PRIMARY_NAV, isNavActive } from "@/config/navigation";
 import { useScrolled } from "@/hooks";
@@ -21,7 +21,7 @@ function CountBadge({ count }: { count: number }) {
   return (
     <AnimatePresence>
       {count > 0 && (
-        <motion.span
+        <m.span
           key={count}
           initial={{ scale: 0.4, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
@@ -30,7 +30,7 @@ function CountBadge({ count }: { count: number }) {
           className="absolute -right-0.5 -top-0.5 grid h-[18px] min-w-[18px] place-items-center rounded-full bg-primary px-1 text-[10px] font-bold text-primary-foreground ring-2 ring-background"
         >
           {count > 99 ? "99+" : count}
-        </motion.span>
+        </m.span>
       )}
     </AnimatePresence>
   );
@@ -39,7 +39,7 @@ function CountBadge({ count }: { count: number }) {
 function PrimaryNav() {
   const pathname = usePathname();
   return (
-    <nav aria-label="Primary" className="ml-8 hidden items-center gap-2 lg:flex">
+    <nav aria-label="Primary" className="ml-10 hidden items-center gap-1 lg:flex">
       {PRIMARY_NAV.map((link) => {
         const active = isNavActive(link.href, pathname);
         return (
@@ -48,15 +48,19 @@ function PrimaryNav() {
             href={link.href}
             aria-current={active ? "page" : undefined}
             className={cn(
-              "relative flex h-16 items-center px-3 text-sm font-medium transition-colors lg:h-[72px]",
-              active ? "text-foreground" : "text-muted-foreground hover:text-foreground",
+              "relative flex h-16 items-center whitespace-nowrap px-3 text-[15px] font-semibold transition-colors lg:h-[72px]",
+              "highlight" in link && link.highlight
+                ? "text-accent"
+                : active
+                  ? "text-foreground"
+                  : "text-foreground/75 hover:text-foreground",
             )}
           >
             {link.label}
             {active && (
-              <motion.span
+              <m.span
                 layoutId="nav-underline"
-                className="absolute inset-x-3 -bottom-px h-px bg-foreground"
+                className="absolute inset-x-3 -bottom-px h-0.5 bg-foreground"
                 transition={spring.snappy}
               />
             )}
@@ -100,11 +104,11 @@ export function Header() {
           <button
             type="button"
             onClick={() => setSearchOpen(true)}
-            className="mr-1 hidden h-10 w-56 items-center gap-2 whitespace-nowrap rounded-md border border-border bg-card px-3.5 text-sm text-muted-foreground transition hover:border-foreground/40 md:flex xl:w-72"
+            className="mr-1 hidden h-10 w-56 items-center gap-2 whitespace-nowrap rounded-full bg-muted px-4 text-sm text-muted-foreground transition hover:bg-border md:flex xl:w-72"
           >
             <Search className="size-4 shrink-0" />
             <span className="truncate">Search products…</span>
-            <kbd className="ml-auto rounded-sm border border-border bg-muted px-1.5 py-0.5 font-mono text-[10px]">
+            <kbd className="ml-auto rounded-sm border border-border bg-background px-1.5 py-0.5 font-mono text-[10px]">
               Ctrl K
             </kbd>
           </button>

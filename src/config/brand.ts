@@ -6,8 +6,8 @@
  * Keep in sync with `--background` in `src/app/globals.css`.
  */
 export const THEME_COLORS = {
-  light: "#f7f5f0",
-  dark: "#141310",
+  light: "#ffffff",
+  dark: "#0a0a0a",
 } as const;
 
-export const BRAND_ACCENT = "#d9482b";
+export const BRAND_ACCENT = "#e4002b";

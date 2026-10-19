@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { Trash2 } from "lucide-react";
 import { toast } from "sonner";
 import { formatPrice } from "@/lib/format";
@@ -30,7 +30,7 @@ export function CartLine({ line, compact }: { line: CartLineData; compact?: bool
   };
 
   return (
-    <motion.li
+    <m.li
       layout
       initial={{ opacity: 0, y: 12 }}
       animate={{ opacity: 1, y: 0 }}
@@ -81,6 +81,6 @@ export function CartLine({ line, compact }: { line: CartLineData; compact?: bool
           </button>
         </div>
       </div>
-    </motion.li>
+    </m.li>
   );
 }

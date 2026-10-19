@@ -1,123 +1,109 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowRight, RotateCcw, ShieldCheck, Truck } from "lucide-react";
-import { formatPrice, pluralize } from "@/lib/format";
-import { cn } from "@/lib/utils";
-import { useHydrated, useUiStore } from "@/store/ui-store";
+import { ArrowRight } from "lucide-react";
+import { formatPrice } from "@/lib/format";
 import { useCatalogStore } from "@/features/catalog/store/catalog-store";
-import { Container, LiveDot, ProductImage, buttonClasses } from "@/components/ui";
+import { LiveDot, ProductImage, buttonClasses } from "@/components/ui";
 
-/** Mosaic tiles: a tall hero shot plus two supporting products, each on a soft tint. */
-const MOSAIC = [
-  { id: "prd_0088", tint: "bg-sand", span: "row-span-2", aspect: "h-full min-h-64", delay: 120 },
-  { id: "prd_0101", tint: "bg-sage", span: "", aspect: "aspect-square", delay: 220 },
-  { id: "prd_0008", tint: "bg-blush", span: "", aspect: "aspect-square", delay: 320 },
-];
+/** The hero shot: a full-bleed studio photo. */
+const HERO_PRODUCT_ID = "prd_pz_38";
+/** Three supporting picks shown beneath the headline. */
+const SPOTLIGHT_IDS = ["prd_pz_02", "prd_0088", "prd_pz_19"];
 
-const TRUST = [
-  { icon: Truck, label: "Free shipping over $100" },
-  { icon: RotateCcw, label: "30-day returns" },
-  { icon: ShieldCheck, label: "Secure checkout" },
-];
-
-/** Staggered CSS entrance — plays on first paint, no hydration wait (better LCP). */
-const enter = (ms: number) => ({ className: "animate-fade-up", style: { animationDelay: `${ms}ms` } });
-
-function LiveStatus() {
-  const hydrated = useHydrated();
-  const count = useUiStore((s) => s.liveEvents.filter((e) => e.kind === "purchase").length);
-  return (
-    <p className="eyebrow inline-flex items-center gap-2.5 text-muted-foreground">
-      <LiveDot />
-      {hydrated && count > 0
-        ? `${pluralize(count, "order")} placed while you've been here`
-        : "Live store — orders arriving now"}
-    </p>
-  );
-}
-
-function Mosaic() {
-  const products = useCatalogStore((s) => s.products);
-  const tiles = MOSAIC.flatMap((m) => {
-    const product = products.find((p) => p.id === m.id);
-    return product ? [{ ...m, product }] : [];
-  });
-
-  return (
-    <div className="grid grid-cols-2 gap-3 sm:gap-4" aria-label="Featured products">
-      {tiles.map(({ product, tint, span, aspect, delay }) => (
-        <Link
-          key={product.id}
-          href={`/products/${product.slug}`}
-          style={{ animationDelay: `${delay}ms` }}
-          className={cn("group relative animate-scale-in overflow-hidden rounded-xl", tint, span, aspect)}
-        >
-          <ProductImage
-            src={product.thumbnail}
-            alt={product.title}
-            fill
-            priority
-            sizes="(max-width: 1024px) 45vw, 26vw"
-            className="object-contain p-7 transition-transform duration-700 ease-[var(--ease-out-expo)] group-hover:scale-105"
-          />
-          {/* Brand + price never truncate; the full name is the image alt / link label. */}
-          <span className="absolute inset-x-3 bottom-3 flex items-center justify-between gap-2 rounded-md bg-card/95 px-3 py-2 text-xs">
-            <span className="eyebrow truncate">{product.brand}</span>
-            <span className="shrink-0 font-medium tabular-nums">{formatPrice(product.price)}</span>
-          </span>
-        </Link>
-      ))}
-    </div>
-  );
-}
-
+/**
+ * Full-bleed split hero, marketplace-style: a giant condensed headline on
+ * black beside an edge-to-edge product photo. No entrance animation — the
+ * headline is the LCP element and should paint immediately.
+ */
 export function Hero() {
+  const products = useCatalogStore((s) => s.products);
+  const hero = products.find((p) => p.id === HERO_PRODUCT_ID);
+  const spotlight = SPOTLIGHT_IDS.flatMap((id) => products.find((p) => p.id === id) ?? []);
+
   return (
-    <section className="border-b border-border" aria-labelledby="hero-title">
-      <Container className="grid grid-cols-1 items-center gap-12 py-12 sm:py-16 lg:grid-cols-[1.05fr_1fr] lg:gap-16 lg:py-20">
+    <section className="grid grid-cols-1 bg-[#111] text-white lg:grid-cols-2" aria-labelledby="hero-title">
+      <div className="flex flex-col justify-between gap-10 px-4 py-12 sm:px-8 sm:py-16 lg:px-12 xl:px-16">
         <div>
-          <div {...enter(0)}>
-            <LiveStatus />
-          </div>
-          <h1
-            id="hero-title"
-            {...enter(80)}
-            className="mt-6 animate-fade-up font-display text-[3.4rem] leading-[0.95] sm:text-7xl xl:text-[5.75rem]"
-          >
-            Everyday things,
-            <br />
-            <em className="text-accent">beautifully</em> chosen.
-          </h1>
-          <p {...enter(160)} className="mt-7 max-w-md animate-fade-up text-lg leading-relaxed text-muted-foreground">
-            A considered edit of 250+ products across tech, fashion, beauty and home — from the brands worth knowing,
-            delivered in days.
+          <p className="eyebrow inline-flex items-center gap-2.5 text-white/70">
+            <LiveDot /> New season · Just dropped
           </p>
-          <div {...enter(240)} className="mt-9 flex animate-fade-up flex-wrap items-center gap-x-6 gap-y-4">
-            <Link href="/products" className={buttonClasses("primary", "lg", "group")}>
-              Shop the collection{" "}
-              <ArrowRight className="size-5 transition-transform duration-300 group-hover:translate-x-1" />
+          <h1 id="hero-title" className="mt-6 font-display text-[clamp(3.75rem,10vw,9rem)]">
+            Move
+            <br />
+            different<span className="text-accent">.</span>
+          </h1>
+          <p className="mt-6 max-w-md text-lg text-white/75">
+            250+ drops across sneakers, streetwear, tech and home — from the brands everyone&apos;s wearing.
+          </p>
+          <div className="mt-8 flex flex-wrap gap-3">
+            <Link
+              href="/products?sort=newest"
+              className={buttonClasses("primary", "lg", "bg-white text-[#111] hover:bg-white/90")}
+            >
+              Shop new arrivals
             </Link>
             <Link
               href="/products?onSale=1&sort=discount"
-              className="text-sm font-semibold underline underline-offset-[6px] decoration-border transition hover:decoration-foreground"
+              className={buttonClasses(
+                "outline",
+                "lg",
+                "border-white/40 bg-transparent text-white hover:bg-white hover:text-[#111]",
+              )}
             >
-              See today&apos;s deals
+              Shop the sale
             </Link>
           </div>
-          <ul
-            {...enter(320)}
-            className="mt-12 flex animate-fade-up flex-wrap gap-x-8 gap-y-3 border-t border-border pt-6 text-sm text-muted-foreground"
-          >
-            {TRUST.map(({ icon: Icon, label }) => (
-              <li key={label} className="flex items-center gap-2">
-                <Icon className="size-4 text-foreground" aria-hidden /> {label}
+        </div>
+
+        {spotlight.length > 0 && (
+          <ul className="grid grid-cols-3 gap-2 sm:gap-3" aria-label="Trending now">
+            {spotlight.map((p) => (
+              <li key={p.id}>
+                <Link href={`/products/${p.slug}`} className="group block">
+                  <div className="relative aspect-square overflow-hidden bg-white/[0.06]">
+                    <ProductImage
+                      src={p.thumbnail}
+                      alt={p.title}
+                      fill
+                      sizes="(max-width: 1024px) 30vw, 14vw"
+                      className={`${p.imageStyle === "photo" ? "object-cover" : "object-contain p-3"} transition-transform duration-500 group-hover:scale-105`}
+                    />
+                  </div>
+                  <p className="mt-2 truncate text-xs font-medium text-white/80">{p.title}</p>
+                  <p className="text-xs text-white/50">{formatPrice(p.price)}</p>
+                </Link>
               </li>
             ))}
           </ul>
-        </div>
-        <Mosaic />
-      </Container>
+        )}
+      </div>
+
+      {hero && (
+        <Link
+          href={`/products/${hero.slug}`}
+          className="group relative block min-h-[420px] overflow-hidden lg:min-h-[640px]"
+          aria-label={`${hero.title} — ${formatPrice(hero.price)}`}
+        >
+          <ProductImage
+            src={hero.thumbnail}
+            alt={hero.title}
+            fill
+            priority
+            sizes="(max-width: 1024px) 100vw, 50vw"
+            className="object-cover transition-transform duration-700 ease-[var(--ease-out-expo)] group-hover:scale-[1.03]"
+          />
+          <div className="absolute inset-x-4 bottom-4 flex items-center justify-between gap-4 rounded-full bg-white py-2 pl-5 pr-2 text-[#111] sm:inset-x-6 sm:bottom-6">
+            <span className="min-w-0">
+              <span className="block truncate text-sm font-semibold">{hero.title}</span>
+              <span className="text-xs text-[#707072]">{formatPrice(hero.price)}</span>
+            </span>
+            <span className="grid size-10 shrink-0 place-items-center rounded-full bg-[#111] text-white transition-transform group-hover:translate-x-0.5">
+              <ArrowRight className="size-4" />
+            </span>
+          </div>
+        </Link>
+      )}
     </section>
   );
 }

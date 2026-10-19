@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, m } from "framer-motion";
 import { ArrowRight, CornerDownLeft, Search, TrendingUp } from "lucide-react";
 import { useDebounce, useKeydown, useLockBodyScroll } from "@/hooks";
 import { formatPrice } from "@/lib/format";
@@ -42,14 +42,14 @@ export function SearchCommand() {
     <AnimatePresence>
       {open && (
         <>
-          <motion.div
+          <m.div
             className="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={() => setOpen(false)}
           />
-          <motion.div
+          <m.div
             role="dialog"
             aria-modal="true"
             aria-label="Search products"
@@ -60,7 +60,7 @@ export function SearchCommand() {
             className="fixed inset-x-3 top-[8vh] z-50 mx-auto max-w-2xl overflow-hidden rounded-xl border border-border bg-card shadow-lift"
           >
             <SearchBody onClose={() => setOpen(false)} />
-          </motion.div>
+          </m.div>
         </>
       )}
     </AnimatePresence>

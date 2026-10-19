@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { spring } from "@/lib/motion";
 import { PAYMENT_OPTIONS } from "@/features/checkout/config";
@@ -33,7 +33,7 @@ export function PaymentMethodPicker({
             <p className="mt-3 font-semibold">{label}</p>
             <p className="text-xs text-muted-foreground">{description}</p>
             {active && (
-              <motion.span
+              <m.span
                 layoutId="payment-dot"
                 transition={spring.snappy}
                 className="absolute right-4 top-4 size-3 rounded-full bg-primary ring-4 ring-primary/20"

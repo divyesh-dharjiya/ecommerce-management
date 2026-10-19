@@ -14,7 +14,7 @@ export function CategoryHeader({ slug }: { slug: string }) {
     return (
       <Container className="py-20 text-center">
         {hydrated && (
-          <div className="animate-fade-up">
+          <div className="">
             <h1 className="font-display text-4xl">Category not found</h1>
             <p className="mt-3 text-muted-foreground">This category may have been removed.</p>
             <Link href="/categories" className={buttonClasses("primary", "md", "mt-6")}>
@@ -35,14 +35,14 @@ export function CategoryHeader({ slug }: { slug: string }) {
       <Container className="relative grid grid-cols-1 items-center gap-8 py-12 sm:grid-cols-[1fr_auto]">
         <div>
           <Breadcrumbs
-            className="mb-4 animate-fade-in"
+            className="mb-4"
             items={[
               { href: "/", label: "Home" },
               { href: "/categories", label: "Categories" },
               { label: category.name },
             ]}
           />
-          <div className="flex animate-fade-up items-center gap-4">
+          <div className="flex items-center gap-4">
             <span
               className="grid size-14 place-items-center rounded-lg text-white shadow-lg"
               style={{ backgroundColor: category.accent }}
@@ -51,11 +51,9 @@ export function CategoryHeader({ slug }: { slug: string }) {
             </span>
             <h1 className="font-display text-4xl tracking-tight sm:text-5xl">{category.name}</h1>
           </div>
-          <p className="mt-4 max-w-xl animate-fade-up text-muted-foreground [animation-delay:80ms]">
-            {category.description}
-          </p>
+          <p className="mt-4 max-w-xl text-muted-foreground">{category.description}</p>
         </div>
-        <div className="relative hidden size-48 animate-scale-in [animation-delay:120ms] sm:block">
+        <div className="relative hidden size-48 sm:block">
           <ProductImage
             src={category.image}
             alt=""

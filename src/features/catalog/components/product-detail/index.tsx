@@ -14,15 +14,17 @@ import { RecentlyViewed } from "@/features/catalog/components/recently-viewed";
 import { ProductGallery } from "@/features/catalog/components/product-detail/gallery";
 import { PurchasePanel } from "@/features/catalog/components/product-detail/purchase-panel";
 import { ProductTabs } from "@/features/catalog/components/product-detail/product-tabs";
-import type { Product } from "@/types";
+import { withDetails } from "@/features/catalog/services/details";
+import type { Product, ProductDetails } from "@/types";
 
 /**
  * Product page. Server-rendered from the seed catalogue (full content for
  * crawlers), then reconciled with the live store after hydration — admin
  * edits, live stock and admin-created products all appear.
  */
-export function ProductDetail({ slug }: { slug: string }) {
-  const product = useProductBySlug(slug);
+export function ProductDetail({ slug, details }: { slug: string; details?: ProductDetails }) {
+  const stored = useProductBySlug(slug);
+  const product = useMemo(() => (stored ? withDetails(stored, details) : undefined), [stored, details]);
   const hydrated = useHydrated();
 
   if (!product || product.status !== "active") {

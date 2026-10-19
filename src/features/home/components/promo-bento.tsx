@@ -1,75 +1,52 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowUpRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useCatalogStore } from "@/features/catalog/store/catalog-store";
 import { Container, ProductImage } from "@/components/ui";
-import { Stagger, StaggerItem } from "@/components/motion/reveal";
 
 const TILES = [
   {
     href: "/categories/laptops",
     eyebrow: "Work from anywhere",
     title: "Pro laptops",
+    cta: "Shop laptops",
     productId: "prd_0078",
-    tint: "bg-sky",
-    className: "sm:col-span-2 lg:row-span-2",
-    image: "right-[-4%] bottom-[2%] h-[62%] w-[72%] lg:h-[70%]",
+    className: "bg-[#111] text-white sm:col-span-2 lg:row-span-2",
+    image: "right-[-4%] bottom-[4%] h-[58%] w-[70%] lg:h-[64%]",
   },
   {
-    href: "/categories/fragrances",
-    eyebrow: "Signature scents",
-    title: "Fragrances",
-    productId: "prd_0007",
-    tint: "bg-blush",
-    className: "",
-    image: "bottom-3 right-3 h-[68%] w-[34%]",
-    compact: true,
+    href: "/categories/streetwear",
+    eyebrow: "New drop",
+    title: "Streetwear",
+    cta: "Shop the drop",
+    productId: "prd_pz_05",
+    photo: true,
+    className: "bg-muted text-white",
+    image: "inset-0",
   },
   {
     href: "/categories/mens-watches",
     eyebrow: "Timeless",
     title: "Watches",
+    cta: "Shop watches",
     productId: "prd_0094",
-    tint: "bg-sage",
-    className: "",
-    image: "bottom-3 right-3 h-[68%] w-[34%]",
-    compact: true,
+    className: "bg-accent text-white",
+    image: "bottom-4 right-4 h-[70%] w-[38%]",
   },
 ];
 
+/** Bold colour-blocked campaign tiles. */
 export function PromoBento() {
   const products = useCatalogStore((s) => s.products);
   return (
-    <section className="py-8" aria-label="Featured collections">
+    <section className="py-6" aria-label="Featured collections">
       <Container>
-        <Stagger step={0.1} className="grid auto-rows-[260px] grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid auto-rows-[280px] grid-cols-1 gap-2 sm:grid-cols-2 sm:gap-3 lg:grid-cols-3">
           {TILES.map((t) => {
             const product = products.find((p) => p.id === t.productId);
             return (
-              <StaggerItem
-                key={t.href}
-                variant="scaleIn"
-                className={cn("group relative overflow-hidden rounded-xl", t.tint, t.className)}
-              >
-                <Link href={t.href} className="absolute inset-0 z-10 flex flex-col justify-between p-7 sm:p-9">
-                  <p className="eyebrow text-foreground/60">{t.eyebrow}</p>
-                  <div>
-                    <h3
-                      className={cn(
-                        "font-display leading-none",
-                        "compact" in t ? "text-4xl sm:text-5xl" : "text-5xl sm:text-6xl",
-                      )}
-                    >
-                      {t.title}
-                    </h3>
-                    <span className="mt-4 inline-flex items-center gap-1 text-sm font-semibold underline-offset-4 group-hover:underline">
-                      Shop now{" "}
-                      <ArrowUpRight className="size-4 transition group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
-                    </span>
-                  </div>
-                </Link>
+              <div key={t.href} className={cn("group relative overflow-hidden", t.className)}>
                 {product && (
                   <div
                     className={cn(
@@ -82,14 +59,37 @@ export function PromoBento() {
                       alt=""
                       fill
                       sizes="(max-width: 1024px) 60vw, 40vw"
-                      className="object-contain"
+                      className={t.photo ? "object-cover" : "object-contain"}
                     />
                   </div>
                 )}
-              </StaggerItem>
+                {t.photo && (
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" />
+                )}
+                <Link href={t.href} className="absolute inset-0 z-10 flex flex-col justify-end p-6 sm:p-8">
+                  <p className="text-sm font-semibold opacity-80">{t.eyebrow}</p>
+                  {/* The large tile gets the big type; narrow tiles must fit "Streetwear" on one line. */}
+                  <h3
+                    className={cn(
+                      "mt-1 font-display",
+                      t.className.includes("row-span-2") ? "text-6xl sm:text-7xl" : "text-[2.75rem] xl:text-5xl",
+                    )}
+                  >
+                    {t.title}
+                  </h3>
+                  <span
+                    className={cn(
+                      "mt-5 inline-flex w-fit rounded-full px-5 py-2.5 text-sm font-semibold transition",
+                      "bg-white text-[#111] group-hover:bg-white/90",
+                    )}
+                  >
+                    {t.cta}
+                  </span>
+                </Link>
+              </div>
             );
           })}
-        </Stagger>
+        </div>
       </Container>
     </section>
   );

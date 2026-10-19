@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, m } from "framer-motion";
 import { AlertTriangle, ArrowRight, PackagePlus } from "lucide-react";
 import { toast } from "sonner";
 import { formatCompact, formatNumber, formatPrice, formatRelativeTime } from "@/lib/format";
@@ -43,7 +43,7 @@ export function LiveSalesPanel({ data, events, now }: { data: SeriesPoint[]; eve
       <ul className="mt-4 space-y-2" aria-live="polite">
         <AnimatePresence initial={false} mode="popLayout">
           {events.slice(0, 4).map((e) => (
-            <motion.li
+            <m.li
               key={e.id}
               layout
               initial={{ opacity: 0, x: -12 }}
@@ -52,7 +52,7 @@ export function LiveSalesPanel({ data, events, now }: { data: SeriesPoint[]; eve
               transition={spring.gentle}
             >
               <LiveEventRow event={e} now={now} compact />
-            </motion.li>
+            </m.li>
           ))}
         </AnimatePresence>
         {events.length === 0 && <li className="text-sm text-muted-foreground">Waiting for live orders…</li>}

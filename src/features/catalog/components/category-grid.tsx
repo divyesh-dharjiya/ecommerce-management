@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useMemo } from "react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
 import { useCatalogStore } from "@/features/catalog/store/catalog-store";
 import { formatPrice } from "@/lib/format";
@@ -31,7 +31,7 @@ export function CategoryGrid() {
       {categories.map((c, i) => {
         const s = stats.get(c.slug);
         return (
-          <motion.div
+          <m.div
             key={c.id}
             initial={{ opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -75,7 +75,7 @@ export function CategoryGrid() {
                 ))}
               </div>
             </Link>
-          </motion.div>
+          </m.div>
         );
       })}
     </div>

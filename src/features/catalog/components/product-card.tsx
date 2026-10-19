@@ -8,7 +8,7 @@ import { cn, discountPercent } from "@/lib/utils";
 import { useUiStore } from "@/store/ui-store";
 import { useCartActions } from "@/features/cart/hooks/use-cart-actions";
 import { useIsWishlisted } from "@/features/wishlist/store/wishlist-store";
-import { Badge, ProductImage, Rating } from "@/components/ui";
+import { Badge, ProductImage } from "@/components/ui";
 import { Price } from "@/features/catalog/components/price";
 import type { Product } from "@/types";
 
@@ -65,7 +65,7 @@ function ProductCardBase({ product, priority, layout = "grid", className, style 
   const href = `/products/${product.slug}`;
   const isList = layout === "list";
   // Studio photos fill the tile; transparent cut-outs sit padded on the tint.
-  const fit = product.imageStyle === "photo" ? "object-cover" : "object-contain p-6";
+  const fit = product.imageStyle === "photo" ? "object-cover" : "object-contain p-[12%]";
 
   return (
     <article
@@ -74,8 +74,8 @@ function ProductCardBase({ product, priority, layout = "grid", className, style 
     >
       <div
         className={cn(
-          "relative overflow-hidden rounded-lg bg-muted",
-          isList ? "aspect-square w-40 shrink-0 sm:w-56" : "aspect-[4/5]",
+          "relative overflow-hidden bg-muted",
+          isList ? "aspect-square w-40 shrink-0 sm:w-56" : "aspect-square",
         )}
       >
         <Link href={href} aria-label={product.title} className="absolute inset-0" tabIndex={-1}>
@@ -104,8 +104,6 @@ function ProductCardBase({ product, priority, layout = "grid", className, style 
 
         <div className="pointer-events-none absolute left-3 top-3 flex flex-col items-start gap-1.5">
           {off > 0 && <Badge tone="sale">−{off}%</Badge>}
-          {product.isNew && !off && <Badge tone="solid">New</Badge>}
-          {soldOut && <Badge tone="neutral">Sold out</Badge>}
         </div>
 
         <div className="absolute right-3 top-3 flex flex-col gap-2">
@@ -131,7 +129,7 @@ function ProductCardBase({ product, priority, layout = "grid", className, style 
               type="button"
               disabled={soldOut}
               onClick={() => addToCart(product)}
-              className="flex h-11 w-full items-center justify-center gap-2 rounded-md bg-primary text-sm font-semibold text-primary-foreground transition hover:opacity-90 active:scale-[0.98] disabled:opacity-60"
+              className="flex h-11 w-full items-center justify-center gap-2 rounded-full bg-primary text-sm font-semibold text-primary-foreground transition hover:opacity-90 active:scale-[0.98] disabled:opacity-60"
             >
               <Plus className="size-4" /> {soldOut ? "Sold out" : "Quick add"}
             </button>
@@ -140,20 +138,21 @@ function ProductCardBase({ product, priority, layout = "grid", className, style 
       </div>
 
       <div className={cn("flex flex-1 flex-col", isList ? "justify-center gap-2" : "gap-1 pt-3")}>
-        <div className="flex items-center justify-between gap-2">
-          <p className="eyebrow truncate text-muted-foreground">{product.brand}</p>
-          {lowStock && <span className="shrink-0 text-[11px] font-medium text-accent">Only {product.stock} left</span>}
-        </div>
-        <h3 className={cn("line-clamp-2 leading-snug", isList ? "font-display text-2xl" : "text-[15px] font-medium")}>
+        {(soldOut || lowStock || product.isNew || off > 0) && (
+          <p className={cn("text-[13px] font-semibold", soldOut ? "text-muted-foreground" : "text-accent")}>
+            {soldOut ? "Sold out" : lowStock ? `Only ${product.stock} left` : product.isNew ? "Just In" : "Sale"}
+          </p>
+        )}
+        <h3 className={cn("line-clamp-2 leading-snug", isList ? "font-display text-3xl" : "text-[15px] font-semibold")}>
           <Link href={href} className="underline-offset-4 transition-colors hover:underline">
             {product.title}
           </Link>
         </h3>
+        <p className="truncate text-[15px] text-muted-foreground">{product.brand}</p>
         {isList && <p className="line-clamp-2 max-w-xl text-sm text-muted-foreground">{product.description}</p>}
         <div className="mt-1 flex items-end justify-between gap-2">
-          <div className="space-y-1.5">
+          <div>
             <Price price={product.price} compareAtPrice={product.compareAtPrice} />
-            <Rating value={product.rating} count={product.reviewCount} size={12} />
           </div>
           <button
             type="button"
@@ -178,7 +177,7 @@ export const ProductCard = memo(ProductCardBase);
 export function ProductCardSkeleton() {
   return (
     <div aria-hidden>
-      <div className="skeleton aspect-[4/5] rounded-lg" />
+      <div className="skeleton aspect-square" />
       <div className="space-y-2 pt-3">
         <div className="skeleton h-3 w-1/3 rounded" />
         <div className="skeleton h-4 w-4/5 rounded" />

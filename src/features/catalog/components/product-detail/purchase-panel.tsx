@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { Eye, Heart, RotateCcw, Share2, ShieldCheck, ShoppingBag, Truck } from "lucide-react";
 import { toast } from "sonner";
 import { commerceConfig } from "@/config/site";
@@ -24,7 +24,7 @@ function LiveViewers({ productId }: { productId: string }) {
   const now = useNow(15_000);
   if (!hydrated) return <p className="mt-5 h-5" aria-hidden />;
   return (
-    <p className="mt-5 flex animate-fade-in items-center gap-2 text-sm">
+    <p className="mt-5 flex items-center gap-2 text-sm">
       <LiveDot />
       <Eye className="size-4 text-muted-foreground" />
       <span>
@@ -89,7 +89,7 @@ export function PurchasePanel({ product }: { product: Product }) {
   };
 
   return (
-    <div className="flex min-w-0 animate-fade-up flex-col [animation-delay:60ms]">
+    <div className="flex min-w-0 flex-col">
       <div className="flex flex-wrap items-center gap-2">
         <Badge tone="primary">{product.brand}</Badge>
         {off > 0 && <Badge tone="sale">-{off}% OFF</Badge>}
@@ -125,9 +125,9 @@ export function PurchasePanel({ product }: { product: Product }) {
           aria-label="Toggle wishlist"
           aria-pressed={wished}
         >
-          <motion.span key={String(wished)} initial={{ scale: 0.5 }} animate={{ scale: 1 }} transition={spring.bouncy}>
+          <m.span key={String(wished)} initial={{ scale: 0.5 }} animate={{ scale: 1 }} transition={spring.bouncy}>
             <Heart className={cn("size-5", wished && "fill-accent text-accent")} />
-          </motion.span>
+          </m.span>
         </Button>
         <Button size="icon" variant="outline" className="size-13 rounded-lg" onClick={share} aria-label="Share">
           <Share2 className="size-5" />

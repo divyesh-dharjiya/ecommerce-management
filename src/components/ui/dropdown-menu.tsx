@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useId, useRef, useState, type ReactNode } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, m } from "framer-motion";
 import { Check } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { duration, ease } from "@/lib/motion";
@@ -75,7 +75,7 @@ export function DropdownMenu<T extends string>({
       })}
       <AnimatePresence>
         {open && (
-          <motion.div
+          <m.div
             ref={list}
             id={id}
             role="menu"
@@ -105,7 +105,7 @@ export function DropdownMenu<T extends string>({
                 {item.value === value && <Check className="size-4 text-accent" />}
               </button>
             ))}
-          </motion.div>
+          </m.div>
         )}
       </AnimatePresence>
     </div>

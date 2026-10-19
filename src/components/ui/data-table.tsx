@@ -206,7 +206,7 @@ export function DataTable<T>({
     <Card className="overflow-hidden">
       {toolbar && <div className="flex flex-wrap items-center gap-3 border-b border-border p-4">{toolbar}</div>}
       {selectable && selectedIds.length > 0 && (
-        <div className="flex animate-fade-in items-center justify-between gap-3 bg-accent/5 px-4 py-2.5 text-sm">
+        <div className="flex items-center justify-between gap-3 bg-accent/5 px-4 py-2.5 text-sm">
           <span className="font-medium">{selectedIds.length} selected</span>
           <div className="flex gap-2">{bulkActions?.(selectedIds, () => setSelected(new Set()))}</div>
         </div>

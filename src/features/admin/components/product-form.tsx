@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { toast } from "sonner";
 import { useForm } from "@/hooks";
 import { validateProduct, type ProductDraft } from "@/features/catalog/services/validation";
@@ -39,6 +39,20 @@ export function ProductForm({ product, onDone }: { product?: Product; onDone: ()
     validate: runValidation,
   } = useForm<ProductDraft>(() => toDraft(product), validate);
   const [tags, setTags] = useState(values.tags.join(", "));
+
+  // The browser catalog holds a shortened description; fetch the full text
+  // (a separate, lazily loaded chunk) so saving never truncates it.
+  useEffect(() => {
+    if (!product || !product.description.endsWith("…")) return;
+    let active = true;
+    void import("@/data/product-details.json").then(({ default: all }) => {
+      const full = (all as Record<string, { description?: string }>)[product.id]?.description;
+      if (active && full) setField("description", full);
+    });
+    return () => {
+      active = false;
+    };
+  }, [product, setField]);
 
   const numberField = (key: "price" | "stock") => ({
     id: key,

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { SEED_CATEGORIES, SEED_PRODUCTS } from "@/data";
+import { SEED_CATEGORIES } from "@/data";
+import { SEED_PRODUCTS_FULL, getProductDetails } from "@/data/server";
 import { siteConfig } from "@/config/site";
 import { buildMetadata, productSchema, truncate } from "@/lib/seo";
 import { JsonLd } from "@/components/seo/json-ld";
@@ -7,7 +8,7 @@ import { ProductDetail } from "@/features/catalog/components/product-detail";
 
 type Props = { params: Promise<{ slug: string }> };
 
-const findSeed = (slug: string) => SEED_PRODUCTS.find((p) => p.slug === slug);
+const findSeed = (slug: string) => SEED_PRODUCTS_FULL.find((p) => p.slug === slug);
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
@@ -32,7 +33,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 /** Pre-render the seed catalogue; admin-created products render on demand. */
 export function generateStaticParams() {
-  return SEED_PRODUCTS.map((p) => ({ slug: p.slug }));
+  return SEED_PRODUCTS_FULL.map((p) => ({ slug: p.slug }));
 }
 
 export default async function ProductPage({ params }: Props) {
@@ -48,7 +49,8 @@ export default async function ProductPage({ params }: Props) {
           )}
         />
       )}
-      <ProductDetail slug={slug} />
+      {/* Only this product's heavy details are serialized for the client, not the whole catalog. */}
+      <ProductDetail slug={slug} details={seed ? getProductDetails(seed.id) : undefined} />
     </>
   );
 }

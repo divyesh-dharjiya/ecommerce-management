@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { FolderTree, LayoutDashboard, Menu, Package, Receipt, Search, Settings, Store } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { spring } from "@/lib/motion";
@@ -38,7 +38,7 @@ function SidebarNav({ onNavigate }: { onNavigate?: () => void }) {
             )}
           >
             {active && (
-              <motion.span
+              <m.span
                 layoutId="admin-nav"
                 className="absolute inset-0 -z-0 rounded-md bg-primary shadow-md shadow-primary/30"
                 transition={spring.snappy}

@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Geist, Instrument_Serif } from "next/font/google";
+import { Anton, Geist } from "next/font/google";
 import { THEME_COLORS } from "@/config/brand";
 import { siteConfig } from "@/config/site";
 import { SITE_URL, organizationSchema, websiteSchema } from "@/lib/seo";
@@ -9,13 +9,7 @@ import { JsonLd } from "@/components/seo/json-ld";
 import "./globals.css";
 
 const geist = Geist({ subsets: ["latin"], variable: "--font-geist", display: "swap" });
-const instrument = Instrument_Serif({
-  subsets: ["latin"],
-  weight: "400",
-  style: ["normal", "italic"],
-  variable: "--font-instrument",
-  display: "swap",
-});
+const anton = Anton({ subsets: ["latin"], weight: "400", variable: "--font-anton", display: "swap" });
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -51,7 +45,7 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" dir="ltr" suppressHydrationWarning className={`${geist.variable} ${instrument.variable}`}>
+    <html lang="en" dir="ltr" suppressHydrationWarning className={`${geist.variable} ${anton.variable}`}>
       <head>
         {/* Updated at runtime to follow the active theme (see lib/theme). */}
         <meta name="theme-color" content={THEME_COLORS.light} />

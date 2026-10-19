@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { Truck } from "lucide-react";
 import { commerceConfig } from "@/config/site";
 import { formatPrice } from "@/lib/format";
@@ -20,7 +20,7 @@ export function FreeShippingMeter({ subtotal, remaining }: { subtotal: number; r
         )}
       </p>
       <div className="mt-3 h-2 overflow-hidden rounded-full bg-border">
-        <motion.div
+        <m.div
           className="h-full rounded-full bg-accent"
           initial={false}
           animate={{ width: `${progress}%` }}

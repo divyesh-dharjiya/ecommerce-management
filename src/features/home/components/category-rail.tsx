@@ -4,10 +4,8 @@ import Link from "next/link";
 import { useMemo } from "react";
 import { useCatalogStore } from "@/features/catalog/store/catalog-store";
 import { Container, ProductImage, SectionHeading } from "@/components/ui";
-import { Reveal, Stagger, StaggerItem } from "@/components/motion/reveal";
 
-const TINTS = ["bg-sand", "bg-sage", "bg-blush", "bg-sky"] as const;
-
+/** Big image tiles with a white pill label, like a sports-brand category row. */
 export function CategoryRail() {
   const categories = useCatalogStore((s) => s.categories);
   const products = useCatalogStore((s) => s.products);
@@ -18,36 +16,33 @@ export function CategoryRail() {
   }, [products]);
 
   return (
-    <section className="py-16">
+    <section className="py-14">
       <Container>
-        <Reveal>
-          <SectionHeading eyebrow="Browse" title="Shop by category" href="/categories" linkLabel="All categories" />
-        </Reveal>
+        <SectionHeading title="Shop by category" href="/categories" linkLabel="All categories" />
       </Container>
       <div className="mx-auto max-w-7xl">
-        <Stagger
-          as="ul"
-          step={0.04}
-          className="flex snap-x snap-mandatory scroll-px-4 gap-4 overflow-x-auto px-4 pb-2 scrollbar-none sm:scroll-px-6 sm:px-6 lg:scroll-px-8 lg:px-8"
-        >
-          {categories.map((c, i) => (
-            <StaggerItem as="li" key={c.id} className="w-40 shrink-0 snap-start sm:w-48">
-              <Link href={`/categories/${c.slug}`} className="group block">
-                <div className={`relative aspect-square overflow-hidden rounded-lg ${TINTS[i % TINTS.length]}`}>
-                  <ProductImage
-                    src={c.image}
-                    alt=""
-                    fill
-                    sizes="192px"
-                    className="object-contain p-5 transition-transform duration-700 ease-[var(--ease-out-expo)] group-hover:scale-110"
-                  />
-                </div>
-                <p className="mt-3 text-[15px] font-medium underline-offset-4 group-hover:underline">{c.name}</p>
-                <p className="text-xs text-muted-foreground">{counts.get(c.slug) ?? 0} products</p>
+        <ul className="flex snap-x snap-mandatory scroll-px-4 gap-2 overflow-x-auto px-4 pb-2 scrollbar-none sm:scroll-px-6 sm:gap-3 sm:px-6 lg:scroll-px-8 lg:px-8">
+          {categories.map((c) => (
+            <li key={c.id} className="w-56 shrink-0 snap-start sm:w-64">
+              <Link
+                href={`/categories/${c.slug}`}
+                className="group relative block aspect-[4/5] overflow-hidden bg-muted"
+              >
+                <ProductImage
+                  src={c.image}
+                  alt=""
+                  fill
+                  sizes="256px"
+                  className="object-contain p-[14%] transition-transform duration-500 group-hover:scale-105"
+                />
+                <span className="absolute bottom-4 left-4 inline-flex items-center gap-2 rounded-full bg-background px-4 py-2 text-sm font-semibold shadow-soft">
+                  {c.name}
+                  <span className="text-muted-foreground">{counts.get(c.slug) ?? 0}</span>
+                </span>
               </Link>
-            </StaggerItem>
+            </li>
           ))}
-        </Stagger>
+        </ul>
       </div>
     </section>
   );

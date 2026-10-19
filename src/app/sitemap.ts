@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
-import { SEED_CATEGORIES, SEED_PRODUCTS } from "@/data";
+import { SEED_CATEGORIES } from "@/data";
+import { SEED_PRODUCTS_FULL as SEED_PRODUCTS } from "@/data/server";
 import { absoluteUrl } from "@/lib/seo";
 
 export default function sitemap(): MetadataRoute.Sitemap {

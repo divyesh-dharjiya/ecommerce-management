@@ -47,6 +47,10 @@ export interface Product {
   createdAt: string;
 }
 
+/** Heavy fields kept out of the client bundle and supplied to the product page by the server. */
+export type ProductDetails = Pick<Product, "description" | "images" | "reviews"> &
+  Partial<Pick<Product, "weight" | "dimensions" | "warranty" | "shipping" | "returnPolicy">>;
+
 export interface Category {
   id: string;
   slug: string;

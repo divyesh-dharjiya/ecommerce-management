@@ -1,10 +1,10 @@
 /** Single source of truth for site navigation (header, mobile menu, footer). */
 export const PRIMARY_NAV = [
-  { href: "/", label: "Home" },
-  { href: "/products", label: "Shop" },
+  { href: "/products?sort=newest", label: "New" },
+  { href: "/products", label: "Shop all" },
   { href: "/categories", label: "Categories" },
-  { href: "/products?onSale=1&sort=discount", label: "Deals" },
-  { href: "/orders", label: "Orders" },
+  { href: "/categories/streetwear", label: "Streetwear" },
+  { href: "/products?onSale=1&sort=discount", label: "Sale", highlight: true },
 ] as const;
 
 export const FOOTER_NAV = [

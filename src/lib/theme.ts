@@ -15,13 +15,15 @@ export type ResolvedTheme = "light" | "dark";
 
 export const THEME_STORAGE_KEY = storageKey("theme");
 const DARK_QUERY = "(prefers-color-scheme: dark)";
+/** Light unless the visitor chooses otherwise ("system" remains an explicit option). */
+export const DEFAULT_PREFERENCE: ThemePreference = "light";
 
 const isPreference = (v: unknown): v is ThemePreference => v === "light" || v === "dark" || v === "system";
 
 function readPreference(): ThemePreference {
   try {
     const v = localStorage.getItem(THEME_STORAGE_KEY);
-    return isPreference(v) ? v : "system";
+    return isPreference(v) ? v : DEFAULT_PREFERENCE;
   } catch {
     return "system";
   }
@@ -44,7 +46,7 @@ interface Snapshot {
   resolved: ResolvedTheme;
 }
 
-const SERVER_SNAPSHOT: Snapshot = { preference: "system", resolved: "light" };
+const SERVER_SNAPSHOT: Snapshot = { preference: DEFAULT_PREFERENCE, resolved: "light" };
 let snapshot: Snapshot | null = null;
 const listeners = new Set<() => void>();
 let wired = false;
@@ -114,4 +116,4 @@ export function setThemePreference(preference: ThemePreference, origin?: { x: nu
 }
 
 /** Inlined in <head> so the correct theme paints on the very first frame. */
-export const themeInitScript = `(function(){try{var p=localStorage.getItem('${THEME_STORAGE_KEY}');var d=p==='dark'||((p!=='light')&&window.matchMedia('${DARK_QUERY}').matches);var r=document.documentElement;r.classList.toggle('dark',d);r.style.colorScheme=d?'dark':'light';var m=document.querySelector('meta[name="theme-color"]');if(m)m.setAttribute('content',d?'${THEME_COLORS.dark}':'${THEME_COLORS.light}');}catch(e){}})();`;
+export const themeInitScript = `(function(){try{var p=localStorage.getItem('${THEME_STORAGE_KEY}');var d=p==='dark'||(p==='system'&&window.matchMedia('${DARK_QUERY}').matches);var r=document.documentElement;r.classList.toggle('dark',d);r.style.colorScheme=d?'dark':'light';var m=document.querySelector('meta[name="theme-color"]');if(m)m.setAttribute('content',d?'${THEME_COLORS.dark}':'${THEME_COLORS.light}');}catch(e){}})();`;

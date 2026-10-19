@@ -1,7 +1,7 @@
 "use client";
 
 import { useId, useState, type ReactNode } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, m } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { duration, ease, spring } from "@/lib/motion";
 
@@ -64,7 +64,7 @@ export function Tabs({
             >
               {t.label}
               {selected && (
-                <motion.span
+                <m.span
                   layoutId={`${uid}-indicator`}
                   transition={spring.snappy}
                   className="absolute inset-x-0 -bottom-px h-0.5 rounded-full bg-primary"
@@ -76,7 +76,7 @@ export function Tabs({
       </div>
       <AnimatePresence mode="wait" initial={false}>
         {current && (
-          <motion.div
+          <m.div
             key={current.id}
             id={`${uid}-panel-${current.id}`}
             role="tabpanel"
@@ -88,7 +88,7 @@ export function Tabs({
             className="py-8"
           >
             {current.content}
-          </motion.div>
+          </m.div>
         )}
       </AnimatePresence>
     </div>

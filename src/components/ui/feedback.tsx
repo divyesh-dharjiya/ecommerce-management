@@ -28,7 +28,7 @@ export interface EmptyStateProps {
 
 export function EmptyState({ icon, title, description, action, className }: EmptyStateProps) {
   return (
-    <div className={cn("flex animate-fade-up flex-col items-center justify-center px-6 py-20 text-center", className)}>
+    <div className={cn("flex flex-col items-center justify-center px-6 py-20 text-center", className)}>
       <div className="relative mb-6 grid size-20 place-items-center rounded-lg bg-muted text-foreground">{icon}</div>
       <h2 className="font-display text-3xl">{title}</h2>
       <p className="mt-2 max-w-sm text-sm text-muted-foreground">{description}</p>

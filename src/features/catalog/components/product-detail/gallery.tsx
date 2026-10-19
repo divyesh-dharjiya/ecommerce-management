@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, m } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { ProductImage } from "@/components/ui";
 
@@ -48,7 +48,7 @@ export function ProductGallery({ images, title }: { images: string[]; title: str
         onMouseLeave={() => setZoom(null)}
       >
         <AnimatePresence mode="wait" initial={false}>
-          <motion.div
+          <m.div
             key={current}
             initial={{ opacity: 0, scale: 0.96 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -65,7 +65,7 @@ export function ProductGallery({ images, title }: { images: string[]; title: str
               className="object-contain p-8 transition-transform duration-200 ease-out"
               style={zoom ? { transform: "scale(1.9)", transformOrigin: `${zoom.x}% ${zoom.y}%` } : undefined}
             />
-          </motion.div>
+          </m.div>
         </AnimatePresence>
         {images.length > 1 && (
           <div className="absolute bottom-4 left-1/2 flex -translate-x-1/2 gap-1.5 md:hidden">

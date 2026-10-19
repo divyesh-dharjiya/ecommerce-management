@@ -35,7 +35,7 @@ function Mark({ size = 56 }: { size?: number }) {
         width: size,
         height: size,
         borderRadius: size * 0.3,
-        background: "#d9482b",
+        background: "#e4002b",
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
@@ -58,7 +58,7 @@ interface OgCardProps {
   accent?: string;
 }
 
-export function renderOgCard({ eyebrow, title, subtitle, price, image, accent = "#d9482b" }: OgCardProps) {
+export function renderOgCard({ eyebrow, title, subtitle, price, image, accent = "#e4002b" }: OgCardProps) {
   return new ImageResponse(
     <div
       style={{

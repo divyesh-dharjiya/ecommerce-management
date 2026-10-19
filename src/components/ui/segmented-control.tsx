@@ -1,7 +1,7 @@
 "use client";
 
 import { useId, type ReactNode } from "react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { spring } from "@/lib/motion";
 
@@ -90,7 +90,7 @@ export function SegmentedControl<T extends string>({
             )}
           >
             {active && (
-              <motion.span
+              <m.span
                 layoutId={layoutId}
                 transition={spring.snappy}
                 className={cn(

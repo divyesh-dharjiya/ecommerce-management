@@ -45,7 +45,7 @@ function Step({ n, title, children }: { n: number; title: string; children: Reac
 function PlacingOrder() {
   return (
     <Container className="grid min-h-[60vh] place-items-center">
-      <div className="flex animate-fade-up flex-col items-center gap-4 text-center" role="status">
+      <div className="flex flex-col items-center gap-4 text-center" role="status">
         <Loader2 className="size-10 animate-spin text-accent" />
         <p className="text-lg font-semibold">Placing your order…</p>
         <p className="text-sm text-muted-foreground">Authorising payment and reserving stock.</p>
@@ -127,13 +127,13 @@ function CheckoutForm() {
 
   return (
     <Container className="py-12">
-      <h1 className="animate-fade-up font-display text-4xl tracking-tight">Checkout</h1>
+      <h1 className=" font-display text-4xl tracking-tight">Checkout</h1>
       <p className="mt-1 flex items-center gap-1.5 text-sm text-muted-foreground">
         <Lock className="size-3.5" /> Secure, encrypted checkout
       </p>
 
       <form onSubmit={submit} noValidate className="mt-8 grid grid-cols-1 items-start gap-10 lg:grid-cols-[1fr_420px]">
-        <div className="animate-fade-up space-y-8 [animation-delay:60ms]">
+        <div className=" space-y-8">
           <Step n={1} title="Contact & shipping">
             <ShippingFields bind={form.bind} errors={form.errors} />
           </Step>
@@ -145,7 +145,7 @@ function CheckoutForm() {
           </Step>
         </div>
 
-        <Card className="sticky top-24 animate-fade-up p-6 [animation-delay:120ms]">
+        <Card className="sticky top-24 p-6">
           <h2 className="text-lg font-bold">Order summary</h2>
           <ul className="my-5 max-h-64 space-y-4 overflow-y-auto pr-1">
             {lines.map(({ item, product }) => (

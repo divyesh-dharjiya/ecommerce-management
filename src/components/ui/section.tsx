@@ -33,7 +33,7 @@ export function SectionHeading({
     <div className={cn("mb-8 flex flex-wrap items-end justify-between gap-4", className)}>
       <div className="max-w-2xl">
         {eyebrow && <p className="eyebrow mb-3 text-accent">{eyebrow}</p>}
-        <Heading className="font-display text-4xl leading-[1.05] sm:text-5xl">{title}</Heading>
+        <Heading className="font-display text-5xl sm:text-6xl">{title}</Heading>
         {description && <p className="mt-2 text-muted-foreground">{description}</p>}
       </div>
       {children}
@@ -62,11 +62,9 @@ export function PageHeader({ title, description, breadcrumbs, children }: PageHe
   return (
     <div className="border-b border-border">
       <Container className="py-10 sm:py-16">
-        {breadcrumbs && <Breadcrumbs items={breadcrumbs} className="mb-4 animate-fade-in" />}
-        <h1 className="animate-fade-up font-display text-5xl leading-[1.02] sm:text-6xl">{title}</h1>
-        {description && (
-          <p className="mt-3 max-w-2xl animate-fade-up text-muted-foreground [animation-delay:80ms]">{description}</p>
-        )}
+        {breadcrumbs && <Breadcrumbs items={breadcrumbs} className="mb-4" />}
+        <h1 className="font-display text-6xl sm:text-8xl">{title}</h1>
+        {description && <p className="mt-3 max-w-2xl text-muted-foreground">{description}</p>}
         {children}
       </Container>
     </div>

@@ -1,6 +1,6 @@
 "use client";
 
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, m } from "framer-motion";
 import { X } from "lucide-react";
 import { spring } from "@/lib/motion";
 import type { Category, ProductQuery } from "@/types";
@@ -45,7 +45,7 @@ export function ActiveFilterChips({
   return (
     <AnimatePresence initial={false} mode="popLayout">
       {chips.map((c) => (
-        <motion.button
+        <m.button
           key={c.label}
           layout
           initial={{ opacity: 0, scale: 0.8 }}
@@ -58,7 +58,7 @@ export function ActiveFilterChips({
           className="inline-flex items-center gap-1 rounded-full bg-accent/10 px-3 py-1 text-xs font-semibold text-accent transition-colors hover:bg-accent/20"
         >
           {c.label} <X className="size-3" />
-        </motion.button>
+        </m.button>
       ))}
     </AnimatePresence>
   );

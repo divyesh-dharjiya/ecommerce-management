@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, m } from "framer-motion";
 import { Pencil, Plus, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 import { formatPrice } from "@/lib/format";
@@ -61,7 +61,7 @@ function CategoriesView() {
           {categories.map((c, i) => {
             const s = stats.get(c.slug);
             return (
-              <motion.li
+              <m.li
                 key={c.id}
                 layout
                 initial={{ opacity: 0, scale: 0.95 }}
@@ -107,7 +107,7 @@ function CategoriesView() {
                     </button>
                   </div>
                 </Card>
-              </motion.li>
+              </m.li>
             );
           })}
         </AnimatePresence>

@@ -98,10 +98,11 @@ src/
 
 ### Visual design
 
-- **Direction:** editorial and minimal. Warm paper background, near-black ink for primary actions, and a single vermilion accent used sparingly (sale badges, highlights, emphasis).
-- **Type:** Instrument Serif for display headlines (with italic emphasis) and Geist for the interface. Serif display type is single-weight, so headings never use faux bold.
-- **Surfaces:** borderless product cards on soft tinted tiles (sand, sage, blush, sky), thin rules instead of heavy shadows, and tighter corner radii.
-- **Tokens:** every colour, tint and font is a semantic token in `globals.css`, so a rebrand is a token change, not a component rewrite. Brand colours that must exist in JavaScript live in `config/brand.ts`.
+- **Direction:** bold marketplace (Nike / Zalando style). White background, near-black for primary actions, and one loud red reserved for sale, urgency and the brand mark.
+- **Type:** Anton for display headlines (heavy, condensed, uppercase) and Geist for the interface.
+- **Surfaces:** square product tiles on a neutral grey, edge-to-edge photos, pill buttons, sharp corners elsewhere, and a dark footer.
+- **Light by default:** shoppers can still switch to dark or follow their device.
+- **Tokens:** every colour, radius and font is a semantic token in `globals.css`, so a rebrand is a token change. Brand colours that must exist in JavaScript live in `config/brand.ts`.
 
 ### Theme
 
@@ -112,11 +113,10 @@ src/
 
 ### Motion
 
-- **One source of tokens:** easing, durations and springs live in `lib/motion.ts`, with matching CSS variables.
-- **Content above the fold animates with CSS:** `animate-fade-up` and staggered delays play on first paint, so the hero, headings and product grids never wait for JavaScript and never render blank.
-- **Content below the fold uses `Reveal` / `Stagger`:** each section animates once, when it scrolls into view.
-- **Page transitions:** `template.tsx` gives each page a short entrance.
-- **Reduced motion:** `prefers-reduced-motion` is respected everywhere, through both CSS and `MotionConfig`.
+- **Content is never hidden behind an animation.** Pages, headlines and product grids render immediately, with no fade-ins.
+- **Motion is reserved for interactions:** menus, drawers, toggles, tabs, hover states and live updates.
+- **Lazy-loaded engine:** Framer Motion runs in lazy mode (`LazyMotion` + `m`), so its animation engine loads after first paint (`lib/motion-features.ts`).
+- **Reduced motion:** `prefers-reduced-motion` is respected everywhere.
 
 ### SEO
 
@@ -141,6 +141,12 @@ src/
 - **Components:** focus trap and focus restore in dialogs, arrow-key navigation, and `DataTable` sorting, selection and paging, run in jsdom.
 - **Realtime:** cross-tab leader election, including takeover from a frozen tab.
 - There are no end-to-end browser tests yet.
+
+### Performance
+
+- **Lean client catalog:** the browser bundle carries a lite catalog (`products.lite.json`, 193KB raw instead of 324KB). Reviews, full descriptions, specs and full galleries stay on the server and are sent only to the product page that needs them (`data/server.ts`, `withDetails()`).
+- **Initial JavaScript:** about 1.0MB raw (290KB compressed) per storefront page, down from 1.2MB. Most of what remains is the React and Next.js framework.
+- **Server timing:** server responses take 5–90ms. 548 routes are pre-rendered, including every product page and share image.
 
 ## Data and limitations
 

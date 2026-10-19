@@ -12,11 +12,12 @@ const variants = {
   dark: "bg-foreground text-background hover:opacity-90",
 } as const;
 
+// Pill buttons: the marketplace convention for primary actions.
 const sizes = {
-  sm: "h-9 px-3.5 text-sm gap-1.5 rounded-md",
-  md: "h-11 px-5 text-sm gap-2 rounded-md",
-  lg: "h-13 px-7 text-base gap-2.5 rounded-lg",
-  icon: "size-10 rounded-md",
+  sm: "h-9 px-4 text-sm gap-1.5 rounded-full",
+  md: "h-11 px-6 text-sm gap-2 rounded-full",
+  lg: "h-14 px-8 text-base gap-2.5 rounded-full",
+  icon: "size-10 rounded-full",
 } as const;
 
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {

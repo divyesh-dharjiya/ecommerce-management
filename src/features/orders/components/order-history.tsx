@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useMemo } from "react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { ArrowRight, Receipt } from "lucide-react";
 import { formatDate, formatPrice } from "@/lib/format";
 import { useOrderStore } from "@/features/orders/store/order-store";
@@ -44,7 +44,7 @@ export function OrderHistory() {
         ) : (
           <ul className="space-y-4">
             {orders.map((o, i) => (
-              <motion.li
+              <m.li
                 key={o.id}
                 initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -70,7 +70,7 @@ export function OrderHistory() {
                   <p className="text-lg font-bold">{formatPrice(o.total)}</p>
                   <ArrowRight className="size-5 text-muted-foreground transition group-hover:translate-x-1 group-hover:text-foreground" />
                 </Link>
-              </motion.li>
+              </m.li>
             ))}
           </ul>
         )}
