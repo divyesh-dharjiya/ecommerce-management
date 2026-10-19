@@ -1,0 +1,98 @@
+"use client";
+
+import { create } from "zustand";
+import { persist } from "zustand/middleware";
+import { liveConfig } from "@/config/site";
+import { findCoupon } from "@/config/coupons";
+import { persistOptions } from "@/lib/storage";
+import { createId } from "@/lib/utils";
+import { calculateTotals } from "@/features/cart/services/pricing";
+import { generateHistoricalOrders } from "@/features/live/services/simulation";
+import { useCatalogStore } from "@/features/catalog/store/catalog-store";
+import type { CustomerDetails, Order, OrderLine, OrderStatus, PaymentMethod } from "@/types";
+
+interface PlaceOrderInput {
+  lines: OrderLine[];
+  customer: CustomerDetails;
+  paymentMethod: PaymentMethod;
+  couponCode: string | null;
+}
+
+interface OrderState {
+  orders: Order[];
+  seeded: boolean;
+  placeOrder: (input: PlaceOrderInput) => Order;
+  ingestLiveOrder: (order: Order) => void;
+  updateStatus: (id: string, status: OrderStatus) => void;
+  seedHistory: () => void;
+  reset: () => void;
+}
+
+const nextOrderNumber = (orders: Order[]) => {
+  const taken = new Set(orders.map((o) => o.number));
+  let n: string;
+  do n = `LX-${Math.floor(100000 + Math.random() * 900000)}`;
+  while (taken.has(n));
+  return n;
+};
+
+export const useOrderStore = create<OrderState>()(
+  persist(
+    (set, get) => ({
+      orders: [],
+      seeded: false,
+
+      placeOrder: ({ lines, customer, paymentMethod, couponCode }) => {
+        // Totals are recomputed here — never trust numbers passed from the UI.
+        const coupon = couponCode ? findCoupon(couponCode) : undefined;
+        const totals = calculateTotals(lines, coupon);
+        const order: Order = {
+          id: createId("ord"),
+          number: nextOrderNumber(get().orders),
+          lines,
+          subtotal: totals.subtotal,
+          discount: totals.discount,
+          shipping: totals.shipping,
+          tax: totals.tax,
+          total: totals.total,
+          couponCode: coupon?.code ?? null,
+          status: paymentMethod === "cod" ? "pending" : "processing",
+          customer,
+          paymentMethod,
+          source: "web",
+          createdAt: new Date().toISOString(),
+        };
+        set((s) => ({ orders: [order, ...s.orders] }));
+        useCatalogStore
+          .getState()
+          .recordSales(Object.fromEntries(lines.map((l) => [l.productId, l.quantity])));
+        return order;
+      },
+
+      ingestLiveOrder: (order) =>
+        set((s) => {
+          // Cap simulated orders so localStorage doesn't grow unbounded.
+          let liveSeen = 0;
+          const trimmed = s.orders.filter(
+            (o) => o.source !== "live" || ++liveSeen < liveConfig.maxLiveOrders,
+          );
+          return { orders: [order, ...trimmed] };
+        }),
+
+      updateStatus: (id, status) =>
+        set((s) => ({ orders: s.orders.map((o) => (o.id === id ? { ...o, status } : o)) })),
+
+      seedHistory: () => {
+        if (get().seeded) return;
+        const history = generateHistoricalOrders(useCatalogStore.getState().products);
+        set((s) => ({ orders: [...s.orders, ...history], seeded: true }));
+      },
+
+      reset: () => set({ orders: [], seeded: false }),
+    }),
+    persistOptions<OrderState>("orders", {
+      version: 1,
+      partialize: (s) => ({ orders: s.orders, seeded: s.seeded }),
+    }),
+  ),
+);

@@ -1,0 +1,218 @@
+[
+  {
+    "id": "cat_beauty",
+    "slug": "beauty",
+    "name": "Beauty",
+    "description": "Curated beauty picked for quality and value.",
+    "image": "https://cdn.dummyjson.com/product-images/beauty/essence-mascara-lash-princess/thumbnail.webp",
+    "icon": "Sparkles",
+    "accent": "#f472b6"
+  },
+  {
+    "id": "cat_fragrances",
+    "slug": "fragrances",
+    "name": "Fragrances",
+    "description": "Curated fragrances picked for quality and value.",
+    "image": "https://cdn.dummyjson.com/product-images/fragrances/calvin-klein-ck-one/thumbnail.webp",
+    "icon": "Flower2",
+    "accent": "#c084fc"
+  },
+  {
+    "id": "cat_furniture",
+    "slug": "furniture",
+    "name": "Furniture",
+    "description": "Curated furniture picked for quality and value.",
+    "image": "https://cdn.dummyjson.com/product-images/furniture/annibale-colombo-bed/thumbnail.webp",
+    "icon": "Armchair",
+    "accent": "#a16207"
+  },
+  {
+    "id": "cat_groceries",
+    "slug": "groceries",
+    "name": "Groceries",
+    "description": "Curated groceries picked for quality and value.",
+    "image": "https://cdn.dummyjson.com/product-images/groceries/apple/thumbnail.webp",
+    "icon": "ShoppingBasket",
+    "accent": "#22c55e"
+  },
+  {
+    "id": "cat_home-decoration",
+    "slug": "home-decoration",
+    "name": "Home Decoration",
+    "description": "Curated home decoration picked for quality and value.",
+    "image": "https://cdn.dummyjson.com/product-images/home-decoration/decoration-swing/thumbnail.webp",
+    "icon": "Lamp",
+    "accent": "#f59e0b"
+  },
+  {
+    "id": "cat_kitchen-accessories",
+    "slug": "kitchen-accessories",
+    "name": "Kitchen Accessories",
+    "description": "Curated kitchen accessories picked for quality and value.",
+    "image": "https://cdn.dummyjson.com/product-images/kitchen-accessories/bamboo-spatula/thumbnail.webp",
+    "icon": "CookingPot",
+    "accent": "#ef4444"
+  },
+  {
+    "id": "cat_laptops",
+    "slug": "laptops",
+    "name": "Laptops",
+    "description": "Curated laptops picked for quality and value.",
+    "image": "https://cdn.dummyjson.com/product-images/laptops/apple-macbook-pro-14-inch-space-grey/thumbnail.webp",
+    "icon": "Laptop",
+    "accent": "#3b82f6"
+  },
+  {
+    "id": "cat_mens-shirts",
+    "slug": "mens-shirts",
+    "name": "Mens Shirts",
+    "description": "Curated mens shirts picked for quality and value.",
+    "image": "https://cdn.dummyjson.com/product-images/mens-shirts/blue-&-black-check-shirt/thumbnail.webp",
+    "icon": "Shirt",
+    "accent": "#0ea5e9"
+  },
+  {
+    "id": "cat_mens-shoes",
+    "slug": "mens-shoes",
+    "name": "Mens Shoes",
+    "description": "Curated mens shoes picked for quality and value.",
+    "image": "https://cdn.dummyjson.com/product-images/mens-shoes/nike-air-jordan-1-red-and-black/thumbnail.webp",
+    "icon": "Footprints",
+    "accent": "#64748b"
+  },
+  {
+    "id": "cat_mens-watches",
+    "slug": "mens-watches",
+    "name": "Mens Watches",
+    "description": "Curated mens watches picked for quality and value.",
+    "image": "https://cdn.dummyjson.com/product-images/mens-watches/brown-leather-belt-watch/thumbnail.webp",
+    "icon": "Watch",
+    "accent": "#334155"
+  },
+  {
+    "id": "cat_mobile-accessories",
+    "slug": "mobile-accessories",
+    "name": "Mobile Accessories",
+    "description": "Curated mobile accessories picked for quality and value.",
+    "image": "https://cdn.dummyjson.com/product-images/mobile-accessories/amazon-echo-plus/thumbnail.webp",
+    "icon": "Headphones",
+    "accent": "#8b5cf6"
+  },
+  {
+    "id": "cat_motorcycle",
+    "slug": "motorcycle",
+    "name": "Motorcycle",
+    "description": "Curated motorcycle picked for quality and value.",
+    "image": "https://cdn.dummyjson.com/product-images/motorcycle/generic-motorcycle/thumbnail.webp",
+    "icon": "Bike",
+    "accent": "#dc2626"
+  },
+  {
+    "id": "cat_skin-care",
+    "slug": "skin-care",
+    "name": "Skin Care",
+    "description": "Curated skin care picked for quality and value.",
+    "image": "https://cdn.dummyjson.com/product-images/skin-care/attitude-super-leaves-hand-soap/thumbnail.webp",
+    "icon": "Droplets",
+    "accent": "#14b8a6"
+  },
+  {
+    "id": "cat_smartphones",
+    "slug": "smartphones",
+    "name": "Smartphones",
+    "description": "Curated smartphones picked for quality and value.",
+    "image": "https://cdn.dummyjson.com/product-images/smartphones/iphone-5s/thumbnail.webp",
+    "icon": "Smartphone",
+    "accent": "#6366f1"
+  },
+  {
+    "id": "cat_sports-accessories",
+    "slug": "sports-accessories",
+    "name": "Sports Accessories",
+    "description": "Curated sports accessories picked for quality and value.",
+    "image": "https://cdn.dummyjson.com/product-images/sports-accessories/american-football/thumbnail.webp",
+    "icon": "Dumbbell",
+    "accent": "#f97316"
+  },
+  {
+    "id": "cat_sunglasses",
+    "slug": "sunglasses",
+    "name": "Sunglasses",
+    "description": "Curated sunglasses picked for quality and value.",
+    "image": "https://cdn.dummyjson.com/product-images/sunglasses/black-sun-glasses/thumbnail.webp",
+    "icon": "Glasses",
+    "accent": "#0f172a"
+  },
+  {
+    "id": "cat_tablets",
+    "slug": "tablets",
+    "name": "Tablets",
+    "description": "Curated tablets picked for quality and value.",
+    "image": "https://cdn.dummyjson.com/product-images/tablets/ipad-mini-2021-starlight/thumbnail.webp",
+    "icon": "Tablet",
+    "accent": "#2563eb"
+  },
+  {
+    "id": "cat_tops",
+    "slug": "tops",
+    "name": "Tops",
+    "description": "Curated tops picked for quality and value.",
+    "image": "https://cdn.dummyjson.com/product-images/tops/blue-frock/thumbnail.webp",
+    "icon": "Shirt",
+    "accent": "#ec4899"
+  },
+  {
+    "id": "cat_vehicle",
+    "slug": "vehicle",
+    "name": "Vehicle",
+    "description": "Curated vehicle picked for quality and value.",
+    "image": "https://cdn.dummyjson.com/product-images/vehicle/300-touring/thumbnail.webp",
+    "icon": "Car",
+    "accent": "#475569"
+  },
+  {
+    "id": "cat_womens-bags",
+    "slug": "womens-bags",
+    "name": "Womens Bags",
+    "description": "Curated womens bags picked for quality and value.",
+    "image": "https://cdn.dummyjson.com/product-images/womens-bags/blue-women's-handbag/thumbnail.webp",
+    "icon": "ShoppingBag",
+    "accent": "#db2777"
+  },
+  {
+    "id": "cat_womens-dresses",
+    "slug": "womens-dresses",
+    "name": "Womens Dresses",
+    "description": "Curated womens dresses picked for quality and value.",
+    "image": "https://cdn.dummyjson.com/product-images/womens-dresses/black-women's-gown/thumbnail.webp",
+    "icon": "Gem",
+    "accent": "#e11d48"
+  },
+  {
+    "id": "cat_womens-jewellery",
+    "slug": "womens-jewellery",
+    "name": "Womens Jewellery",
+    "description": "Curated womens jewellery picked for quality and value.",
+    "image": "https://cdn.dummyjson.com/product-images/womens-jewellery/green-crystal-earring/thumbnail.webp",
+    "icon": "Gem",
+    "accent": "#eab308"
+  },
+  {
+    "id": "cat_womens-shoes",
+    "slug": "womens-shoes",
+    "name": "Womens Shoes",
+    "description": "Curated womens shoes picked for quality and value.",
+    "image": "https://cdn.dummyjson.com/product-images/womens-shoes/black-&-brown-slipper/thumbnail.webp",
+    "icon": "Footprints",
+    "accent": "#be185d"
+  },
+  {
+    "id": "cat_womens-watches",
+    "slug": "womens-watches",
+    "name": "Womens Watches",
+    "description": "Curated womens watches picked for quality and value.",
+    "image": "https://cdn.dummyjson.com/product-images/womens-watches/iwc-ingenieur-automatic-steel/thumbnail.webp",
+    "icon": "Watch",
+    "accent": "#9333ea"
+  }
+]
