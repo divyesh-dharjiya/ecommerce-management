@@ -10,6 +10,7 @@ export function ConfirmDialog({
   title,
   description,
   confirmLabel = "Delete",
+  cancelLabel = "Cancel",
   onConfirm,
   onClose,
   children,
@@ -18,6 +19,7 @@ export function ConfirmDialog({
   title: string;
   description: string;
   confirmLabel?: string;
+  cancelLabel?: string;
   onConfirm: () => void;
   onClose: () => void;
   children?: React.ReactNode;
@@ -36,7 +38,7 @@ export function ConfirmDialog({
         {children}
         <div className="mt-6 flex justify-end gap-3">
           <Button variant="outline" onClick={onClose} data-autofocus>
-            Cancel
+            {cancelLabel}
           </Button>
           <Button
             variant="danger"

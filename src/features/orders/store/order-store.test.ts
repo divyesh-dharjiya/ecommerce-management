@@ -90,6 +90,43 @@ describe("placeOrder", () => {
   });
 });
 
+describe("updateStatus", () => {
+  const place = () =>
+    useOrderStore.getState().placeOrder({
+      lines: [
+        {
+          productId: product.id,
+          title: product.title,
+          thumbnail: product.thumbnail,
+          category: product.category,
+          unitPrice: product.price,
+          quantity: 3,
+        },
+      ],
+      customer,
+      paymentMethod: "card",
+      couponCode: null,
+    });
+  const stock = () => useCatalogStore.getState().products.find((p) => p.id === product.id)!.stock;
+
+  it("puts stock back when an order is cancelled", () => {
+    const before = stock();
+    const order = place();
+    expect(stock()).toBe(before - 3);
+    expect(useOrderStore.getState().updateStatus(order.id, "cancelled", "Ordered by mistake")).toBe(true);
+    expect(stock()).toBe(before);
+    const saved = useOrderStore.getState().orders.find((o) => o.id === order.id)!;
+    expect(saved.history?.at(-1)).toMatchObject({ status: "cancelled", note: "Ordered by mistake" });
+  });
+
+  it("rejects moves the workflow forbids", () => {
+    const order = place();
+    expect(useOrderStore.getState().updateStatus(order.id, "shipped")).toBe(true);
+    expect(useOrderStore.getState().updateStatus(order.id, "cancelled")).toBe(false);
+    expect(useOrderStore.getState().updateStatus(order.id, "pending")).toBe(false);
+  });
+});
+
 describe("cart store", () => {
   it("clamps additions to available stock and the per-item limit", () => {
     const limited = { ...product, stock: 4 };

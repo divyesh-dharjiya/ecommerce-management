@@ -1,9 +1,11 @@
 "use client";
 
+import { toast } from "sonner";
 import { useRetained } from "@/hooks";
 import { formatDate, formatPrice } from "@/lib/format";
 import { useOrderStore } from "@/features/orders/store/order-store";
-import { ORDER_STATUSES, OrderStatusBadge } from "@/features/orders/components/order-status";
+import { OrderStatusBadge, StatusHistory } from "@/features/orders/components/order-status";
+import { NEXT_STATUSES } from "@/features/orders/services/workflow";
 import { PAYMENT_LABEL } from "@/features/checkout/config";
 import { Button, Modal, Thumb } from "@/components/ui";
 
@@ -54,19 +56,27 @@ export function OrderDetailModal({ orderId, onClose }: { orderId: string | null;
               <dd className="text-lg font-bold">{formatPrice(order.total)}</dd>
             </div>
           </dl>
-          <div className="flex flex-wrap gap-2 border-t border-border pt-5" role="group" aria-label="Set status">
-            {ORDER_STATUSES.map((s) => (
-              <Button
-                key={s}
-                size="sm"
-                variant={order.status === s ? "dark" : "outline"}
-                className="capitalize"
-                onClick={() => updateStatus(order.id, s)}
-                aria-pressed={order.status === s}
-              >
-                {s}
-              </Button>
-            ))}
+          <StatusHistory order={order} />
+          <div className="border-t border-border pt-5">
+            {NEXT_STATUSES[order.status].length === 0 ? (
+              <p className="text-sm text-muted-foreground">This order is {order.status}. No further steps.</p>
+            ) : (
+              <div className="flex flex-wrap gap-2" role="group" aria-label="Move order to">
+                {NEXT_STATUSES[order.status].map((s) => (
+                  <Button
+                    key={s}
+                    size="sm"
+                    variant={s === "cancelled" ? "outline" : "dark"}
+                    className={s === "cancelled" ? "text-danger" : undefined}
+                    onClick={() => {
+                      if (updateStatus(order.id, s)) toast.success(`${order.number} marked ${s}`);
+                    }}
+                  >
+                    {s === "cancelled" ? "Cancel order" : `Mark as ${s}`}
+                  </Button>
+                ))}
+              </div>
+            )}
           </div>
         </div>
       )}

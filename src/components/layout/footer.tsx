@@ -8,7 +8,7 @@ const PAYMENT_METHODS = ["VISA", "Mastercard", "AMEX", "UPI", "PayPal"];
 
 export function Footer() {
   return (
-    <footer className="dark mt-16 bg-background text-foreground">
+    <footer className="dark mt-16 bg-background text-foreground print:hidden">
       <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 gap-12 lg:grid-cols-[1.4fr_2fr]">
           <div className="space-y-5">

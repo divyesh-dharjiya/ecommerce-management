@@ -16,6 +16,8 @@ interface CatalogState extends PersistedCatalog {
   /** Applies a stock delta (negative to decrement). Clamps at zero. */
   adjustStock: (deltas: Record<string, number>) => void;
   recordSales: (sold: Record<string, number>) => void;
+  /** Undoes `recordSales` (a cancelled order): stock goes back, sold counts come down. */
+  reverseSales: (sold: Record<string, number>) => void;
   addCategory: (draft: CategoryDraft) => Category;
   updateCategory: (id: string, patch: Partial<CategoryDraft>) => void;
   /** Deletes a category and moves its products into `reassignTo`. */
@@ -97,6 +99,19 @@ export const useCatalogStore = create<CatalogState>()(
                   ...p,
                   stock: Math.max(0, p.stock - (sold[p.id] ?? 0)),
                   soldCount: p.soldCount + (sold[p.id] ?? 0),
+                }
+              : p,
+          ),
+        })),
+
+      reverseSales: (sold) =>
+        set((s) => ({
+          products: s.products.map((p) =>
+            p.id in sold
+              ? {
+                  ...p,
+                  stock: p.stock + (sold[p.id] ?? 0),
+                  soldCount: Math.max(0, p.soldCount - (sold[p.id] ?? 0)),
                 }
               : p,
           ),

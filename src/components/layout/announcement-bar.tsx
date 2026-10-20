@@ -19,7 +19,11 @@ export function AnnouncementBar() {
   }, []);
 
   return (
-    <div className="relative h-9 overflow-hidden bg-muted text-foreground" role="region" aria-label="Announcements">
+    <div
+      className="relative h-9 overflow-hidden bg-muted text-foreground print:hidden"
+      role="region"
+      aria-label="Announcements"
+    >
       <AnimatePresence mode="wait" initial={false}>
         <m.p
           key={index}

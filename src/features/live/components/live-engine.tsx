@@ -30,6 +30,7 @@ function tickSimulation(): LiveEvent[] {
     catalog.recordSales(Object.fromEntries(sim.order.lines.map((l) => [l.productId, l.quantity])));
     events.push(sim.event);
   }
+  useOrderStore.getState().advanceLiveOrders();
   const depleted = useCatalogStore.getState().products.find((p) => p.status === "active" && p.stock < 3);
   if (depleted && Math.random() < 0.35) {
     const qty = 20 + Math.floor(Math.random() * 40);

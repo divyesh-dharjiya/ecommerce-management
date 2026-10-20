@@ -90,6 +90,13 @@ export interface CustomerDetails {
   country: string;
 }
 
+export interface OrderStatusChange {
+  status: OrderStatus;
+  at: string;
+  /** e.g. the shopper's reason for cancelling. */
+  note?: string;
+}
+
 export interface Order {
   id: string;
   number: string;
@@ -105,6 +112,8 @@ export interface Order {
   paymentMethod: PaymentMethod;
   source: OrderSource;
   createdAt: string;
+  /** Status changes, oldest first. Absent on orders saved before it was introduced. */
+  history?: OrderStatusChange[];
 }
 
 export type SortOption = "featured" | "newest" | "price-asc" | "price-desc" | "rating" | "best-selling" | "discount";

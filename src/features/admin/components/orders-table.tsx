@@ -8,6 +8,7 @@ import { downloadFile, toCsv, todayStamp } from "@/lib/download";
 import { formatDate, formatPrice, formatRelativeTime } from "@/lib/format";
 import { useOrderStore } from "@/features/orders/store/order-store";
 import { ORDER_STATUSES } from "@/features/orders/components/order-status";
+import { canTransition } from "@/features/orders/services/workflow";
 import { ClientGate } from "@/components/providers/client-gate";
 import { Button, DataTable, SearchInput, SegmentedControl, Skeleton, Thumb, type Column } from "@/components/ui";
 import { AdminPageHeader } from "@/features/admin/components/admin-page";
@@ -138,14 +139,14 @@ function OrdersView() {
           value={o.status}
           onClick={(e) => e.stopPropagation()}
           onChange={(e) => {
-            updateStatus(o.id, e.target.value as OrderStatus);
-            toast.success(`${o.number} marked ${e.target.value}`);
+            const next = e.target.value as OrderStatus;
+            if (updateStatus(o.id, next)) toast.success(`${o.number} marked ${next}`);
           }}
           aria-label={`Status for ${o.number}`}
           className="cursor-pointer rounded-lg border border-border bg-card px-2 py-1 text-xs font-semibold capitalize outline-none focus:border-primary"
         >
           {ORDER_STATUSES.map((s) => (
-            <option key={s} value={s}>
+            <option key={s} value={s} disabled={s !== o.status && !canTransition(o.status, s)}>
               {s}
             </option>
           ))}

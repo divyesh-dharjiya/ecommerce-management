@@ -1,6 +1,7 @@
 import { CheckCircle2, Clock, Package, Truck, XCircle } from "lucide-react";
+import { formatDate } from "@/lib/format";
 import { cn } from "@/lib/utils";
-import type { OrderStatus } from "@/types";
+import type { Order, OrderStatus } from "@/types";
 
 export const ORDER_STATUSES: OrderStatus[] = ["pending", "processing", "shipped", "delivered", "cancelled"];
 
@@ -29,14 +30,16 @@ export function OrderStatusBadge({ status, className }: { status: OrderStatus; c
 
 const FLOW: OrderStatus[] = ["pending", "processing", "shipped", "delivered"];
 
-export function OrderTimeline({ status }: { status: OrderStatus }) {
-  if (status === "cancelled") return <OrderStatusBadge status="cancelled" />;
-  const current = FLOW.indexOf(status);
+/** Progress through the delivery steps, with the date each step was reached when known. */
+export function OrderTimeline({ order }: { order: Order }) {
+  if (order.status === "cancelled") return <OrderStatusBadge status="cancelled" />;
+  const current = FLOW.indexOf(order.status);
   return (
     <ol className="flex items-center" aria-label="Order progress">
       {FLOW.map((s, i) => {
         const { label, icon: Icon } = META[s];
         const done = i <= current;
+        const at = order.history?.find((h) => h.status === s)?.at;
         return (
           <li key={s} className="flex flex-1 items-center last:flex-none">
             <div className="flex flex-col items-center gap-2">
@@ -51,6 +54,11 @@ export function OrderTimeline({ status }: { status: OrderStatus }) {
               <span className={cn("text-xs font-medium", done ? "text-foreground" : "text-muted-foreground")}>
                 {label}
               </span>
+              {at && (
+                <time dateTime={at} className="-mt-1.5 text-[11px] text-muted-foreground max-sm:hidden">
+                  {formatDate(at, { month: "short", day: "numeric" })}
+                </time>
+              )}
             </div>
             {i < FLOW.length - 1 && (
               <span className={cn("mx-2 mb-6 h-0.5 flex-1 rounded-full", i < current ? "bg-primary" : "bg-border")} />
@@ -58,6 +66,24 @@ export function OrderTimeline({ status }: { status: OrderStatus }) {
           </li>
         );
       })}
+    </ol>
+  );
+}
+
+/** Dated list of the order's status changes (newest first), with any note such as a cancel reason. */
+export function StatusHistory({ order, className }: { order: Order; className?: string }) {
+  const history = order.history ?? [{ status: order.status, at: order.createdAt }];
+  return (
+    <ol className={cn("space-y-2 text-sm", className)} aria-label="Status history">
+      {[...history].reverse().map((h) => (
+        <li key={`${h.status}-${h.at}`} className="flex flex-wrap items-baseline gap-x-2">
+          <span className="font-medium">{META[h.status].label}</span>
+          <time dateTime={h.at} className="text-xs text-muted-foreground">
+            {formatDate(h.at, { dateStyle: "medium", timeStyle: "short" })}
+          </time>
+          {h.note && <span className="w-full text-xs text-muted-foreground">“{h.note}”</span>}
+        </li>
+      ))}
     </ol>
   );
 }
