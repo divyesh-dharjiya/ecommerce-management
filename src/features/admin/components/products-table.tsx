@@ -5,7 +5,7 @@ import { useMemo, useState } from "react";
 import { ExternalLink, Pencil, Plus, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 import { commerceConfig } from "@/config/site";
-import { useDebounce } from "@/hooks";
+import { useDebounce, useRetained } from "@/hooks";
 import { formatNumber, formatPrice } from "@/lib/format";
 import { cn } from "@/lib/utils";
 import { scoreProduct } from "@/features/catalog/services/catalog";
@@ -88,6 +88,9 @@ function ProductsTableView() {
   const [stock, setStock] = useState<StockFilter>("");
   const [editing, setEditing] = useState<Product | "new" | null>(null);
   const [confirmIds, setConfirmIds] = useState<string[] | null>(null);
+  // Keep showing the closing dialog's content during its exit animation.
+  const shownEditing = useRetained(editing);
+  const shownConfirmIds = useRetained(confirmIds);
 
   const rows = useMemo(
     () =>
@@ -286,18 +289,22 @@ function ProductsTableView() {
       <Modal
         open={editing !== null}
         onClose={() => setEditing(null)}
-        title={editing === "new" ? "Add product" : "Edit product"}
+        title={shownEditing === "new" ? "Add product" : "Edit product"}
         className="max-w-2xl"
       >
-        {editing !== null && (
-          <ProductForm product={editing === "new" ? undefined : editing} onDone={() => setEditing(null)} />
+        {shownEditing && (
+          <ProductForm
+            key={shownEditing === "new" ? "new" : shownEditing.id}
+            product={shownEditing === "new" ? undefined : shownEditing}
+            onDone={() => setEditing(null)}
+          />
         )}
       </Modal>
 
       <ConfirmDialog
         open={confirmIds !== null}
         onClose={() => setConfirmIds(null)}
-        title={`Delete ${confirmIds?.length === 1 ? "product" : `${confirmIds?.length} products`}?`}
+        title={`Delete ${shownConfirmIds?.length === 1 ? "product" : `${shownConfirmIds?.length ?? 0} products`}?`}
         description="This removes the product from the catalogue and every shopper's view. Past orders are kept."
         onConfirm={() => {
           if (!confirmIds) return;

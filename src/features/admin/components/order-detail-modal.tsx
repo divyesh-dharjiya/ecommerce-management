@@ -1,5 +1,6 @@
 "use client";
 
+import { useRetained } from "@/hooks";
 import { formatDate, formatPrice } from "@/lib/format";
 import { useOrderStore } from "@/features/orders/store/order-store";
 import { ORDER_STATUSES, OrderStatusBadge } from "@/features/orders/components/order-status";
@@ -8,11 +9,12 @@ import { Button, Modal, Thumb } from "@/components/ui";
 
 /** Admin order inspector with status workflow. Reads live data by id. */
 export function OrderDetailModal({ orderId, onClose }: { orderId: string | null; onClose: () => void }) {
-  const order = useOrderStore((s) => (orderId ? s.orders.find((o) => o.id === orderId) : undefined));
+  const current = useOrderStore((s) => (orderId ? s.orders.find((o) => o.id === orderId) : undefined));
+  const order = useRetained(current);
   const updateStatus = useOrderStore((s) => s.updateStatus);
 
   return (
-    <Modal open={!!order} onClose={onClose} title={order ? `Order ${order.number}` : ""} className="max-w-xl">
+    <Modal open={!!current} onClose={onClose} title={order ? `Order ${order.number}` : ""} className="max-w-xl">
       {order && (
         <div className="space-y-5 p-6">
           <div className="flex items-center justify-between">

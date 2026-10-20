@@ -1,31 +1,53 @@
 "use client";
 
 import Link from "next/link";
+import { FolderX } from "lucide-react";
 import { useCategoryBySlug } from "@/features/catalog/store/catalog-store";
 import { useHydrated } from "@/store/ui-store";
-import { Breadcrumbs, buttonClasses, Container, ProductImage } from "@/components/ui";
+import { Breadcrumbs, buttonClasses, Container, EmptyState, ProductImage } from "@/components/ui";
 import { CategoryIcon } from "@/features/catalog/components/category-icon";
+import { ProductExplorer } from "@/features/catalog/components/product-explorer";
+import type { Category } from "@/types";
 
-export function CategoryHeader({ slug }: { slug: string }) {
+/**
+ * A category listing. Seed categories render on the server; categories an
+ * admin created exist only in the browser store, and deleted ones show a
+ * not-found state once the store has loaded.
+ */
+export function CategoryView({ slug }: { slug: string }) {
   const category = useCategoryBySlug(slug);
   const hydrated = useHydrated();
 
   if (!category) {
+    if (!hydrated) return <div className="min-h-[60vh]" aria-busy="true" />;
     return (
-      <Container className="py-20 text-center">
-        {hydrated && (
-          <div className="">
-            <h1 className="font-display text-4xl">Category not found</h1>
-            <p className="mt-3 text-muted-foreground">This category may have been removed.</p>
-            <Link href="/categories" className={buttonClasses("primary", "md", "mt-6")}>
+      <Container>
+        <EmptyState
+          icon={<FolderX className="size-9" />}
+          headingLevel="h1"
+          title="Category not found"
+          description="This category may have been removed or renamed."
+          action={
+            <Link href="/categories" className={buttonClasses()}>
               Browse categories
             </Link>
-          </div>
-        )}
+          }
+        />
       </Container>
     );
   }
 
+  return (
+    <>
+      <CategoryHeader category={category} />
+      <Container className="py-10">
+        <ProductExplorer lockedCategory={slug} />
+      </Container>
+    </>
+  );
+}
+
+function CategoryHeader({ category }: { category: Category }) {
   return (
     <section className="relative overflow-hidden border-b border-border">
       <div

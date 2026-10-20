@@ -5,6 +5,7 @@ import { useState } from "react";
 import { ArrowRight, Heart, ShoppingBag, Truck } from "lucide-react";
 import { commerceConfig } from "@/config/site";
 import { useCartActions } from "@/features/cart/hooks/use-cart-actions";
+import { useRetained } from "@/hooks";
 import { cn } from "@/lib/utils";
 import { useProduct } from "@/features/catalog/store/catalog-store";
 import { useUiStore } from "@/store/ui-store";
@@ -16,10 +17,11 @@ import type { Product } from "@/types";
 export function QuickView() {
   const id = useUiStore((s) => s.quickViewId);
   const close = useUiStore((s) => s.setQuickViewId);
-  const product = useProduct(id ?? undefined);
+  const current = useProduct(id ?? undefined);
+  const product = useRetained(current);
 
   return (
-    <Modal open={!!product} onClose={() => close(null)} className="max-w-4xl">
+    <Modal open={!!current} onClose={() => close(null)} className="max-w-4xl">
       {/* `key` resets internal state (selected image, qty) per product */}
       {product && <QuickViewBody key={product.id} product={product} onClose={() => close(null)} />}
     </Modal>

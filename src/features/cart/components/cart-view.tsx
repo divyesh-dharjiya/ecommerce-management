@@ -33,6 +33,7 @@ export function CartView() {
       <Container>
         <EmptyState
           icon={<ShoppingBag className="size-9" />}
+          headingLevel="h1"
           title="Your bag is empty"
           description="Once you add something to your bag, it will appear here. Ready to get started?"
           action={

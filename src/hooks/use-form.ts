@@ -16,13 +16,19 @@ export function useForm<T extends object>(initial: T | (() => T), validate: (val
     setErrors((e) => (e[key] ? { ...e, [key]: undefined } : e));
   }, []);
 
-  /** Validates; returns the first invalid field name, or null when valid. */
+  /**
+   * Validates; returns the first invalid field name, or null when valid.
+   * Focus moves to the first invalid control (inputs use the field name as id).
+   */
   const runValidation = useCallback(
     (override?: T) => {
       const found = validate(override ?? values);
       const clean = Object.fromEntries(Object.entries(found).filter(([, msg]) => msg)) as FieldErrors<T>;
       setErrors(clean);
-      return hasErrors(clean) ? (Object.keys(clean)[0] as keyof T) : null;
+      if (!hasErrors(clean)) return null;
+      const first = Object.keys(clean)[0] as keyof T;
+      document.getElementById(String(first))?.focus();
+      return first;
     },
     [validate, values],
   );

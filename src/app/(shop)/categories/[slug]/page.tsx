@@ -3,10 +3,8 @@ import { notFound } from "next/navigation";
 import { SEED_CATEGORIES } from "@/data";
 import { buildMetadata } from "@/lib/seo";
 import { parseProductQuery, toSearchParams } from "@/features/catalog/services/query-params";
-import { ProductExplorer } from "@/features/catalog/components/product-explorer";
-import { CategoryHeader } from "@/features/catalog/components/category-header";
+import { CategoryView } from "@/features/catalog/components/category-view";
 import { ListingJsonLd, isFacetedQuery, listingCanonical } from "@/features/catalog/components/listing-seo";
-import { Container } from "@/components/ui";
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -38,10 +36,7 @@ export default async function CategoryPage({ params, searchParams }: Props) {
     <>
       {seedCategory && <ListingJsonLd query={{ ...query, category: slug }} name={seedCategory.name} />}
       {/* Client: admin-created categories exist only in the browser's store. */}
-      <CategoryHeader slug={slug} />
-      <Container className="py-10">
-        <ProductExplorer lockedCategory={slug} />
-      </Container>
+      <CategoryView slug={slug} />
     </>
   );
 }

@@ -85,6 +85,7 @@ function CheckoutForm() {
       <Container>
         <EmptyState
           icon={<ShoppingBag className="size-9" />}
+          headingLevel="h1"
           title="Nothing to check out"
           description="Your bag is empty. Add a few items and come back."
           action={
@@ -102,7 +103,6 @@ function CheckoutForm() {
     const invalid = form.validate();
     if (invalid) {
       toast.error("Please fix the highlighted fields");
-      document.getElementById(String(invalid))?.focus();
       return;
     }
     const outOfStock = lines.find(({ item, product }) => item.quantity > product.stock);

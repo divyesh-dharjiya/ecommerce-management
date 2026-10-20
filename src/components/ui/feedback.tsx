@@ -24,13 +24,16 @@ export interface EmptyStateProps {
   description: string;
   action?: ReactNode;
   className?: string;
+  /** Use "h1" when the empty state is the whole page (e.g. "Product not found"). */
+  headingLevel?: "h1" | "h2";
 }
 
-export function EmptyState({ icon, title, description, action, className }: EmptyStateProps) {
+export function EmptyState({ icon, title, description, action, className, headingLevel = "h2" }: EmptyStateProps) {
+  const Heading = headingLevel;
   return (
     <div className={cn("flex flex-col items-center justify-center px-6 py-20 text-center", className)}>
       <div className="relative mb-6 grid size-20 place-items-center rounded-lg bg-muted text-foreground">{icon}</div>
-      <h2 className="font-display text-3xl">{title}</h2>
+      <Heading className="font-display text-3xl">{title}</Heading>
       <p className="mt-2 max-w-sm text-sm text-muted-foreground">{description}</p>
       {action && <div className="mt-6">{action}</div>}
     </div>

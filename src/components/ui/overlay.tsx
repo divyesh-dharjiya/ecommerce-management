@@ -10,6 +10,8 @@ interface OverlayProps {
   open: boolean;
   onClose: () => void;
   title?: string;
+  /** id of an element inside the dialog that names it, when there is no `title` header. */
+  labelledBy?: string;
   children: ReactNode;
   className?: string;
 }
@@ -25,7 +27,7 @@ const Backdrop = ({ onClick }: { onClick: () => void }) => (
   />
 );
 
-export function Modal({ open, onClose, title, children, className }: OverlayProps) {
+export function Modal({ open, onClose, title, labelledBy, children, className }: OverlayProps) {
   const titleId = useId();
   const ref = useFocusTrap<HTMLDivElement>(open);
   useLockBodyScroll(open);
@@ -41,7 +43,7 @@ export function Modal({ open, onClose, title, children, className }: OverlayProp
               ref={ref}
               role="dialog"
               aria-modal="true"
-              aria-labelledby={title ? titleId : undefined}
+              aria-labelledby={title ? titleId : labelledBy}
               tabIndex={-1}
               initial={{ opacity: 0, scale: 0.96, y: 16 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}

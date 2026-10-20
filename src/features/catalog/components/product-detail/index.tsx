@@ -32,6 +32,7 @@ export function ProductDetail({ slug, details }: { slug: string; details?: Produ
     return (
       <EmptyState
         icon={<PackageX className="size-9" />}
+        headingLevel="h1"
         title="Product not found"
         description="This product may have been removed or is no longer available."
         action={

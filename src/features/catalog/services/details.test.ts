@@ -35,6 +35,17 @@ describe("withDetails", () => {
     expect(p.warranty).toBe("Lifetime");
   });
 
+  it("keeps a main image the admin replaced", () => {
+    const edited = {
+      ...lite,
+      thumbnail: "https://cdn.example/new.jpg",
+      images: ["https://cdn.example/new.jpg", "b.webp"],
+    };
+    const p = withDetails(edited, details);
+    expect(p.images[0]).toBe("https://cdn.example/new.jpg");
+    expect(p.images).toHaveLength(5);
+  });
+
   it("returns the product unchanged without details (admin-created products)", () => {
     expect(withDetails(lite, undefined)).toBe(lite);
   });

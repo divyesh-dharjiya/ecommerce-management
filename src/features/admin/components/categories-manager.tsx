@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import { AnimatePresence, m } from "framer-motion";
 import { Pencil, Plus, Trash2 } from "lucide-react";
 import { toast } from "sonner";
+import { useRetained } from "@/hooks";
 import { formatPrice } from "@/lib/format";
 import { spring } from "@/lib/motion";
 import { cn } from "@/lib/utils";
@@ -30,6 +31,9 @@ function CategoriesView() {
   const [editing, setEditing] = useState<Category | "new" | null>(null);
   const [deleting, setDeleting] = useState<Category | null>(null);
   const [reassignTo, setReassignTo] = useState("");
+  // Keep showing the closing dialog's content during its exit animation.
+  const shownDeleting = useRetained(deleting);
+  const shownEditing = useRetained(editing);
 
   const stats = useMemo(() => {
     const m = new Map<string, { count: number; value: number }>();
@@ -42,7 +46,7 @@ function CategoriesView() {
     return m;
   }, [products]);
 
-  const deletingCount = deleting ? (stats.get(deleting.slug)?.count ?? 0) : 0;
+  const deletingCount = shownDeleting ? (stats.get(shownDeleting.slug)?.count ?? 0) : 0;
 
   return (
     <div className="space-y-5">
@@ -116,18 +120,22 @@ function CategoriesView() {
       <Modal
         open={editing !== null}
         onClose={() => setEditing(null)}
-        title={editing === "new" ? "Add category" : "Edit category"}
+        title={shownEditing === "new" ? "Add category" : "Edit category"}
         className="max-w-xl"
       >
-        {editing !== null && (
-          <CategoryForm category={editing === "new" ? undefined : editing} onDone={() => setEditing(null)} />
+        {shownEditing && (
+          <CategoryForm
+            key={shownEditing === "new" ? "new" : shownEditing.id}
+            category={shownEditing === "new" ? undefined : shownEditing}
+            onDone={() => setEditing(null)}
+          />
         )}
       </Modal>
 
       <ConfirmDialog
         open={deleting !== null}
         onClose={() => setDeleting(null)}
-        title={`Delete “${deleting?.name}”?`}
+        title={`Delete “${shownDeleting?.name ?? ""}”?`}
         description={
           deletingCount > 0
             ? `${deletingCount} products belong to this category. Choose where to move them, or delete them too.`
@@ -143,7 +151,7 @@ function CategoriesView() {
           <div className="mt-4">
             <Select value={reassignTo} onChange={(e) => setReassignTo(e.target.value)} aria-label="Move products to">
               {categories
-                .filter((c) => c.id !== deleting?.id)
+                .filter((c) => c.id !== shownDeleting?.id)
                 .map((c) => (
                   <option key={c.id} value={c.slug}>
                     Move products to {c.name}

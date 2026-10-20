@@ -7,3 +7,4 @@ export { useScrolled } from "./use-scrolled";
 export { useStableOrder } from "./use-stable-order";
 export { useForm } from "./use-form";
 export { useFocusTrap } from "./use-focus-trap";
+export { useRetained } from "./use-retained";

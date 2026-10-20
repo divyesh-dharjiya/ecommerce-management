@@ -56,6 +56,7 @@ export function OrderDetail({ id }: { id: string }) {
     return (
       <EmptyState
         icon={<PackageX className="size-9" />}
+        headingLevel="h1"
         title="Order not found"
         description="We couldn't find this order on this device."
         action={
