@@ -379,17 +379,14 @@ const order = [...new Set(products.map((p) => p.category))];
 const categories = order.map((slug) => {
   const meta = CATEGORY_META[slug] ?? { icon: "Tag", accent: "#6366f1" };
   const items = products.filter((p) => p.category === slug);
-  const name =
-    meta.name ??
-    slug
-      .split("-")
-      .map((w) => w[0].toUpperCase() + w.slice(1))
-      .join(" ");
+  // "mens-shirts" → "Men's Shirts"
+  const words = slug.replace(/^(wo)?mens-/, (m, wo) => `${wo ?? ""}men's-`).split("-");
+  const name = meta.name ?? words.map((w) => w[0].toUpperCase() + w.slice(1)).join(" ");
   return {
     id: `cat_${slug}`,
     slug,
     name,
-    description: meta.description ?? `Curated ${slug.replace(/-/g, " ")} picked for quality and value.`,
+    description: meta.description ?? `Curated ${words.join(" ")} picked for quality and value.`,
     image: (items.find((p) => p.imageStyle === "cutout") ?? items[0]).thumbnail,
     icon: meta.icon,
     accent: meta.accent,

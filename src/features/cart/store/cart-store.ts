@@ -6,7 +6,7 @@ import { persist } from "zustand/middleware";
 import { commerceConfig } from "@/config/site";
 import { findCoupon } from "@/config/coupons";
 import { persistOptions } from "@/lib/storage";
-import { calculateTotals } from "@/features/cart/services/pricing";
+import { calculateTotals, validateCoupon } from "@/features/cart/services/pricing";
 import { useCatalogStore } from "@/features/catalog/store/catalog-store";
 import type { CartItem, CartTotals, Coupon, Product } from "@/types";
 
@@ -87,7 +87,16 @@ export function useCartLines(): CartLine[] {
   }, [items, products]);
 }
 
-export function useCartSummary(): { lines: CartLine[]; totals: CartTotals; coupon: Coupon | null } {
+export interface CartSummary {
+  lines: CartLine[];
+  totals: CartTotals;
+  /** The code the shopper entered, whether or not it currently applies. */
+  coupon: Coupon | null;
+  /** Why the entered coupon isn't giving a discount right now (e.g. minimum spend no longer met). */
+  couponIssue: string | null;
+}
+
+export function useCartSummary(): CartSummary {
   const lines = useCartLines();
   const couponCode = useCartStore((s) => s.couponCode);
   return useMemo(() => {
@@ -96,7 +105,8 @@ export function useCartSummary(): { lines: CartLine[]; totals: CartTotals; coupo
       lines.map(({ item, product }) => ({ unitPrice: product.price, quantity: item.quantity })),
       coupon,
     );
-    return { lines, totals, coupon };
+    const check = coupon ? validateCoupon(coupon, totals.subtotal) : null;
+    return { lines, totals, coupon, couponIssue: check && !check.ok ? check.reason : null };
   }, [lines, couponCode]);
 }
 

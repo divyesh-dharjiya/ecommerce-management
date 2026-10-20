@@ -12,7 +12,7 @@ import { OrderSummary } from "@/features/cart/components/order-summary";
 
 export function CartView() {
   const hydrated = useHydrated();
-  const { lines, totals, coupon } = useCartSummary();
+  const { lines, totals, coupon, couponIssue } = useCartSummary();
   const clear = useCartStore((s) => s.clear);
   const hasStockIssue = lines.some(({ item, product }) => item.quantity > product.stock);
 
@@ -74,7 +74,7 @@ export function CartView() {
 
         <Card className="sticky top-24 p-6">
           <h2 className="mb-5 text-lg font-bold">Order summary</h2>
-          <OrderSummary totals={totals} coupon={coupon}>
+          <OrderSummary totals={totals} coupon={coupon} couponIssue={couponIssue}>
             {hasStockIssue && (
               <p className="rounded-md bg-danger/10 p-3 text-sm font-medium text-danger">
                 Some items exceed available stock. Please update quantities to continue.

@@ -37,6 +37,9 @@ export function FlashDeals() {
     [products],
   );
 
+  // Deals are sorted by discount, so the first one sets the headline figure.
+  const maxOff = deals[0] ? discountPercent(deals[0].price, deals[0].compareAtPrice) : 0;
+
   const scroll = (dir: 1 | -1) =>
     scroller.current?.scrollBy({ left: dir * scroller.current.clientWidth * 0.8, behavior: "smooth" });
 
@@ -49,7 +52,9 @@ export function FlashDeals() {
             <h2 id="flash-title" className="mt-2 font-display text-6xl sm:text-8xl">
               Flash sale
             </h2>
-            <p className="mt-2 text-lg font-medium">Up to 20% off. Ends at midnight.</p>
+            <p className="mt-2 text-lg font-medium">
+              {maxOff > 0 ? `Up to ${maxOff}% off.` : "Fresh deals every day."} Ends at midnight.
+            </p>
           </div>
           <div className="flex items-center gap-2" role="timer" aria-label="Time remaining" suppressHydrationWarning>
             {hydrated && (

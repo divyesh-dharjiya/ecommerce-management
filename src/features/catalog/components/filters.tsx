@@ -69,7 +69,10 @@ export function Filters({ query, facets, categories, lockedCategory, onChange }:
     e?.preventDefault();
     const lo = min === "" ? undefined : Math.max(0, Number(min));
     const hi = max === "" ? undefined : Math.max(0, Number(max));
-    onChange({ minPrice: lo, maxPrice: hi !== undefined && lo !== undefined && hi < lo ? lo : hi });
+    const maxPrice = hi !== undefined && lo !== undefined && hi < lo ? lo : hi;
+    // Blurring an untouched field must not reset pagination.
+    if (lo === query.minPrice && maxPrice === query.maxPrice) return;
+    onChange({ minPrice: lo, maxPrice });
   };
 
   return (

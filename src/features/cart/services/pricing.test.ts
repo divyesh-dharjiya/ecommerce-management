@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { findCoupon } from "@/config/coupons";
-import { calculateTotals, validateCoupon } from "@/features/cart/services/pricing";
+import { calculateTotals, couponApplies, validateCoupon } from "@/features/cart/services/pricing";
 
 describe("calculateTotals", () => {
   it("returns zeros for an empty cart (no phantom shipping)", () => {
@@ -66,5 +66,14 @@ describe("validateCoupon", () => {
 
   it("accepts eligible codes case-insensitively", () => {
     expect(validateCoupon(findCoupon(" save15 "), 80).ok).toBe(true);
+  });
+});
+
+describe("couponApplies", () => {
+  it("is false below the minimum spend and true at it", () => {
+    const luxe = findCoupon("LUXE20");
+    expect(couponApplies(luxe, 199.99)).toBe(false);
+    expect(couponApplies(luxe, 200)).toBe(true);
+    expect(couponApplies(null, 500)).toBe(false);
   });
 });

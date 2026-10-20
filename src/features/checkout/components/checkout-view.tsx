@@ -71,7 +71,7 @@ export function CheckoutView() {
 
 function CheckoutForm() {
   const router = useRouter();
-  const { lines, totals, coupon } = useCartSummary();
+  const { lines, totals, coupon, couponIssue } = useCartSummary();
   const clearCart = useCartStore((s) => s.clear);
   const placeOrder = useOrderStore((s) => s.placeOrder);
   const form = useForm<CustomerDetails>(loadSavedAddress, validateCustomer);
@@ -160,7 +160,7 @@ function CheckoutForm() {
               </li>
             ))}
           </ul>
-          <OrderSummary totals={totals} coupon={coupon}>
+          <OrderSummary totals={totals} coupon={coupon} couponIssue={couponIssue}>
             <Button type="submit" size="lg" className="w-full">
               Place order · {formatPrice(totals.total)}
             </Button>

@@ -6,7 +6,16 @@ import { cn } from "@/lib/utils";
 import { ProductImage } from "@/components/ui";
 
 /** Image gallery with thumbnail rail and hover-to-zoom on pointer devices. */
-export function ProductGallery({ images, title }: { images: string[]; title: string }) {
+export function ProductGallery({
+  images,
+  title,
+  photo = false,
+}: {
+  images: string[];
+  title: string;
+  /** Full-bleed studio photo (cover) rather than a cutout on a tint (contain). */
+  photo?: boolean;
+}) {
   const [index, setIndex] = useState(0);
   const [zoom, setZoom] = useState<{ x: number; y: number } | null>(null);
   const current = images[index] ?? images[0] ?? "";
@@ -17,7 +26,7 @@ export function ProductGallery({ images, title }: { images: string[]; title: str
   };
 
   return (
-    <div className="flex flex-col-reverse gap-4 md:flex-row">
+    <div className="flex flex-col-reverse gap-4 md:flex-row md:items-start">
       {images.length > 1 && (
         <div
           className="flex gap-3 overflow-x-auto scrollbar-none md:flex-col"
@@ -37,13 +46,19 @@ export function ProductGallery({ images, title }: { images: string[]; title: str
                 i === index ? "border-primary" : "border-transparent opacity-60 hover:opacity-100",
               )}
             >
-              <ProductImage src={img} alt="" fill sizes="80px" className="object-contain p-1.5" />
+              <ProductImage
+                src={img}
+                alt=""
+                fill
+                sizes="80px"
+                className={photo ? "object-cover" : "object-contain p-1.5"}
+              />
             </button>
           ))}
         </div>
       )}
       <div
-        className="relative aspect-square flex-1 cursor-zoom-in overflow-hidden rounded-2xl bg-gradient-to-br from-muted to-muted/30"
+        className="relative aspect-square w-full min-w-0 cursor-zoom-in overflow-hidden rounded-2xl bg-gradient-to-br from-muted to-muted/30 md:w-auto md:flex-1"
         onMouseMove={onMove}
         onMouseLeave={() => setZoom(null)}
       >
@@ -62,7 +77,10 @@ export function ProductGallery({ images, title }: { images: string[]; title: str
               fill
               priority
               sizes="(max-width: 768px) 100vw, 50vw"
-              className="object-contain p-8 transition-transform duration-200 ease-out"
+              className={cn(
+                photo ? "object-cover" : "object-contain p-8",
+                "transition-transform duration-200 ease-out",
+              )}
               style={zoom ? { transform: "scale(1.9)", transformOrigin: `${zoom.x}% ${zoom.y}%` } : undefined}
             />
           </m.div>

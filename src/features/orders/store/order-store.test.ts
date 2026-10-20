@@ -63,6 +63,15 @@ describe("placeOrder", () => {
     expect(bogus.discount).toBe(0);
   });
 
+  it("does not record a coupon whose minimum spend isn't met", () => {
+    // LUXE20 needs $200; the shopper's bag dropped to $100 after applying it.
+    const order = useOrderStore
+      .getState()
+      .placeOrder({ lines: [line(2, 50)], customer, paymentMethod: "card", couponCode: "LUXE20" });
+    expect(order.couponCode).toBeNull();
+    expect(order.discount).toBe(0);
+  });
+
   it("marks cash-on-delivery orders pending and prepaid orders processing", () => {
     const cod = useOrderStore
       .getState()

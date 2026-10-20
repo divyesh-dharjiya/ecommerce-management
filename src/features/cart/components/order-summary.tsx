@@ -8,6 +8,7 @@ import { COUPONS, findCoupon } from "@/config/coupons";
 import { formatPrice } from "@/lib/format";
 import { validateCoupon } from "@/features/cart/services/pricing";
 import { useCartStore } from "@/features/cart/store/cart-store";
+import { cn } from "@/lib/utils";
 import { Button, Input } from "@/components/ui";
 import type { CartTotals, Coupon } from "@/types";
 
@@ -31,10 +32,25 @@ function Row({
   );
 }
 
-export function CouponForm({ subtotal, coupon }: { subtotal: number; coupon: Coupon | null }) {
+export function CouponForm({
+  subtotal,
+  coupon,
+  issue,
+}: {
+  subtotal: number;
+  coupon: Coupon | null;
+  /** Set when the entered coupon no longer applies (e.g. the bag dropped below its minimum). */
+  issue?: string | null;
+}) {
   const applyCoupon = useCartStore((s) => s.applyCoupon);
   const [code, setCode] = useState("");
   const [error, setError] = useState<string | null>(null);
+  // A "spend $X more" message goes stale as soon as the bag changes.
+  const [errorSubtotal, setErrorSubtotal] = useState(subtotal);
+  if (errorSubtotal !== subtotal) {
+    setErrorSubtotal(subtotal);
+    if (error) setError(null);
+  }
 
   // Not a <form>: this block is rendered inside the checkout form, and forms cannot nest.
   const submit = () => {
@@ -51,10 +67,17 @@ export function CouponForm({ subtotal, coupon }: { subtotal: number; coupon: Cou
 
   if (coupon) {
     return (
-      <div className="flex items-center justify-between rounded-md border border-dashed border-success/50 bg-success/10 px-3 py-2.5 text-sm">
-        <span className="flex items-center gap-2 font-semibold text-success">
+      <div
+        className={cn(
+          "flex items-center justify-between rounded-md border border-dashed px-3 py-2.5 text-sm",
+          issue ? "border-warning/60 bg-warning/10" : "border-success/50 bg-success/10",
+        )}
+      >
+        <span
+          className={cn("flex flex-wrap items-center gap-x-2 font-semibold", issue ? "text-warning" : "text-success")}
+        >
           <Tag className="size-4" /> {coupon.code}
-          <span className="font-normal text-foreground/70">· {coupon.description}</span>
+          <span className="font-normal text-foreground/70">· {issue ?? coupon.description}</span>
         </span>
         <button
           type="button"
@@ -101,17 +124,19 @@ export function CouponForm({ subtotal, coupon }: { subtotal: number; coupon: Cou
 export function OrderSummary({
   totals,
   coupon,
+  couponIssue,
   showCoupon = true,
   children,
 }: {
   totals: CartTotals;
   coupon: Coupon | null;
+  couponIssue?: string | null;
   showCoupon?: boolean;
   children?: ReactNode;
 }) {
   return (
     <div className="space-y-4">
-      {showCoupon && <CouponForm subtotal={totals.subtotal} coupon={coupon} />}
+      {showCoupon && <CouponForm subtotal={totals.subtotal} coupon={coupon} issue={couponIssue} />}
       <div className="space-y-2.5">
         <Row label={`Subtotal (${totals.itemCount} items)`} value={formatPrice(totals.subtotal)} muted />
         <AnimatePresence>

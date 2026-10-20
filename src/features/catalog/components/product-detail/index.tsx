@@ -68,7 +68,11 @@ function ProductDetailView({ product }: { product: Product }) {
           ]}
         />
         <div className="grid grid-cols-1 gap-10 lg:grid-cols-2 lg:gap-16">
-          <ProductGallery images={product.images.length ? product.images : [product.thumbnail]} title={product.title} />
+          <ProductGallery
+            images={product.images.length ? product.images : [product.thumbnail]}
+            title={product.title}
+            photo={product.imageStyle === "photo"}
+          />
           <PurchasePanel product={product} />
         </div>
         <ProductTabs product={product} category={category} />

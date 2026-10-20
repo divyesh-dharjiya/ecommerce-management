@@ -9,6 +9,10 @@ export interface PricedLine {
 
 export type CouponValidation = { ok: true; coupon: Coupon } | { ok: false; reason: string };
 
+/** A coupon only counts once the order meets its minimum spend. */
+export const couponApplies = (coupon: Coupon | null | undefined, subtotal: number): coupon is Coupon =>
+  !!coupon && subtotal >= coupon.minSubtotal;
+
 export function validateCoupon(coupon: Coupon | undefined, subtotal: number): CouponValidation {
   if (!coupon) return { ok: false, reason: "This code isn't valid." };
   if (subtotal < coupon.minSubtotal) {
@@ -31,7 +35,7 @@ export function calculateTotals(lines: PricedLine[], coupon?: Coupon | null): Ca
   const itemCount = lines.reduce((n, l) => n + l.quantity, 0);
   const subtotal = round2(lines.reduce((sum, l) => sum + l.unitPrice * l.quantity, 0));
 
-  const applicable = coupon && subtotal >= coupon.minSubtotal ? coupon : null;
+  const applicable = couponApplies(coupon, subtotal) ? coupon : null;
 
   let discount = 0;
   if (applicable?.type === "percent") discount = round2((subtotal * applicable.value) / 100);

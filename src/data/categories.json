@@ -65,8 +65,8 @@
   {
     "id": "cat_mens-shirts",
     "slug": "mens-shirts",
-    "name": "Mens Shirts",
-    "description": "Curated mens shirts picked for quality and value.",
+    "name": "Men's Shirts",
+    "description": "Curated men's shirts picked for quality and value.",
     "image": "https://cdn.dummyjson.com/product-images/mens-shirts/blue-&-black-check-shirt/thumbnail.webp",
     "icon": "Shirt",
     "accent": "#0ea5e9"
@@ -74,8 +74,8 @@
   {
     "id": "cat_mens-shoes",
     "slug": "mens-shoes",
-    "name": "Mens Shoes",
-    "description": "Curated mens shoes picked for quality and value.",
+    "name": "Men's Shoes",
+    "description": "Curated men's shoes picked for quality and value.",
     "image": "https://cdn.dummyjson.com/product-images/mens-shoes/nike-air-jordan-1-red-and-black/thumbnail.webp",
     "icon": "Footprints",
     "accent": "#64748b"
@@ -83,8 +83,8 @@
   {
     "id": "cat_mens-watches",
     "slug": "mens-watches",
-    "name": "Mens Watches",
-    "description": "Curated mens watches picked for quality and value.",
+    "name": "Men's Watches",
+    "description": "Curated men's watches picked for quality and value.",
     "image": "https://cdn.dummyjson.com/product-images/mens-watches/brown-leather-belt-watch/thumbnail.webp",
     "icon": "Watch",
     "accent": "#334155"
@@ -173,8 +173,8 @@
   {
     "id": "cat_womens-bags",
     "slug": "womens-bags",
-    "name": "Womens Bags",
-    "description": "Curated womens bags picked for quality and value.",
+    "name": "Women's Bags",
+    "description": "Curated women's bags picked for quality and value.",
     "image": "https://cdn.dummyjson.com/product-images/womens-bags/blue-women's-handbag/thumbnail.webp",
     "icon": "ShoppingBag",
     "accent": "#db2777"
@@ -182,8 +182,8 @@
   {
     "id": "cat_womens-dresses",
     "slug": "womens-dresses",
-    "name": "Womens Dresses",
-    "description": "Curated womens dresses picked for quality and value.",
+    "name": "Women's Dresses",
+    "description": "Curated women's dresses picked for quality and value.",
     "image": "https://cdn.dummyjson.com/product-images/womens-dresses/black-women's-gown/thumbnail.webp",
     "icon": "Gem",
     "accent": "#e11d48"
@@ -191,8 +191,8 @@
   {
     "id": "cat_womens-jewellery",
     "slug": "womens-jewellery",
-    "name": "Womens Jewellery",
-    "description": "Curated womens jewellery picked for quality and value.",
+    "name": "Women's Jewellery",
+    "description": "Curated women's jewellery picked for quality and value.",
     "image": "https://cdn.dummyjson.com/product-images/womens-jewellery/green-crystal-earring/thumbnail.webp",
     "icon": "Gem",
     "accent": "#eab308"
@@ -200,8 +200,8 @@
   {
     "id": "cat_womens-shoes",
     "slug": "womens-shoes",
-    "name": "Womens Shoes",
-    "description": "Curated womens shoes picked for quality and value.",
+    "name": "Women's Shoes",
+    "description": "Curated women's shoes picked for quality and value.",
     "image": "https://cdn.dummyjson.com/product-images/womens-shoes/black-&-brown-slipper/thumbnail.webp",
     "icon": "Footprints",
     "accent": "#be185d"
@@ -209,8 +209,8 @@
   {
     "id": "cat_womens-watches",
     "slug": "womens-watches",
-    "name": "Womens Watches",
-    "description": "Curated womens watches picked for quality and value.",
+    "name": "Women's Watches",
+    "description": "Curated women's watches picked for quality and value.",
     "image": "https://cdn.dummyjson.com/product-images/womens-watches/iwc-ingenieur-automatic-steel/thumbnail.webp",
     "icon": "Watch",
     "accent": "#9333ea"

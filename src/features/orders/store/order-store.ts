@@ -6,7 +6,7 @@ import { liveConfig } from "@/config/site";
 import { findCoupon } from "@/config/coupons";
 import { persistOptions } from "@/lib/storage";
 import { createId } from "@/lib/utils";
-import { calculateTotals } from "@/features/cart/services/pricing";
+import { calculateTotals, couponApplies } from "@/features/cart/services/pricing";
 import { generateHistoricalOrders } from "@/features/live/services/simulation";
 import { useCatalogStore } from "@/features/catalog/store/catalog-store";
 import type { CustomerDetails, Order, OrderLine, OrderStatus, PaymentMethod } from "@/types";
@@ -46,6 +46,8 @@ export const useOrderStore = create<OrderState>()(
         // Totals are recomputed here — never trust numbers passed from the UI.
         const coupon = couponCode ? findCoupon(couponCode) : undefined;
         const totals = calculateTotals(lines, coupon);
+        // A coupon below its minimum spend gave no discount, so it isn't recorded on the order.
+        const appliedCoupon = couponApplies(coupon, totals.subtotal) ? coupon : null;
         const order: Order = {
           id: createId("ord"),
           number: nextOrderNumber(get().orders),
@@ -55,7 +57,7 @@ export const useOrderStore = create<OrderState>()(
           shipping: totals.shipping,
           tax: totals.tax,
           total: totals.total,
-          couponCode: coupon?.code ?? null,
+          couponCode: appliedCoupon?.code ?? null,
           status: paymentMethod === "cod" ? "pending" : "processing",
           customer,
           paymentMethod,
