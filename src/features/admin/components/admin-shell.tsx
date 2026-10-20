@@ -4,7 +4,8 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { m } from "framer-motion";
-import { FolderTree, LayoutDashboard, Menu, Package, Receipt, Search, Settings, Store } from "lucide-react";
+import { FolderTree, LayoutDashboard, Lock, Menu, Package, Receipt, Search, Settings, Store } from "lucide-react";
+import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import { spring } from "@/lib/motion";
 import { usePreferencesStore } from "@/store/preferences-store";
@@ -12,6 +13,7 @@ import { useUiStore } from "@/store/ui-store";
 import { Drawer, LiveDot } from "@/components/ui";
 import { ThemeMenu } from "@/components/providers/theme";
 import { Logo } from "@/components/layout/logo";
+import { useAdminAuthStore } from "@/features/admin/auth/admin-auth-store";
 
 const NAV = [
   { href: "/admin", label: "Dashboard", icon: LayoutDashboard },
@@ -66,6 +68,7 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
   const [navOpen, setNavOpen] = useState(false);
   const live = usePreferencesStore((s) => s.liveSimulation);
   const openSearch = useUiStore((s) => s.setSearchOpen);
+  const lock = useAdminAuthStore((s) => s.lock);
 
   return (
     <div className="min-h-dvh bg-muted/40">
@@ -115,12 +118,17 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
               {live ? "Live" : "Paused"}
             </Link>
             <ThemeMenu />
-            <span
-              className="grid size-9 place-items-center rounded-full bg-foreground text-background"
-              aria-label="Signed in as Admin"
+            <button
+              type="button"
+              onClick={() => {
+                lock();
+                toast("Admin locked", { description: "Enter your passcode to continue." });
+              }}
+              aria-label="Lock admin"
+              className="flex h-9 items-center gap-2 rounded-full bg-foreground px-3 text-sm font-semibold text-background transition hover:bg-foreground/85"
             >
-              AD
-            </span>
+              <Lock className="size-4" aria-hidden /> <span className="max-sm:sr-only">Lock</span>
+            </button>
           </div>
         </header>
         <main id="main" className="mx-auto max-w-[1400px] p-4 sm:p-6 lg:p-8">

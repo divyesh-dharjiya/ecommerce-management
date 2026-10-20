@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { AdminShell } from "@/features/admin/components/admin-shell";
+import { AdminGate } from "@/features/admin/auth/admin-gate";
 
 export const metadata: Metadata = {
   title: { default: "Dashboard", template: "%s · Luxe Admin" },
@@ -7,5 +8,9 @@ export const metadata: Metadata = {
 };
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
-  return <AdminShell>{children}</AdminShell>;
+  return (
+    <AdminGate>
+      <AdminShell>{children}</AdminShell>
+    </AdminGate>
+  );
 }

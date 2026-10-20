@@ -14,7 +14,8 @@
     "seed:generate": "node scripts/generate-seed.mjs && node scripts/build-lite-catalog.mjs",
     "check": "npm run typecheck && npm run lint && npm run test && npm run format:check",
     "format": "prettier --write .",
-    "format:check": "prettier --check ."
+    "format:check": "prettier --check .",
+    "admin:hash": "node scripts/hash-admin-passcode.mjs"
   },
   "dependencies": {
     "clsx": "^2.1.1",

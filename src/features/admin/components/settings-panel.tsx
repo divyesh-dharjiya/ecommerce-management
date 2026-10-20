@@ -9,6 +9,7 @@ import { formatNumber } from "@/lib/format";
 import { ThemeSwitcher } from "@/components/providers/theme";
 import { ClientGate } from "@/components/providers/client-gate";
 import { AdminPageHeader, Panel } from "@/features/admin/components/admin-page";
+import { SecurityPanel } from "@/features/admin/auth/security-panel";
 import { useCartStore } from "@/features/cart/store/cart-store";
 import { useCatalogStore } from "@/features/catalog/store/catalog-store";
 import { useOrderStore } from "@/features/orders/store/order-store";
@@ -102,7 +103,10 @@ function SettingsView() {
 
   return (
     <div className="max-w-3xl space-y-6">
-      <AdminPageHeader title="Settings" description="Appearance, realtime simulation and data management." />
+      <AdminPageHeader
+        title="Settings"
+        description="Appearance, realtime simulation, admin access and data management."
+      />
 
       <Panel
         title={
@@ -142,6 +146,8 @@ function SettingsView() {
           </Row>
         </div>
       </Panel>
+
+      <SecurityPanel />
 
       <Panel
         title={
