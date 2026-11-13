@@ -9,3 +9,11 @@ next-env.d.ts
 .DS_Store
 npm-debug.log*
 .claude/
+
+# local tooling (kept on disk, not in git)
+.claude/
+.vscode/
+.github/
+AGENTS.md
+CLAUDE.md
+*.tsbuildinfo
