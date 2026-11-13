@@ -1,8 +1,9 @@
 "use client";
 
 import Link from "next/link";
+import { formatNumber } from "@/lib/format";
 import { Tabs } from "@/components/ui";
-import { Reviews } from "@/features/catalog/components/product-detail/reviews";
+import { Reviews } from "@/features/reviews/components/reviews";
 import type { Category, Product } from "@/types";
 
 export function productSpecs(product: Product, category?: Category): [string, string][] {
@@ -62,7 +63,11 @@ export function ProductTabs({ product, category }: { product: Product; category?
             </dl>
           ),
         },
-        { id: "reviews", label: `Reviews (${product.reviews.length})`, content: <Reviews product={product} /> },
+        {
+          id: "reviews",
+          label: `Reviews (${formatNumber(product.reviewCount)})`,
+          content: <Reviews product={product} />,
+        },
       ]}
     />
   );

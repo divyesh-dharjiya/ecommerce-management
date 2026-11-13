@@ -8,6 +8,7 @@ import { usePreferencesStore } from "@/store/preferences-store";
 import { useRecentlyViewedStore } from "@/features/catalog/store/recently-viewed-store";
 import { useUiStore } from "@/store/ui-store";
 import { useWishlistStore } from "@/features/wishlist/store/wishlist-store";
+import { useReviewStore } from "@/features/reviews/store/review-store";
 
 const PERSISTED_STORES = [
   useCatalogStore,
@@ -16,6 +17,7 @@ const PERSISTED_STORES = [
   useOrderStore,
   useRecentlyViewedStore,
   usePreferencesStore,
+  useReviewStore,
 ] as const;
 
 /**

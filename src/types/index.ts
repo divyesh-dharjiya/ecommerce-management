@@ -8,6 +8,10 @@ export interface Review {
   rating: number;
   comment: string;
   date: string;
+  /** The reviewer bought the product. Seed reviews are treated as verified. */
+  verified?: boolean;
+  /** Written by the shopper on this device. */
+  own?: boolean;
 }
 
 export interface Dimensions {
