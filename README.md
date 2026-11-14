@@ -1,5 +1,7 @@
 # Luxe Commerce
 
+**Live demo:** https://ecommerce-management-three.vercel.app
+
 A Next.js 16 e-commerce storefront and admin dashboard. It ships with a 250-product catalog and simulated live store activity, and it keeps all data in `localStorage`, so it runs without a backend.
 
 ![stack](https://img.shields.io/badge/Next.js-16-black) ![react](https://img.shields.io/badge/React-19-61dafb) ![ts](https://img.shields.io/badge/TypeScript-strict-3178c6) ![tw](https://img.shields.io/badge/Tailwind-v4-38bdf8)
