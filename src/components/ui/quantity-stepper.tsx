@@ -19,13 +19,13 @@ export function QuantityStepper({
   className?: string;
 }) {
   const btn = cn(
-    "grid place-items-center rounded-full transition hover:bg-muted disabled:opacity-40",
+    "grid place-items-center rounded-lg transition hover:bg-muted disabled:opacity-40",
     size === "sm" ? "size-7" : "size-10",
   );
   return (
     <div
       className={cn(
-        "inline-flex items-center rounded-full border border-border bg-card",
+        "inline-flex items-center rounded-xl border border-border bg-card",
         size === "sm" ? "gap-1 p-0.5" : "gap-2 p-1",
         className,
       )}

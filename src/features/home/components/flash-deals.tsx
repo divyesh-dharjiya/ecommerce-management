@@ -1,30 +1,23 @@
 "use client";
 
-import { useMemo, useRef } from "react";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import Link from "next/link";
+import { useMemo } from "react";
+import { ArrowRight, Clock } from "lucide-react";
 import { useDailyCountdown } from "@/hooks";
 import { discountPercent } from "@/lib/utils";
 import { useHydrated } from "@/store/ui-store";
 import { sortProducts } from "@/features/catalog/services/catalog";
 import { useCatalogStore } from "@/features/catalog/store/catalog-store";
-import { ProductCard } from "@/features/catalog/components/product-card";
+import { ProductGrid } from "@/features/catalog/components/product-grid";
 import { Container } from "@/components/ui";
 
-function TimeUnit({ value, label }: { value: number; label: string }) {
-  return (
-    <div className="flex min-w-16 flex-col items-center bg-[#111] px-3 py-2 text-white">
-      <span className="font-display text-4xl tabular-nums">{String(value).padStart(2, "0")}</span>
-      <span className="mt-1 text-[10px] font-semibold uppercase tracking-widest text-white/60">{label}</span>
-    </div>
-  );
-}
+const pad = (n: number) => String(n).padStart(2, "0");
 
-/** Red sale banner with a live countdown, then a scrollable row of deals. */
+/** Today's biggest discounts, with a small countdown to midnight. */
 export function FlashDeals() {
   const products = useCatalogStore((s) => s.products);
   const hydrated = useHydrated();
   const { hours, minutes, seconds } = useDailyCountdown();
-  const scroller = useRef<HTMLDivElement>(null);
 
   const deals = useMemo(
     () =>
@@ -33,64 +26,49 @@ export function FlashDeals() {
           (p) => p.status === "active" && p.stock > 0 && discountPercent(p.price, p.compareAtPrice) >= 10,
         ),
         "discount",
-      ).slice(0, 12),
+      ).slice(0, 4),
     [products],
   );
-
   // Deals are sorted by discount, so the first one sets the headline figure.
-  const maxOff = deals[0] ? discountPercent(deals[0].price, deals[0].compareAtPrice) : 0;
-
-  const scroll = (dir: 1 | -1) =>
-    scroller.current?.scrollBy({ left: dir * scroller.current.clientWidth * 0.8, behavior: "smooth" });
+  const top = deals[0];
+  if (!top) return null;
+  const maxOff = discountPercent(top.price, top.compareAtPrice);
 
   return (
-    <section className="py-14" aria-labelledby="flash-title">
-      <div className="bg-accent text-accent-foreground">
-        <Container className="flex flex-wrap items-center justify-between gap-6 py-8 sm:py-10">
-          <div>
-            <p className="text-sm font-semibold uppercase tracking-widest text-white/80">Today only</p>
-            <h2 id="flash-title" className="mt-2 font-display text-6xl sm:text-8xl">
-              Flash sale
-            </h2>
-            <p className="mt-2 text-lg font-medium">
-              {maxOff > 0 ? `Up to ${maxOff}% off.` : "Fresh deals every day."} Ends at midnight.
-            </p>
-          </div>
-          <div className="flex items-center gap-2" role="timer" aria-label="Time remaining" suppressHydrationWarning>
-            {hydrated && (
-              <>
-                <TimeUnit value={hours} label="Hrs" />
-                <TimeUnit value={minutes} label="Min" />
-                <TimeUnit value={seconds} label="Sec" />
-              </>
-            )}
-          </div>
-        </Container>
-      </div>
-
-      <Container className="mt-8">
-        <div
-          ref={scroller}
-          className="-mx-1 flex snap-x snap-mandatory gap-2 overflow-x-auto px-1 pb-2 scrollbar-none sm:gap-3"
-        >
-          {deals.map((p) => (
-            <div key={p.id} className="w-[220px] shrink-0 snap-start sm:w-[280px]">
-              <ProductCard product={p} />
+    <section className="py-12" aria-labelledby="deals-title">
+      <Container>
+        <div className="rounded-3xl border border-accent/20 bg-accent/[0.04] p-4 sm:p-6 lg:p-8">
+          <div className="mb-6 flex flex-wrap items-center justify-between gap-4">
+            <div>
+              <h2 id="deals-title" className="font-display text-2xl sm:text-3xl">
+                Today&apos;s deals
+              </h2>
+              <p className="mt-1 text-sm text-muted-foreground sm:text-base">
+                Save up to <strong className="text-accent">{maxOff}%</strong> on popular items.
+              </p>
             </div>
-          ))}
-        </div>
-        <div className="mt-6 flex justify-end gap-2">
-          {([-1, 1] as const).map((d) => (
-            <button
-              key={d}
-              type="button"
-              onClick={() => scroll(d)}
-              aria-label={d < 0 ? "Previous deals" : "Next deals"}
-              className="grid size-12 place-items-center rounded-full bg-muted transition hover:bg-border"
-            >
-              {d < 0 ? <ChevronLeft className="size-5" /> : <ChevronRight className="size-5" />}
-            </button>
-          ))}
+            <div className="flex flex-wrap items-center gap-3">
+              <p
+                className="inline-flex items-center gap-2 rounded-lg bg-card px-3 py-2 text-sm shadow-soft"
+                role="timer"
+                aria-label="Time left on today's deals"
+                suppressHydrationWarning
+              >
+                <Clock className="size-4 text-accent" />
+                <span className="text-muted-foreground">Ends in</span>
+                <span className="font-semibold tabular-nums">
+                  {hydrated ? `${pad(hours)}:${pad(minutes)}:${pad(seconds)}` : "--:--:--"}
+                </span>
+              </p>
+              <Link
+                href="/products?onSale=1&sort=discount"
+                className="inline-flex items-center gap-1 text-sm font-semibold text-primary hover:underline"
+              >
+                See all deals <ArrowRight className="size-4" />
+              </Link>
+            </div>
+          </div>
+          <ProductGrid products={deals} priorityCount={0} />
         </div>
       </Container>
     </section>

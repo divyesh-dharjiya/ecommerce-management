@@ -22,13 +22,13 @@ export function useCartActions() {
       const added = addItem(product, quantity);
       if (added === 0) {
         toast.warning("Maximum quantity reached", {
-          description: "You already have the maximum available quantity in your bag.",
+          description: "You already have the maximum available quantity in your cart.",
         });
         return false;
       }
-      toast.success("Added to bag", {
+      toast.success("Added to cart", {
         description: `${added} × ${product.title}`,
-        action: { label: "View bag", onClick: () => setCartOpen(true) },
+        action: { label: "View cart", onClick: () => setCartOpen(true) },
       });
       if (openDrawer) setCartOpen(true);
       return true;

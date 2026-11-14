@@ -55,7 +55,7 @@ export function ActiveFilterChips({
           type="button"
           onClick={() => onClear(c.clear)}
           aria-label={`Remove filter ${c.label}`}
-          className="inline-flex items-center gap-1 rounded-full bg-accent/10 px-3 py-1 text-xs font-semibold text-accent transition-colors hover:bg-accent/20"
+          className="inline-flex items-center gap-1 rounded-lg bg-primary/10 px-2.5 py-1 text-xs font-semibold text-primary transition-colors hover:bg-primary/20"
         >
           {c.label} <X className="size-3" />
         </m.button>

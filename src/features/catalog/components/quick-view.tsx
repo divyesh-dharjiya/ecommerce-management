@@ -76,7 +76,7 @@ function QuickViewBody({ product, onClose }: { product: Product; onClose: () => 
         <Price price={product.price} compareAtPrice={product.compareAtPrice} size="lg" />
         <p className="line-clamp-4 text-sm leading-relaxed text-muted-foreground">{product.description}</p>
         <div className="flex items-center gap-2 text-sm text-muted-foreground">
-          <Truck className="size-4 text-accent" /> {product.shipping ?? "Ships in 2–3 business days"}
+          <Truck className="size-4 text-primary" /> {product.shipping ?? "Ships in 2–3 business days"}
         </div>
         <div className="mt-auto flex flex-wrap items-center gap-3 pt-2">
           <QuantityStepper value={qty} onChange={setQty} max={Math.max(1, max)} />
@@ -90,7 +90,7 @@ function QuickViewBody({ product, onClose }: { product: Product; onClose: () => 
         <Link
           href={`/products/${product.slug}`}
           onClick={onClose}
-          className="group inline-flex items-center gap-1 text-sm font-semibold text-accent"
+          className="group inline-flex items-center gap-1 text-sm font-semibold text-primary"
         >
           View full details <ArrowRight className="size-4 transition group-hover:translate-x-1" />
         </Link>

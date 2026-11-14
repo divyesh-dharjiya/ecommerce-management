@@ -16,7 +16,7 @@ interface FiltersProps {
 
 function Group({ title, children }: { title: string; children: React.ReactNode }) {
   return (
-    <fieldset className="border-b border-border pb-6">
+    <fieldset className="border-b border-border pb-5 last:border-0 last:pb-0">
       <legend className="mb-3 text-sm font-semibold">{title}</legend>
       {children}
     </fieldset>
@@ -76,7 +76,7 @@ export function Filters({ query, facets, categories, lockedCategory, onChange }:
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-5">
       {!lockedCategory && (
         <Group title="Category">
           <div className="max-h-64 space-y-0.5 overflow-y-auto pr-1">
@@ -115,8 +115,8 @@ export function Filters({ query, facets, categories, lockedCategory, onChange }:
                   );
                 }}
                 className={cn(
-                  "rounded-full border px-3 py-1 text-xs font-medium transition",
-                  active ? "border-primary bg-accent/10 text-accent" : "border-border hover:border-primary/50",
+                  "rounded-lg border px-3 py-1.5 text-xs font-medium transition",
+                  active ? "border-primary bg-primary/10 text-primary" : "border-border hover:border-primary/50",
                 )}
               >
                 {p.label}
@@ -134,7 +134,7 @@ export function Filters({ query, facets, categories, lockedCategory, onChange }:
             onBlur={() => applyPrice()}
             placeholder={`$${facets.priceRange.min}`}
             aria-label="Minimum price"
-            className="h-10 w-full rounded-md border border-border bg-card px-3 text-sm outline-none focus:border-primary"
+            className="h-10 w-full rounded-lg border border-border bg-card px-3 text-sm outline-none focus:border-primary focus:ring-4 focus:ring-primary/15"
           />
           <span className="text-muted-foreground">–</span>
           <input
@@ -146,7 +146,7 @@ export function Filters({ query, facets, categories, lockedCategory, onChange }:
             onBlur={() => applyPrice()}
             placeholder={`$${facets.priceRange.max}`}
             aria-label="Maximum price"
-            className="h-10 w-full rounded-md border border-border bg-card px-3 text-sm outline-none focus:border-primary"
+            className="h-10 w-full rounded-lg border border-border bg-card px-3 text-sm outline-none focus:border-primary focus:ring-4 focus:ring-primary/15"
           />
         </form>
       </Group>
@@ -190,7 +190,7 @@ export function Filters({ query, facets, categories, lockedCategory, onChange }:
             <button
               type="button"
               onClick={() => setShowAllBrands((v) => !v)}
-              className="mt-2 text-sm font-semibold text-accent"
+              className="mt-2 text-sm font-semibold text-primary"
             >
               {showAllBrands ? "Show less" : `Show all ${facets.brands.length}`}
             </button>

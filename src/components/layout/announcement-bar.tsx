@@ -1,41 +1,17 @@
-"use client";
-
-import { useEffect, useState } from "react";
-import { AnimatePresence, m } from "framer-motion";
+import { Truck } from "lucide-react";
 import { commerceConfig } from "@/config/site";
 
-const MESSAGES = [
-  `Free express shipping on orders over $${commerceConfig.freeShippingThreshold}`,
-  "New here? Use code WELCOME10 for 10% off",
-  "Spend $200+ and use LUXE20 for 20% off",
-  "30-day hassle-free returns on everything",
-];
-
+/** One calm, static message — rotating banners are hard to read. */
 export function AnnouncementBar() {
-  const [index, setIndex] = useState(0);
-  useEffect(() => {
-    const id = setInterval(() => setIndex((i) => (i + 1) % MESSAGES.length), 4000);
-    return () => clearInterval(id);
-  }, []);
-
   return (
-    <div
-      className="relative h-9 overflow-hidden bg-muted text-foreground print:hidden"
-      role="region"
-      aria-label="Announcements"
-    >
-      <AnimatePresence mode="wait" initial={false}>
-        <m.p
-          key={index}
-          initial={{ y: 16, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          exit={{ y: -16, opacity: 0 }}
-          transition={{ duration: 0.35 }}
-          className="absolute inset-0 grid place-items-center px-4 text-center text-[13px] font-medium"
-        >
-          {MESSAGES[index]}
-        </m.p>
-      </AnimatePresence>
+    <div className="bg-primary text-primary-foreground print:hidden" role="region" aria-label="Announcement">
+      <p className="mx-auto flex h-9 max-w-7xl items-center justify-center gap-2 px-4 text-center text-xs font-medium sm:text-[13px]">
+        <Truck className="size-4 shrink-0" aria-hidden />
+        <span className="truncate">
+          Free delivery on orders over ${commerceConfig.freeShippingThreshold}
+          <span className="max-sm:hidden"> · 30-day free returns · New customers get 10% off with code WELCOME10</span>
+        </span>
+      </p>
     </div>
   );
 }

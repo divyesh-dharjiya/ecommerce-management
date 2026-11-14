@@ -80,14 +80,10 @@ function ProductDetailView({ product }: { product: Product }) {
       </Container>
 
       {related.length > 0 && (
-        <section className="py-12">
+        <section className="py-8">
           <Container>
             <Reveal>
-              <SectionHeading
-                eyebrow="You may also like"
-                title="Related products"
-                href={`/categories/${product.category}`}
-              />
+              <SectionHeading title="You may also like" href={`/categories/${product.category}`} />
             </Reveal>
             <ProductGrid products={related} priorityCount={0} />
           </Container>

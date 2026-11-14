@@ -34,8 +34,8 @@ export function CartView() {
         <EmptyState
           icon={<ShoppingBag className="size-9" />}
           headingLevel="h1"
-          title="Your bag is empty"
-          description="Once you add something to your bag, it will appear here. Ready to get started?"
+          title="Your cart is empty"
+          description="Items you add to your cart will show up here."
           action={
             <Link href="/products" className={buttonClasses("primary", "lg")}>
               Start shopping <ArrowRight className="size-5" />
@@ -50,11 +50,13 @@ export function CartView() {
     <Container className="py-12">
       <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
         <div>
-          <h1 className="font-display text-4xl tracking-tight">Shopping bag</h1>
-          <p className="mt-1 text-muted-foreground">{totals.itemCount} items</p>
+          <h1 className="font-display text-2xl sm:text-3xl">Your cart</h1>
+          <p className="mt-1 text-muted-foreground">
+            {totals.itemCount} {totals.itemCount === 1 ? "item" : "items"}
+          </p>
         </div>
         <button type="button" onClick={clear} className="text-sm font-medium text-muted-foreground hover:text-danger">
-          Clear bag
+          Remove all
         </button>
       </div>
 
@@ -68,7 +70,7 @@ export function CartView() {
               ))}
             </AnimatePresence>
           </ul>
-          <Link href="/products" className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-accent">
+          <Link href="/products" className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-primary">
             <ArrowLeft className="size-4" /> Continue shopping
           </Link>
         </div>

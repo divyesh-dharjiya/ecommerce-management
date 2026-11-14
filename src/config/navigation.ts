@@ -1,10 +1,11 @@
 /** Single source of truth for site navigation (header, mobile menu, footer). */
 export const PRIMARY_NAV = [
-  { href: "/products?sort=newest", label: "New" },
+  { href: "/", label: "Home" },
   { href: "/products", label: "Shop all" },
   { href: "/categories", label: "Categories" },
-  { href: "/categories/streetwear", label: "Streetwear" },
-  { href: "/products?onSale=1&sort=discount", label: "Sale", highlight: true },
+  { href: "/products?sort=newest", label: "New arrivals" },
+  { href: "/products?sort=best-selling", label: "Best sellers" },
+  { href: "/products?onSale=1&sort=discount", label: "Deals", highlight: true },
 ] as const;
 
 export const FOOTER_NAV = [
@@ -27,12 +28,12 @@ export const FOOTER_NAV = [
     ],
   },
   {
-    title: "Account",
+    title: "Your account",
     links: [
-      { href: "/cart", label: "Shopping bag" },
+      { href: "/cart", label: "Cart" },
       { href: "/wishlist", label: "Wishlist" },
-      { href: "/orders", label: "Order history" },
-      { href: "/admin", label: "Admin dashboard" },
+      { href: "/orders", label: "My orders" },
+      { href: "/admin", label: "Store admin" },
     ],
   },
 ] as const;

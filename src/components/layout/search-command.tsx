@@ -140,7 +140,7 @@ function SearchBody({ onClose }: { onClose: () => void }) {
                   key={t}
                   type="button"
                   onClick={() => setTerm(t)}
-                  className="rounded-full border border-border px-4 py-1.5 text-sm transition hover:border-primary hover:bg-accent/5 hover:text-accent"
+                  className="rounded-full border border-border px-4 py-1.5 text-sm transition hover:border-primary hover:bg-primary/5 hover:text-primary"
                 >
                   {t}
                 </button>
@@ -183,8 +183,8 @@ function SearchBody({ onClose }: { onClose: () => void }) {
                 onClick={() => go(`/products?q=${encodeURIComponent(term.trim())}`)}
                 onMouseEnter={() => setActive(items.length)}
                 className={cn(
-                  "flex w-full items-center justify-between rounded-lg px-4 py-3 text-sm font-semibold text-accent transition",
-                  active === items.length && "bg-accent/10",
+                  "flex w-full items-center justify-between rounded-lg px-4 py-3 text-sm font-semibold text-primary transition",
+                  active === items.length && "bg-primary/10",
                 )}
               >
                 See all {results?.total} results for “{term.trim()}”

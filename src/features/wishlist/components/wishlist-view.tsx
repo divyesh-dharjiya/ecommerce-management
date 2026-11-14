@@ -29,9 +29,9 @@ export function WishlistView() {
   const addAll = () => {
     const added = items.filter((p) => p.stock > 0 && addItem(p, 1) > 0).length;
     if (added) {
-      toast.success(`Added ${added} items to your bag`);
+      toast.success(`Added ${added} items to your cart`);
       openCart(true);
-    } else toast.info("Everything is already in your bag");
+    } else toast.info("Everything is already in your cart");
   };
 
   return (

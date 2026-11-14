@@ -35,7 +35,7 @@ function Mark({ size = 56 }: { size?: number }) {
         width: size,
         height: size,
         borderRadius: size * 0.3,
-        background: "#e4002b",
+        background: "#4f46e5",
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
@@ -58,14 +58,14 @@ interface OgCardProps {
   accent?: string;
 }
 
-export function renderOgCard({ eyebrow, title, subtitle, price, image, accent = "#e4002b" }: OgCardProps) {
+export function renderOgCard({ eyebrow, title, subtitle, price, image, accent = "#4f46e5" }: OgCardProps) {
   return new ImageResponse(
     <div
       style={{
         width: "100%",
         height: "100%",
         display: "flex",
-        background: "#141310",
+        background: "#0f172a",
         backgroundImage: `radial-gradient(circle at 85% 30%, ${accent}55, transparent 55%)`,
         color: "white",
         padding: 64,
@@ -87,7 +87,7 @@ export function renderOgCard({ eyebrow, title, subtitle, price, image, accent = 
         </div>
         <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
           {eyebrow && (
-            <span style={{ fontSize: 24, color: "#f0a592", textTransform: "uppercase", letterSpacing: 4 }}>
+            <span style={{ fontSize: 24, color: "#a5b4fc", textTransform: "uppercase", letterSpacing: 4 }}>
               {eyebrow}
             </span>
           )}
@@ -101,7 +101,7 @@ export function renderOgCard({ eyebrow, title, subtitle, price, image, accent = 
           >
             {title}
           </span>
-          {subtitle && <span style={{ fontSize: 28, color: "#a39e8f", maxWidth: image ? 560 : 900 }}>{subtitle}</span>}
+          {subtitle && <span style={{ fontSize: 28, color: "#94a3b8", maxWidth: image ? 560 : 900 }}>{subtitle}</span>}
         </div>
         {price ? (
           <div style={{ display: "flex" }}>
@@ -110,7 +110,7 @@ export function renderOgCard({ eyebrow, title, subtitle, price, image, accent = 
                 fontSize: 40,
                 fontWeight: 800,
                 background: "white",
-                color: "#141310",
+                color: "#0f172a",
                 padding: "10px 28px",
                 borderRadius: 999,
               }}
@@ -119,7 +119,7 @@ export function renderOgCard({ eyebrow, title, subtitle, price, image, accent = 
             </span>
           </div>
         ) : (
-          <span style={{ fontSize: 24, color: "#a39e8f" }}>{siteConfig.tagline}</span>
+          <span style={{ fontSize: 24, color: "#94a3b8" }}>{siteConfig.tagline}</span>
         )}
       </div>
       {image && (

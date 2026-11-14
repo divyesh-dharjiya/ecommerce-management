@@ -30,8 +30,8 @@ const toOrderLines = (lines: CartLine[]): OrderLine[] =>
 
 function Step({ n, title, children }: { n: number; title: string; children: React.ReactNode }) {
   return (
-    <Card className="p-6 sm:p-8">
-      <h2 className="mb-6 flex items-center gap-3 text-lg font-bold">
+    <Card className="p-5 sm:p-7">
+      <h2 className="mb-5 flex items-center gap-3 text-lg font-bold">
         <span className="grid size-7 place-items-center rounded-full bg-primary text-xs text-primary-foreground">
           {n}
         </span>
@@ -46,7 +46,7 @@ function PlacingOrder() {
   return (
     <Container className="grid min-h-[60vh] place-items-center">
       <div className="flex flex-col items-center gap-4 text-center" role="status">
-        <Loader2 className="size-10 animate-spin text-accent" />
+        <Loader2 className="size-10 animate-spin text-primary" />
         <p className="text-lg font-semibold">Placing your order…</p>
         <p className="text-sm text-muted-foreground">Authorising payment and reserving stock.</p>
       </div>
@@ -87,7 +87,7 @@ function CheckoutForm() {
           icon={<ShoppingBag className="size-9" />}
           headingLevel="h1"
           title="Nothing to check out"
-          description="Your bag is empty. Add a few items and come back."
+          description="Your cart is empty. Add a few items and come back."
           action={
             <Link href="/products" className={buttonClasses()}>
               Browse products
@@ -127,7 +127,7 @@ function CheckoutForm() {
 
   return (
     <Container className="py-12">
-      <h1 className=" font-display text-4xl tracking-tight">Checkout</h1>
+      <h1 className=" font-display text-2xl sm:text-3xl">Checkout</h1>
       <p className="mt-1 flex items-center gap-1.5 text-sm text-muted-foreground">
         <Lock className="size-3.5" /> Secure, encrypted checkout
       </p>

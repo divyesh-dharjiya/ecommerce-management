@@ -24,7 +24,7 @@ export function ProductTabs({ product, category }: { product: Product; category?
   return (
     <Tabs
       label="Product information"
-      className="mt-16"
+      className="mt-12"
       items={[
         {
           id: "details",
@@ -38,7 +38,7 @@ export function ProductTabs({ product, category }: { product: Product; category?
                     <li key={t}>
                       <Link
                         href={`/products?q=${encodeURIComponent(t)}`}
-                        className="rounded-full bg-muted px-3 py-1 text-xs font-medium capitalize text-foreground transition hover:bg-accent/10 hover:text-accent"
+                        className="rounded-lg bg-muted px-3 py-1 text-xs font-medium capitalize text-foreground transition hover:bg-primary/10 hover:text-primary"
                       >
                         #{t}
                       </Link>

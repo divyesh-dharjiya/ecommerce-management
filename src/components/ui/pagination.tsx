@@ -25,7 +25,7 @@ export interface PaginationProps {
   className?: string;
 }
 
-const base = "grid h-10 min-w-10 place-items-center rounded-md px-3 text-sm font-semibold transition";
+const base = "grid h-10 min-w-10 place-items-center rounded-lg px-3 text-sm font-semibold transition";
 
 interface ItemProps {
   to: number;
@@ -40,7 +40,7 @@ interface ItemProps {
 function Item({ to, label, children, active, disabled, getHref, onChange }: ItemProps) {
   const cls = cn(
     base,
-    active ? "bg-foreground text-background" : "hover:bg-muted",
+    active ? "bg-primary text-primary-foreground" : "border border-border bg-card hover:bg-muted",
     disabled && "pointer-events-none opacity-40",
   );
   const common = { "aria-label": label, "aria-current": active ? ("page" as const) : undefined, className: cls };

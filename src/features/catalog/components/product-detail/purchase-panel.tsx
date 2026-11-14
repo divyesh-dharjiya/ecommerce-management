@@ -2,34 +2,25 @@
 
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { m } from "framer-motion";
-import { Eye, Heart, RotateCcw, Share2, ShieldCheck, ShoppingBag, Truck } from "lucide-react";
-import { toast } from "sonner";
+import { Check, Heart, RotateCcw, ShieldCheck, ShoppingCart, Truck } from "lucide-react";
 import { commerceConfig } from "@/config/site";
 import { useNow } from "@/hooks";
 import { formatDate, formatNumber } from "@/lib/format";
-import { spring } from "@/lib/motion";
 import { cn, discountPercent } from "@/lib/utils";
 import { useHydrated } from "@/store/ui-store";
 import { useCartActions } from "@/features/cart/hooks/use-cart-actions";
 import { useIsWishlisted } from "@/features/wishlist/store/wishlist-store";
-import { viewersFor } from "@/features/live/services/simulation";
-import { Badge, Button, LiveDot, QuantityStepper, Rating } from "@/components/ui";
+import { Badge, Button, QuantityStepper, Rating } from "@/components/ui";
 import { Price } from "@/features/catalog/components/price";
-import { StockMeter } from "@/features/catalog/components/product-detail/stock-meter";
 import type { Product } from "@/types";
 
-function LiveViewers({ productId }: { productId: string }) {
-  const hydrated = useHydrated();
-  const now = useNow(15_000);
-  if (!hydrated) return <p className="mt-5 h-5" aria-hidden />;
+function Availability({ stock }: { stock: number }) {
+  if (stock <= 0) return <p className="text-sm font-semibold text-danger">Out of stock — back soon</p>;
+  if (stock <= commerceConfig.lowStockThreshold)
+    return <p className="text-sm font-semibold text-warning">Only {stock} left — order soon</p>;
   return (
-    <p className="mt-5 flex items-center gap-2 text-sm">
-      <LiveDot />
-      <Eye className="size-4 text-muted-foreground" />
-      <span>
-        <strong>{viewersFor(productId, now)}</strong> people are viewing this right now
-      </span>
+    <p className="flex items-center gap-1.5 text-sm font-medium text-success">
+      <Check className="size-4" /> In stock
     </p>
   );
 }
@@ -42,17 +33,19 @@ function Perks({ product }: { product: Product }) {
     ? formatDate(new Date(now + 3 * 86_400_000).toISOString(), { weekday: "short", month: "short", day: "numeric" })
     : "in 2–3 days";
   const perks = [
-    { icon: Truck, title: "Get it by", body: delivery },
+    { icon: Truck, title: "Delivery", body: `Arrives by ${delivery}` },
     { icon: RotateCcw, title: "Returns", body: product.returnPolicy ?? "30 days return policy" },
     { icon: ShieldCheck, title: "Warranty", body: product.warranty ?? "1 year warranty" },
   ];
   return (
-    <ul className="mt-8 grid grid-cols-1 gap-3 rounded-xl border border-border p-5 text-sm sm:grid-cols-3">
+    <ul className="mt-6 divide-y divide-border rounded-2xl border border-border text-sm">
       {perks.map(({ icon: Icon, title, body }) => (
-        <li key={title} className="flex items-start gap-3">
-          <Icon className="mt-0.5 size-5 shrink-0 text-accent" />
+        <li key={title} className="flex items-center gap-3 px-4 py-3">
+          <span className="grid size-9 shrink-0 place-items-center rounded-lg bg-primary/10 text-primary">
+            <Icon className="size-4" />
+          </span>
           <span>
-            <strong className="block">{title}</strong>
+            <strong className="block font-semibold">{title}</strong>
             <span className="text-muted-foreground">{body}</span>
           </span>
         </li>
@@ -71,19 +64,6 @@ export function PurchasePanel({ product }: { product: Product }) {
   const off = discountPercent(product.price, product.compareAtPrice);
   const max = Math.max(1, Math.min(product.stock, commerceConfig.maxQuantityPerItem));
 
-  const share = async () => {
-    const url = window.location.href;
-    try {
-      if (navigator.share) await navigator.share({ title: product.title, url });
-      else {
-        await navigator.clipboard.writeText(url);
-        toast.success("Link copied to clipboard");
-      }
-    } catch {
-      /* user cancelled */
-    }
-  };
-
   const buyNow = () => {
     if (addToCart(product, qty, { openDrawer: false })) router.push("/checkout");
   };
@@ -91,51 +71,53 @@ export function PurchasePanel({ product }: { product: Product }) {
   return (
     <div className="flex min-w-0 flex-col">
       <div className="flex flex-wrap items-center gap-2">
-        <Badge tone="primary">{product.brand}</Badge>
-        {off > 0 && <Badge tone="sale">-{off}% OFF</Badge>}
-        {product.isNew && <Badge tone="solid">New arrival</Badge>}
+        <span className="text-sm font-semibold text-primary">{product.brand}</span>
+        {off > 0 && <Badge tone="sale">{off}% off</Badge>}
+        {product.isNew && <Badge tone="primary">New</Badge>}
       </div>
-      <h1 className="mt-4 font-display text-3xl leading-tight tracking-tight sm:text-4xl">{product.title}</h1>
-      <div className="mt-3 flex flex-wrap items-center gap-4">
+      <h1 className="mt-2 font-display text-2xl leading-tight sm:text-3xl">{product.title}</h1>
+      <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-1">
         <Rating value={product.rating} showValue count={product.reviewCount} size={16} />
         <span className="text-sm text-muted-foreground">{formatNumber(product.soldCount)} sold</span>
       </div>
 
-      <Price className="mt-6" price={product.price} compareAtPrice={product.compareAtPrice} size="lg" />
-      <p className="mt-1 text-xs text-muted-foreground">
-        Inclusive of all taxes · Free shipping over ${commerceConfig.freeShippingThreshold}
-      </p>
+      <div className="mt-5 rounded-2xl bg-subtle p-4 sm:p-5">
+        <Price price={product.price} compareAtPrice={product.compareAtPrice} size="lg" />
+        <p className="mt-1 text-xs text-muted-foreground">
+          Taxes included · Free delivery on orders over ${commerceConfig.freeShippingThreshold}
+        </p>
+        <div className="mt-3">
+          <Availability stock={product.stock} />
+        </div>
+      </div>
 
-      <LiveViewers productId={product.id} />
-      <p className="mt-6 leading-relaxed text-muted-foreground">{product.description}</p>
+      <p className="mt-5 line-clamp-3 leading-relaxed text-muted-foreground">{product.description}</p>
+
       <div className="mt-6">
-        <StockMeter stock={product.stock} />
+        <p className="mb-2 text-sm font-medium">Quantity</p>
+        <div className="flex flex-wrap items-center gap-3">
+          <QuantityStepper value={qty} onChange={setQty} max={max} />
+          <Button
+            variant="outline"
+            size="lg"
+            className={cn("px-4", wished && "border-accent/40 text-accent")}
+            onClick={() => toggleWish(product)}
+            aria-pressed={wished}
+          >
+            <Heart className={cn("size-5", wished && "fill-accent text-accent")} />
+            <span className="max-sm:sr-only">{wished ? "Saved" : "Save"}</span>
+          </Button>
+        </div>
       </div>
 
-      <div className="mt-8 flex flex-wrap items-center gap-3">
-        <QuantityStepper value={qty} onChange={setQty} max={max} />
-        <Button size="lg" className="flex-1" disabled={soldOut} onClick={() => addToCart(product, qty)}>
-          <ShoppingBag className="size-5" /> Add to bag
+      <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2">
+        <Button size="lg" disabled={soldOut} onClick={() => addToCart(product, qty)}>
+          <ShoppingCart className="size-5" /> Add to cart
         </Button>
-        <Button
-          size="icon"
-          variant="outline"
-          className="size-13 rounded-lg"
-          onClick={() => toggleWish(product)}
-          aria-label="Toggle wishlist"
-          aria-pressed={wished}
-        >
-          <m.span key={String(wished)} initial={{ scale: 0.5 }} animate={{ scale: 1 }} transition={spring.bouncy}>
-            <Heart className={cn("size-5", wished && "fill-accent text-accent")} />
-          </m.span>
-        </Button>
-        <Button size="icon" variant="outline" className="size-13 rounded-lg" onClick={share} aria-label="Share">
-          <Share2 className="size-5" />
+        <Button size="lg" variant="dark" disabled={soldOut} onClick={buyNow}>
+          Buy now
         </Button>
       </div>
-      <Button size="lg" variant="dark" className="mt-3 w-full" disabled={soldOut} onClick={buyNow}>
-        Buy it now
-      </Button>
 
       <Perks product={product} />
     </div>

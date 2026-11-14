@@ -77,11 +77,11 @@ export function ProductExplorer({ lockedCategory }: { lockedCategory?: string })
   return (
     <div className="grid grid-cols-1 gap-8 lg:grid-cols-[260px_1fr]">
       <aside className="hidden lg:block" aria-label="Filters">
-        <div className="sticky top-24 max-h-[calc(100vh-7rem)] overflow-y-auto pb-8 pr-2 scrollbar-none">
+        <div className="sticky top-32 max-h-[calc(100vh-9rem)] overflow-y-auto rounded-2xl border border-border bg-card p-5 scrollbar-none">
           <div className="mb-4 flex items-center justify-between">
             <h2 className="font-semibold">Filters</h2>
             {activeFilters > 0 && (
-              <button type="button" onClick={clearAll} className="text-sm font-medium text-accent">
+              <button type="button" onClick={clearAll} className="text-sm font-medium text-primary hover:underline">
                 Clear all
               </button>
             )}
@@ -96,18 +96,18 @@ export function ProductExplorer({ lockedCategory }: { lockedCategory?: string })
             value={term}
             onValueChange={setTerm}
             size="lg"
-            placeholder="Search products, brands…"
+            placeholder="Search in results…"
             className="min-w-0 flex-1 basis-60"
           />
           <Button variant="outline" className="lg:hidden" onClick={() => setFiltersOpen(true)}>
             <SlidersHorizontal className="size-4" /> Filters
             {activeFilters > 0 && (
-              <span className="grid size-5 place-items-center rounded-full bg-primary text-[10px] text-primary-foreground">
+              <span className="grid size-5 place-items-center rounded-full bg-primary text-[10px] font-bold text-primary-foreground">
                 {activeFilters}
               </span>
             )}
           </Button>
-          <div className="w-52">
+          <div className="w-full sm:w-52">
             <Select
               value={query.sort ?? "featured"}
               onChange={(e) => update({ sort: e.target.value as SortOption })}
@@ -153,7 +153,7 @@ export function ProductExplorer({ lockedCategory }: { lockedCategory?: string })
           />
         ) : (
           <>
-            <ProductGrid products={items} layout={viewMode} className="md:grid-cols-2 xl:grid-cols-3" />
+            <ProductGrid products={items} layout={viewMode} className="md:grid-cols-3 lg:grid-cols-2 xl:grid-cols-3" />
             <Pagination
               className="mt-12"
               page={result.page}

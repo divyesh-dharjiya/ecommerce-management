@@ -138,7 +138,11 @@ export function OrderSummary({
     <div className="space-y-4">
       {showCoupon && <CouponForm subtotal={totals.subtotal} coupon={coupon} issue={couponIssue} />}
       <div className="space-y-2.5">
-        <Row label={`Subtotal (${totals.itemCount} items)`} value={formatPrice(totals.subtotal)} muted />
+        <Row
+          label={`Subtotal (${totals.itemCount} ${totals.itemCount === 1 ? "item" : "items"})`}
+          value={formatPrice(totals.subtotal)}
+          muted
+        />
         <AnimatePresence>
           {totals.discount > 0 && (
             <m.div

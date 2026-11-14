@@ -3,21 +3,20 @@ import { Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const variants = {
-  primary: "bg-primary text-primary-foreground hover:opacity-85",
-  secondary: "bg-muted text-foreground hover:bg-border/70",
-  outline: "border border-border bg-card hover:bg-muted",
-  ghost: "hover:bg-muted",
-  accent: "bg-accent text-accent-foreground hover:brightness-110",
-  danger: "bg-danger text-white hover:brightness-110",
-  dark: "bg-foreground text-background hover:opacity-90",
+  primary: "bg-primary text-primary-foreground shadow-sm hover:bg-primary/90",
+  secondary: "bg-muted text-foreground hover:bg-border",
+  outline: "border border-border bg-card text-foreground hover:bg-muted",
+  ghost: "text-foreground hover:bg-muted",
+  accent: "bg-accent text-accent-foreground hover:bg-accent/90",
+  danger: "bg-danger text-white hover:bg-danger/90",
+  dark: "bg-foreground text-background hover:bg-foreground/90",
 } as const;
 
-// Pill buttons: the marketplace convention for primary actions.
 const sizes = {
-  sm: "h-9 px-4 text-sm gap-1.5 rounded-full",
-  md: "h-11 px-6 text-sm gap-2 rounded-full",
-  lg: "h-14 px-8 text-base gap-2.5 rounded-full",
-  icon: "size-10 rounded-full",
+  sm: "h-9 px-3.5 text-sm gap-1.5 rounded-lg",
+  md: "h-11 px-5 text-sm gap-2 rounded-lg",
+  lg: "h-12 px-6 text-base gap-2 rounded-xl",
+  icon: "size-10 rounded-lg",
 } as const;
 
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
@@ -32,7 +31,7 @@ export const buttonClasses = (
   className?: string,
 ) =>
   cn(
-    "inline-flex select-none items-center justify-center whitespace-nowrap font-semibold transition-all duration-200 active:scale-[0.97] disabled:pointer-events-none disabled:opacity-50",
+    "inline-flex select-none items-center justify-center whitespace-nowrap font-semibold transition-colors duration-150 disabled:pointer-events-none disabled:opacity-50",
     variants[variant],
     sizes[size],
     className,
@@ -47,6 +46,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button
       ref={ref}
       type={type}
       disabled={disabled || loading}
+      aria-busy={loading || undefined}
       className={buttonClasses(variant, size, className)}
       {...props}
     >

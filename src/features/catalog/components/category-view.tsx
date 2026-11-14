@@ -54,7 +54,7 @@ function CategoryHeader({ category }: { category: Category }) {
         className="absolute inset-0 opacity-20"
         style={{ background: `radial-gradient(ellipse at 80% 50%, ${category.accent}, transparent 60%)` }}
       />
-      <Container className="relative grid grid-cols-1 items-center gap-8 py-12 sm:grid-cols-[1fr_auto]">
+      <Container className="relative grid grid-cols-1 items-center gap-6 py-8 sm:grid-cols-[1fr_auto]">
         <div>
           <Breadcrumbs
             className="mb-4"
@@ -66,22 +66,22 @@ function CategoryHeader({ category }: { category: Category }) {
           />
           <div className="flex items-center gap-4">
             <span
-              className="grid size-14 place-items-center rounded-lg text-white shadow-lg"
+              className="grid size-12 place-items-center rounded-xl text-white"
               style={{ backgroundColor: category.accent }}
             >
               <CategoryIcon name={category.icon} className="size-6" />
             </span>
-            <h1 className="font-display text-4xl tracking-tight sm:text-5xl">{category.name}</h1>
+            <h1 className="font-display text-2xl sm:text-3xl">{category.name}</h1>
           </div>
-          <p className="mt-4 max-w-xl text-muted-foreground">{category.description}</p>
+          <p className="mt-3 max-w-xl text-sm text-muted-foreground sm:text-base">{category.description}</p>
         </div>
-        <div className="relative hidden size-48 sm:block">
+        <div className="relative hidden size-32 sm:block">
           <ProductImage
             src={category.image}
             alt=""
             fill
             priority
-            sizes="192px"
+            sizes="128px"
             className="object-contain drop-shadow-2xl"
           />
         </div>

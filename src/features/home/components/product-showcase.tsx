@@ -33,10 +33,10 @@ export function ProductShowcase() {
   const items = useStableOrder(ranked, (p) => p.id, sort);
 
   return (
-    <section className="py-12">
+    <section className="py-8">
       <Container>
         <Reveal>
-          <SectionHeading eyebrow="Curated for you" title="This week's favourites" href={`/products?sort=${sort}`}>
+          <SectionHeading title="Popular right now" href={`/products?sort=${sort}`}>
             <SegmentedControl label="Product collections" value={sort} onChange={setSort} options={TABS} />
           </SectionHeading>
         </Reveal>

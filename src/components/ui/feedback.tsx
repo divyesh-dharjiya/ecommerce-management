@@ -6,7 +6,7 @@ export function Skeleton({ className }: { className?: string }) {
 }
 
 export function Card({ className, ...props }: HTMLAttributes<HTMLDivElement>) {
-  return <div className={cn("rounded-lg border border-border bg-card shadow-soft", className)} {...props} />;
+  return <div className={cn("rounded-xl border border-border bg-card shadow-soft", className)} {...props} />;
 }
 
 export function LiveDot({ className }: { className?: string }) {
@@ -32,8 +32,8 @@ export function EmptyState({ icon, title, description, action, className, headin
   const Heading = headingLevel;
   return (
     <div className={cn("flex flex-col items-center justify-center px-6 py-20 text-center", className)}>
-      <div className="relative mb-6 grid size-20 place-items-center rounded-lg bg-muted text-foreground">{icon}</div>
-      <Heading className="font-display text-3xl">{title}</Heading>
+      <div className="relative mb-5 grid size-16 place-items-center rounded-2xl bg-primary/10 text-primary">{icon}</div>
+      <Heading className="font-display text-2xl">{title}</Heading>
       <p className="mt-2 max-w-sm text-sm text-muted-foreground">{description}</p>
       {action && <div className="mt-6">{action}</div>}
     </div>

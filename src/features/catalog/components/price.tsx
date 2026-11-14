@@ -19,8 +19,8 @@ export function Price({
         className={cn(
           "tabular-nums",
           size === "sm" && "text-sm font-medium",
-          size === "md" && "text-[15px] font-semibold",
-          size === "lg" && "font-display text-4xl",
+          size === "md" && "text-base font-bold",
+          size === "lg" && "text-3xl font-bold tracking-tight",
         )}
       >
         {formatPrice(price)}
@@ -30,7 +30,9 @@ export function Price({
           <span className={cn("text-muted-foreground line-through", size === "lg" ? "text-lg" : "text-sm")}>
             {formatPrice(compareAtPrice)}
           </span>
-          {size === "lg" && <span className="text-sm font-semibold text-accent">Save {off}%</span>}
+          {size === "lg" && (
+            <span className="rounded-md bg-accent/10 px-1.5 py-0.5 text-sm font-semibold text-accent">Save {off}%</span>
+          )}
         </>
       )}
     </div>

@@ -47,8 +47,8 @@ export function RevenueAreaChart({ data }: { data: SeriesPoint[] }) {
       <AreaChart data={data} margin={{ top: 8, right: 8, left: -8, bottom: 0 }}>
         <defs>
           <linearGradient id="revFill" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor={c.accent} stopOpacity={0.28} />
-            <stop offset="100%" stopColor={c.accent} stopOpacity={0} />
+            <stop offset="0%" stopColor={c.primary} stopOpacity={0.28} />
+            <stop offset="100%" stopColor={c.primary} stopOpacity={0} />
           </linearGradient>
         </defs>
         <CartesianGrid vertical={false} stroke={c.border} strokeDasharray="3 3" />
@@ -58,7 +58,7 @@ export function RevenueAreaChart({ data }: { data: SeriesPoint[] }) {
         <Area
           type="monotone"
           dataKey="revenue"
-          stroke={c.accent}
+          stroke={c.primary}
           strokeWidth={2}
           fill="url(#revFill)"
           activeDot={{ r: 5, strokeWidth: 2, stroke: c.card }}
@@ -80,7 +80,7 @@ export function LiveBarChart({ data }: { data: SeriesPoint[] }) {
         <XAxis dataKey="label" {...axisProps} minTickGap={28} />
         <YAxis {...axisProps} tickFormatter={(v: number) => `$${formatCompact(v)}`} width={48} />
         <Tooltip content={<ChartTooltip />} cursor={{ fill: c.muted }} />
-        <Bar dataKey="revenue" fill={c.accent} radius={[4, 4, 0, 0]} isAnimationActive animationDuration={400} />
+        <Bar dataKey="revenue" fill={c.primary} radius={[4, 4, 0, 0]} isAnimationActive animationDuration={400} />
       </BarChart>
     </ResponsiveContainer>
   );

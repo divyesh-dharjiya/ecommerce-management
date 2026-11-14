@@ -1,109 +1,99 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
+import { useMemo } from "react";
+import { ArrowRight, RotateCcw, Star, Truck } from "lucide-react";
 import { formatPrice } from "@/lib/format";
+import { discountPercent } from "@/lib/utils";
 import { useCatalogStore } from "@/features/catalog/store/catalog-store";
-import { LiveDot, ProductImage, buttonClasses } from "@/components/ui";
+import { Container, ProductImage, buttonClasses } from "@/components/ui";
 
-/** The hero shot: a full-bleed studio photo. */
-const HERO_PRODUCT_ID = "prd_pz_38";
-/** Three supporting picks shown beneath the headline. */
-const SPOTLIGHT_IDS = ["prd_pz_02", "prd_0088", "prd_pz_19"];
+/** Four hand-picked products shown as a tidy grid beside the headline. */
+const FEATURED_IDS = ["prd_pz_38", "prd_pz_02", "prd_0088", "prd_pz_19"];
 
 /**
- * Full-bleed split hero, marketplace-style: a giant condensed headline on
- * black beside an edge-to-edge product photo. No entrance animation — the
- * headline is the LCP element and should paint immediately.
+ * Simple, light hero: what the store is, two clear next steps, and real
+ * products you can click straight away. No entrance animation — the headline
+ * is the LCP element and should paint immediately.
  */
 export function Hero() {
   const products = useCatalogStore((s) => s.products);
-  const hero = products.find((p) => p.id === HERO_PRODUCT_ID);
-  const spotlight = SPOTLIGHT_IDS.flatMap((id) => products.find((p) => p.id === id) ?? []);
+  const featured = FEATURED_IDS.flatMap((id) => products.find((p) => p.id === id) ?? []);
+  const maxOff = useMemo(
+    () => products.reduce((m, p) => Math.max(m, discountPercent(p.price, p.compareAtPrice)), 0),
+    [products],
+  );
 
   return (
-    <section className="grid grid-cols-1 bg-[#111] text-white lg:grid-cols-2" aria-labelledby="hero-title">
-      <div className="flex flex-col justify-between gap-10 px-4 py-12 sm:px-8 sm:py-16 lg:px-12 xl:px-16">
-        <div>
-          <p className="eyebrow inline-flex items-center gap-2.5 text-white/70">
-            <LiveDot /> New season · Just dropped
-          </p>
-          <h1 id="hero-title" className="mt-6 font-display text-[clamp(3.75rem,10vw,9rem)]">
-            Move
-            <br />
-            different<span className="text-accent">.</span>
-          </h1>
-          <p className="mt-6 max-w-md text-lg text-white/75">
-            250+ drops across sneakers, streetwear, tech and home — from the brands everyone&apos;s wearing.
-          </p>
-          <div className="mt-8 flex flex-wrap gap-3">
-            <Link
-              href="/products?sort=newest"
-              className={buttonClasses("primary", "lg", "bg-white text-[#111] hover:bg-white/90")}
-            >
-              Shop new arrivals
-            </Link>
-            <Link
-              href="/products?onSale=1&sort=discount"
-              className={buttonClasses(
-                "outline",
-                "lg",
-                "border-white/40 bg-transparent text-white hover:bg-white hover:text-[#111]",
-              )}
-            >
-              Shop the sale
-            </Link>
-          </div>
-        </div>
-
-        {spotlight.length > 0 && (
-          <ul className="grid grid-cols-3 gap-2 sm:gap-3" aria-label="Trending now">
-            {spotlight.map((p) => (
-              <li key={p.id}>
-                <Link href={`/products/${p.slug}`} className="group block">
-                  <div className="relative aspect-square overflow-hidden bg-white/[0.06]">
-                    <ProductImage
-                      src={p.thumbnail}
-                      alt={p.title}
-                      fill
-                      sizes="(max-width: 1024px) 30vw, 14vw"
-                      className={`${p.imageStyle === "photo" ? "object-cover" : "object-contain p-3"} transition-transform duration-500 group-hover:scale-105`}
-                    />
-                  </div>
-                  <p className="mt-2 truncate text-xs font-medium text-white/80">{p.title}</p>
-                  <p className="text-xs text-white/50">{formatPrice(p.price)}</p>
-                </Link>
+    <section aria-labelledby="hero-title" className="pt-6 sm:pt-8">
+      <Container>
+        <div className="grid items-center gap-8 overflow-hidden rounded-3xl bg-gradient-to-br from-primary/10 via-subtle to-subtle p-6 sm:p-10 lg:grid-cols-[1.1fr_1fr] lg:gap-12 lg:p-14">
+          <div>
+            {maxOff > 0 && (
+              <Link
+                href="/products?onSale=1&sort=discount"
+                className="inline-flex items-center gap-2 rounded-full bg-card px-3 py-1.5 text-xs font-semibold text-accent shadow-soft transition hover:shadow-md"
+              >
+                Sale on now · up to {maxOff}% off
+                <ArrowRight className="size-3.5" />
+              </Link>
+            )}
+            <h1 id="hero-title" className="mt-5 font-display text-4xl sm:text-5xl lg:text-[3.5rem]">
+              Everything you need, <span className="text-primary">all in one place.</span>
+            </h1>
+            <p className="mt-4 max-w-lg text-base text-muted-foreground sm:text-lg">
+              Shop fashion, electronics, beauty and home essentials from brands you trust — with fast, free delivery.
+            </p>
+            <div className="mt-7 flex flex-wrap gap-3">
+              <Link href="/products" className={buttonClasses("primary", "lg")}>
+                Start shopping <ArrowRight className="size-4" />
+              </Link>
+              <Link href="/categories" className={buttonClasses("outline", "lg")}>
+                Browse categories
+              </Link>
+            </div>
+            <ul className="mt-8 flex flex-wrap gap-x-6 gap-y-2 text-sm text-muted-foreground">
+              <li className="flex items-center gap-1.5">
+                <Star className="size-4 fill-amber-400 text-amber-400" /> 4.8 average rating
               </li>
-            ))}
-          </ul>
-        )}
-      </div>
-
-      {hero && (
-        <Link
-          href={`/products/${hero.slug}`}
-          className="group relative block min-h-[420px] overflow-hidden lg:min-h-[640px]"
-          aria-label={`${hero.title} — ${formatPrice(hero.price)}`}
-        >
-          <ProductImage
-            src={hero.thumbnail}
-            alt={hero.title}
-            fill
-            priority
-            sizes="(max-width: 1024px) 100vw, 50vw"
-            className="object-cover transition-transform duration-700 ease-[var(--ease-out-expo)] group-hover:scale-[1.03]"
-          />
-          <div className="absolute inset-x-4 bottom-4 flex items-center justify-between gap-4 rounded-full bg-white py-2 pl-5 pr-2 text-[#111] sm:inset-x-6 sm:bottom-6">
-            <span className="min-w-0">
-              <span className="block truncate text-sm font-semibold">{hero.title}</span>
-              <span className="text-xs text-[#707072]">{formatPrice(hero.price)}</span>
-            </span>
-            <span className="grid size-10 shrink-0 place-items-center rounded-full bg-[#111] text-white transition-transform group-hover:translate-x-0.5">
-              <ArrowRight className="size-4" />
-            </span>
+              <li className="flex items-center gap-1.5">
+                <Truck className="size-4 text-primary" /> Free delivery over $100
+              </li>
+              <li className="flex items-center gap-1.5">
+                <RotateCcw className="size-4 text-primary" /> 30-day returns
+              </li>
+            </ul>
           </div>
-        </Link>
-      )}
+
+          {featured.length > 0 && (
+            <ul className="grid grid-cols-2 gap-3 sm:gap-4" aria-label="Featured products">
+              {featured.map((p) => (
+                <li key={p.id}>
+                  <Link
+                    href={`/products/${p.slug}`}
+                    className="group block overflow-hidden rounded-2xl bg-card shadow-soft transition hover:shadow-lift"
+                  >
+                    <div className="relative aspect-[4/3] overflow-hidden bg-muted">
+                      <ProductImage
+                        src={p.thumbnail}
+                        alt={p.title}
+                        fill
+                        priority
+                        sizes="(max-width: 1024px) 45vw, 22vw"
+                        className={`${p.imageStyle === "photo" ? "object-cover" : "object-contain p-4"} transition-transform duration-500 group-hover:scale-105`}
+                      />
+                    </div>
+                    <div className="px-3 py-2.5">
+                      <p className="truncate text-sm font-medium">{p.title}</p>
+                      <p className="text-sm font-bold">{formatPrice(p.price)}</p>
+                    </div>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+      </Container>
     </section>
   );
 }

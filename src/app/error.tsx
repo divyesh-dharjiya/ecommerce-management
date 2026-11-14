@@ -15,7 +15,7 @@ export default function GlobalError({ error, reset }: { error: Error & { digest?
       <div>
         <h1 className="font-display text-3xl">Something went wrong</h1>
         <p className="mt-3 max-w-md text-muted-foreground">
-          An unexpected error occurred. Your bag and data are safe — try again.
+          An unexpected error occurred. Your cart and data are safe — try again.
         </p>
         {error.digest && <p className="mt-2 font-mono text-xs text-muted-foreground">Ref: {error.digest}</p>}
         <Button className="mt-8" onClick={reset}>

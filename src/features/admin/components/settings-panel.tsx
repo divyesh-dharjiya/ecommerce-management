@@ -111,7 +111,7 @@ function SettingsView() {
       <Panel
         title={
           <>
-            <Palette className="size-4 text-accent" /> Appearance
+            <Palette className="size-4 text-primary" /> Appearance
           </>
         }
       >
@@ -123,7 +123,7 @@ function SettingsView() {
       <Panel
         title={
           <>
-            <Zap className="size-4 text-accent" /> Realtime
+            <Zap className="size-4 text-primary" /> Realtime
           </>
         }
       >
@@ -152,7 +152,7 @@ function SettingsView() {
       <Panel
         title={
           <>
-            <Database className="size-4 text-accent" /> Data
+            <Database className="size-4 text-primary" /> Data
           </>
         }
       >

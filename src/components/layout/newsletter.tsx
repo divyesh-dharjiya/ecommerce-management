@@ -22,7 +22,7 @@ export function Newsletter() {
     } catch {
       /* non-critical */
     }
-    toast.success("You're on the list!", { description: "Watch your inbox for exclusive drops." });
+    toast.success("You're on the list!", { description: "We will email you our best deals." });
     setEmail("");
   };
 
@@ -36,15 +36,15 @@ export function Newsletter() {
         type="email"
         value={email}
         onChange={(e) => setEmail(e.target.value)}
-        placeholder="Your email for exclusive drops"
-        className="h-11 flex-1 rounded-full border border-border bg-card px-4 text-sm outline-none transition focus:border-primary focus:ring-4 focus:ring-primary/15"
+        placeholder="you@example.com"
+        className="h-11 min-w-0 flex-1 rounded-lg border border-border bg-card px-3.5 text-sm outline-none transition focus:border-primary focus:ring-4 focus:ring-primary/15"
       />
       <button
         type="submit"
-        aria-label="Subscribe"
-        className="grid size-11 place-items-center rounded-full bg-primary text-primary-foreground transition hover:brightness-110 active:scale-95"
+
+        className="inline-flex h-11 shrink-0 items-center gap-2 rounded-lg bg-primary px-4 text-sm font-semibold text-primary-foreground transition hover:bg-primary/90"
       >
-        <Send className="size-4" />
+        <Send className="size-4" /> Subscribe
       </button>
     </form>
   );

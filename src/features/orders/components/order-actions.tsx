@@ -20,7 +20,7 @@ export const CANCEL_REASONS = [
   "Changed my mind",
 ] as const;
 
-/** Adds every still-available line of a past order back to the bag. */
+/** Adds every still-available line of a past order back to the cart. */
 function useBuyAgain() {
   const addItem = useCartStore((s) => s.addItem);
   const setCartOpen = useUiStore((s) => s.setCartOpen);
@@ -36,7 +36,7 @@ function useBuyAgain() {
       toast.error("These items are no longer available");
       return;
     }
-    toast.success(`Added ${added} item${added === 1 ? "" : "s"} to your bag`, {
+    toast.success(`Added ${added} item${added === 1 ? "" : "s"} to your cart`, {
       description:
         missing > 0 ? `${missing} item${missing === 1 ? " is" : "s are"} unavailable or already maxed out.` : undefined,
     });

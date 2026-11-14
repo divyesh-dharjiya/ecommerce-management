@@ -91,7 +91,7 @@ export function TopProductsPanel({ data }: { data: TopProduct[] }) {
     <Panel
       title="Top products"
       action={
-        <Link href="/admin/products" className="text-xs font-semibold text-accent">
+        <Link href="/admin/products" className="text-xs font-semibold text-primary">
           Manage
         </Link>
       }
@@ -147,7 +147,7 @@ export function LowStockPanel({ products }: { products: Product[] }) {
                   adjustStock({ [p.id]: 50 });
                   toast.success(`Restocked ${p.title}`, { description: "+50 units" });
                 }}
-                className="flex items-center gap-1 rounded-lg border border-border px-2.5 py-1.5 text-xs font-semibold transition hover:border-primary hover:text-accent"
+                className="flex items-center gap-1 rounded-lg border border-border px-2.5 py-1.5 text-xs font-semibold transition hover:border-primary hover:text-primary"
               >
                 <PackagePlus className="size-3.5" /> +50
               </button>
@@ -204,7 +204,7 @@ export function RecentOrdersPanel({ orders, now }: { orders: Order[]; now: numbe
     <Panel
       title="Recent orders"
       action={
-        <Link href="/admin/orders" className="flex items-center gap-1 text-xs font-semibold text-accent">
+        <Link href="/admin/orders" className="flex items-center gap-1 text-xs font-semibold text-primary">
           View all <ArrowRight className="size-3" />
         </Link>
       }

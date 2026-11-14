@@ -2,7 +2,7 @@ import { cn } from "@/lib/utils";
 import { ProductCard, ProductCardSkeleton } from "@/features/catalog/components/product-card";
 import type { Product } from "@/types";
 
-const gridClasses = "grid grid-cols-2 gap-x-2 gap-y-8 sm:gap-x-3 sm:gap-y-10 md:grid-cols-3 xl:grid-cols-4";
+const gridClasses = "grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-3 xl:grid-cols-4";
 
 export interface ProductGridProps {
   products: Product[];
@@ -19,7 +19,7 @@ export interface ProductGridProps {
  */
 export function ProductGrid({ products, layout = "grid", className, priorityCount = 4 }: ProductGridProps) {
   return (
-    <ul className={cn(layout === "grid" ? gridClasses : "flex flex-col gap-4", className)} aria-label="Products">
+    <ul className={cn(layout === "grid" ? gridClasses : "flex flex-col gap-3", className)} aria-label="Products">
       {products.map((p, i) => (
         <li key={p.id} className="flex">
           <ProductCard product={p} layout={layout} priority={i < priorityCount} className="w-full" />

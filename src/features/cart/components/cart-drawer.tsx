@@ -17,12 +17,12 @@ export function CartDrawer() {
   const close = () => setOpen(false);
 
   return (
-    <Drawer open={open} onClose={close} title={`Your bag (${totals.itemCount})`}>
+    <Drawer open={open} onClose={close} title={`Your cart (${totals.itemCount})`}>
       {lines.length === 0 ? (
         <EmptyState
           className="flex-1"
           icon={<ShoppingBag className="size-9" />}
-          title="Your bag is empty"
+          title="Your cart is empty"
           description="Looks like you haven't added anything yet. Explore our latest arrivals."
           action={
             <Link href="/products" onClick={close} className={buttonClasses("primary")}>
@@ -42,7 +42,7 @@ export function CartDrawer() {
               ))}
             </AnimatePresence>
           </ul>
-          <div className="space-y-3 border-t border-border bg-muted/30 px-6 py-5">
+          <div className="space-y-3 border-t border-border bg-subtle px-6 py-5">
             <div className="flex items-center justify-between">
               <span className="text-sm text-muted-foreground">Subtotal</span>
               <span className="text-lg font-bold">{formatPrice(totals.subtotal)}</span>
@@ -50,7 +50,7 @@ export function CartDrawer() {
             <p className="text-xs text-muted-foreground">Shipping, taxes and discounts calculated at checkout.</p>
             <div className="grid grid-cols-2 gap-3">
               <Link href="/cart" onClick={close} className={buttonClasses("outline")}>
-                View bag
+                View cart
               </Link>
               <Link href="/checkout" onClick={close} className={buttonClasses("primary")}>
                 Checkout <ArrowRight className="size-4" />

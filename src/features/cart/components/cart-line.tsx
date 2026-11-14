@@ -23,7 +23,7 @@ export function CartLine({ line, compact }: { line: CartLineData; compact?: bool
   const remove = () => {
     const qty = item.quantity;
     removeItem(product.id);
-    toast("Removed from bag", {
+    toast("Removed from cart", {
       description: product.title,
       action: { label: "Undo", onClick: () => addItem(product, qty) },
     });
@@ -42,7 +42,7 @@ export function CartLine({ line, compact }: { line: CartLineData; compact?: bool
         href={`/products/${product.slug}`}
         onClick={() => closeCart(false)}
         className={cn(
-          "relative shrink-0 overflow-hidden rounded-lg bg-muted",
+          "relative shrink-0 overflow-hidden rounded-xl bg-muted",
           compact ? "size-20" : "size-24 sm:size-28",
         )}
       >
@@ -54,7 +54,7 @@ export function CartLine({ line, compact }: { line: CartLineData; compact?: bool
             <Link
               href={`/products/${product.slug}`}
               onClick={() => closeCart(false)}
-              className="line-clamp-2 text-sm font-semibold leading-snug hover:text-accent"
+              className="line-clamp-2 text-sm font-semibold leading-snug hover:text-primary"
             >
               {product.title}
             </Link>

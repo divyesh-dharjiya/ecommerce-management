@@ -42,7 +42,7 @@ function SidebarNav({ onNavigate }: { onNavigate?: () => void }) {
             {active && (
               <m.span
                 layoutId="admin-nav"
-                className="absolute inset-0 -z-0 rounded-md bg-primary shadow-md shadow-primary/30"
+                className="absolute inset-0 -z-0 rounded-lg bg-primary"
                 transition={spring.snappy}
               />
             )}
@@ -71,11 +71,11 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
   const lock = useAdminAuthStore((s) => s.lock);
 
   return (
-    <div className="min-h-dvh bg-muted/40">
+    <div className="min-h-dvh bg-subtle">
       <aside className="fixed inset-y-0 left-0 z-30 hidden w-64 flex-col border-r border-border bg-card lg:flex">
         <div className="flex h-16 items-center border-b border-border px-6">
           <Logo href="/admin" />
-          <span className="ml-2 rounded-md bg-accent/10 px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-accent">
+          <span className="ml-2 rounded-md bg-primary/10 px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-primary">
             Admin
           </span>
         </div>
@@ -99,10 +99,10 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
           <button
             type="button"
             onClick={() => openSearch(true)}
-            className="flex h-10 max-w-sm flex-1 items-center gap-2 rounded-md border border-border bg-card px-3.5 text-sm text-muted-foreground transition hover:border-primary/40"
+            className="flex h-10 max-w-sm flex-1 items-center gap-2 rounded-lg border border-border bg-subtle px-3.5 text-sm text-muted-foreground transition hover:border-primary/40"
           >
-            <Search className="size-4" /> Search catalogue…
-            <kbd className="ml-auto hidden rounded border border-border px-1.5 font-mono text-[10px] sm:inline">
+            <Search className="size-4" /> Search products…
+            <kbd className="ml-auto hidden rounded border border-border px-1.5 font-mono text-[10px] lg:inline">
               Ctrl K
             </kbd>
           </button>
@@ -125,7 +125,7 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
                 toast("Admin locked", { description: "Enter your passcode to continue." });
               }}
               aria-label="Lock admin"
-              className="flex h-9 items-center gap-2 rounded-full bg-foreground px-3 text-sm font-semibold text-background transition hover:bg-foreground/85"
+              className="flex h-9 items-center gap-2 rounded-lg border border-border bg-card px-3 text-sm font-semibold text-foreground transition hover:bg-muted"
             >
               <Lock className="size-4" aria-hidden /> <span className="max-sm:sr-only">Lock</span>
             </button>

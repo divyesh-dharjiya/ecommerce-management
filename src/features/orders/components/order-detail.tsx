@@ -75,7 +75,7 @@ export function OrderDetail({ id }: { id: string }) {
             <Check className="size-10" strokeWidth={3} />
           </m.span>
         )}
-        <h1 className="font-display text-4xl tracking-tight">
+        <h1 className="font-display text-2xl sm:text-3xl">
           {justPlaced ? "Thank you for your order!" : `Order ${order.number}`}
         </h1>
         <p className="mt-2 text-muted-foreground">

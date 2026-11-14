@@ -102,7 +102,7 @@ export function DropdownMenu<T extends string>({
               >
                 {item.icon && <span className="text-muted-foreground">{item.icon}</span>}
                 <span className="flex-1">{item.label}</span>
-                {item.value === value && <Check className="size-4 text-accent" />}
+                {item.value === value && <Check className="size-4 text-primary" />}
               </button>
             ))}
           </m.div>

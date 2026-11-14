@@ -51,7 +51,7 @@ export function StatCard({
     >
       <div className="flex items-center justify-between">
         <p className="text-sm font-medium text-muted-foreground">{label}</p>
-        <span className="grid size-9 place-items-center rounded-md bg-accent/10 text-accent">
+        <span className="grid size-9 place-items-center rounded-md bg-primary/10 text-primary">
           <Icon className="size-[18px]" />
         </span>
       </div>

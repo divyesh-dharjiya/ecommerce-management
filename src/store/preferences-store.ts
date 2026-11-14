@@ -19,12 +19,20 @@ export const usePreferencesStore = create<PreferencesState>()(
   persist(
     (set) => ({
       liveSimulation: true,
-      liveToasts: true,
+      // Storefront "someone just bought…" pop-ups are opt-in: they distract shoppers.
+      liveToasts: false,
       viewMode: "grid",
       setLiveSimulation: (liveSimulation) => set({ liveSimulation }),
       setLiveToasts: (liveToasts) => set({ liveToasts }),
       setViewMode: (viewMode) => set({ viewMode }),
     }),
-    persistOptions<PreferencesState>("preferences", { version: 1 }),
+    persistOptions<PreferencesState>("preferences", {
+      version: 2,
+      // v2 turned purchase pop-ups off by default; reset saved v1 preferences once.
+      migrate: (persisted, version) => {
+        const state = (persisted ?? {}) as Partial<PreferencesState>;
+        return (version < 2 ? { ...state, liveToasts: false } : state) as PreferencesState;
+      },
+    }),
   ),
 );

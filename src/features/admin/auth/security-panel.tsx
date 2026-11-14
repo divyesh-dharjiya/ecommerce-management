@@ -78,7 +78,7 @@ export function SecurityPanel() {
     <Panel
       title={
         <>
-          <ShieldCheck className="size-4 text-accent" /> Admin access
+          <ShieldCheck className="size-4 text-primary" /> Admin access
         </>
       }
       action={

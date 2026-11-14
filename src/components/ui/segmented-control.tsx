@@ -63,7 +63,7 @@ export function SegmentedControl<T extends string>({
       onKeyDown={onKeyDown}
       className={cn(
         "inline-flex items-center gap-0.5 p-1",
-        variant === "pill" ? "rounded-full bg-muted" : "rounded-md border border-border bg-card",
+        variant === "pill" ? "rounded-xl bg-muted" : "rounded-lg border border-border bg-card",
         className,
       )}
     >
@@ -81,11 +81,11 @@ export function SegmentedControl<T extends string>({
             className={cn(
               "relative inline-flex items-center justify-center gap-1.5 font-semibold transition-colors",
               size === "sm" ? "h-8 min-w-8 px-3 text-xs" : "h-9 min-w-9 px-4 text-sm",
-              variant === "pill" ? "rounded-full" : "rounded-lg",
+              variant === "pill" ? "rounded-lg" : "rounded-md",
               active
                 ? variant === "pill"
                   ? "text-foreground"
-                  : "text-background"
+                  : "text-primary-foreground"
                 : "text-muted-foreground hover:text-foreground",
             )}
           >
@@ -95,7 +95,7 @@ export function SegmentedControl<T extends string>({
                 transition={spring.snappy}
                 className={cn(
                   "absolute inset-0",
-                  variant === "pill" ? "rounded-full bg-card shadow-soft" : "rounded-lg bg-foreground",
+                  variant === "pill" ? "rounded-lg bg-card shadow-soft" : "rounded-md bg-primary",
                 )}
               />
             )}

@@ -2,13 +2,13 @@
 
 import Link from "next/link";
 import { memo } from "react";
-import { Eye, Heart, Plus } from "lucide-react";
+import { Eye, Heart, ShoppingCart } from "lucide-react";
 import { commerceConfig } from "@/config/site";
 import { cn, discountPercent } from "@/lib/utils";
 import { useUiStore } from "@/store/ui-store";
 import { useCartActions } from "@/features/cart/hooks/use-cart-actions";
 import { useIsWishlisted } from "@/features/wishlist/store/wishlist-store";
-import { Badge, ProductImage } from "@/components/ui";
+import { Badge, ProductImage, Rating } from "@/components/ui";
 import { Price } from "@/features/catalog/components/price";
 import type { Product } from "@/types";
 
@@ -20,39 +20,10 @@ export interface ProductCardProps {
   style?: React.CSSProperties;
 }
 
-/** Round icon action over the product tile (wishlist, quick view). */
-function TileAction({
-  label,
-  onClick,
-  pressed,
-  className,
-  children,
-}: {
-  label: string;
-  onClick: () => void;
-  pressed?: boolean;
-  className?: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <button
-      type="button"
-      onClick={onClick}
-      aria-label={label}
-      aria-pressed={pressed}
-      className={cn(
-        "grid size-9 place-items-center rounded-full bg-card/90 text-foreground shadow-soft backdrop-blur transition duration-300 hover:scale-110 active:scale-90",
-        className,
-      )}
-    >
-      {children}
-    </button>
-  );
-}
-
 /**
- * Editorial product card: no frame, just a soft tile for the photo and clean
- * type beneath. The second image crossfades in on hover; quick-add slides up.
+ * Product card: picture, name, rating, price and one clear "Add to cart"
+ * button. Every action is visible without hovering, so it works the same on
+ * touch screens.
  */
 function ProductCardBase({ product, priority, layout = "grid", className, style }: ProductCardProps) {
   const { addToCart, toggleWish } = useCartActions();
@@ -61,7 +32,6 @@ function ProductCardBase({ product, priority, layout = "grid", className, style 
   const off = discountPercent(product.price, product.compareAtPrice);
   const soldOut = product.stock <= 0;
   const lowStock = !soldOut && product.stock <= commerceConfig.lowStockThreshold;
-  const hoverImage = product.images.find((i) => i !== product.thumbnail);
   const href = `/products/${product.slug}`;
   const isList = layout === "list";
   // Studio photos fill the tile; transparent cut-outs sit padded on the tint.
@@ -70,14 +40,13 @@ function ProductCardBase({ product, priority, layout = "grid", className, style 
   return (
     <article
       style={style}
-      className={cn("group relative flex", isList ? "flex-row gap-5 sm:gap-8" : "flex-col", className)}
+      className={cn(
+        "group relative flex overflow-hidden rounded-2xl border border-border bg-card transition-shadow hover:shadow-lift",
+        isList ? "flex-row" : "flex-col",
+        className,
+      )}
     >
-      <div
-        className={cn(
-          "relative overflow-hidden bg-muted",
-          isList ? "aspect-square w-40 shrink-0 sm:w-56" : "aspect-square",
-        )}
-      >
+      <div className={cn("relative shrink-0 overflow-hidden bg-muted", isList ? "w-36 sm:w-52" : "aspect-square")}>
         <Link href={href} aria-label={product.title} className="absolute inset-0" tabIndex={-1}>
           <ProductImage
             src={product.thumbnail}
@@ -86,85 +55,73 @@ function ProductCardBase({ product, priority, layout = "grid", className, style 
             priority={priority}
             sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
             className={cn(
-              `${fit} transition-[transform,opacity] duration-700 ease-[var(--ease-out-expo)] group-hover:scale-105`,
-              hoverImage && "group-hover:opacity-0",
+              fit,
+              "transition-transform duration-500 group-hover:scale-105",
               soldOut && "opacity-50 grayscale",
             )}
           />
-          {hoverImage && (
-            <ProductImage
-              src={hoverImage}
-              alt=""
-              fill
-              sizes="(max-width: 640px) 50vw, 25vw"
-              className={`${fit} opacity-0 transition-[transform,opacity] duration-700 ease-[var(--ease-out-expo)] group-hover:opacity-100 group-hover:scale-105`}
-            />
-          )}
         </Link>
 
-        <div className="pointer-events-none absolute left-3 top-3 flex flex-col items-start gap-1.5">
-          {off > 0 && <Badge tone="sale">−{off}%</Badge>}
+        <div className="pointer-events-none absolute left-2.5 top-2.5 flex flex-col items-start gap-1">
+          {off > 0 && <Badge tone="sale">{off}% off</Badge>}
+          {product.isNew && off === 0 && <Badge tone="primary">New</Badge>}
         </div>
 
-        <div className="absolute right-3 top-3 flex flex-col gap-2">
-          <TileAction
-            label={wished ? "Remove from wishlist" : "Add to wishlist"}
-            pressed={wished}
+        <div className="absolute right-2.5 top-2.5 flex flex-col gap-1.5">
+          <button
+            type="button"
             onClick={() => toggleWish(product)}
+            aria-label={wished ? "Remove from wishlist" : "Add to wishlist"}
+            aria-pressed={wished}
+            className="grid size-8 place-items-center rounded-full bg-card/95 text-foreground shadow-soft transition hover:text-accent"
           >
-            <Heart className={cn("size-4 transition", wished && "fill-accent text-accent")} />
-          </TileAction>
-          <TileAction
-            label={`Quick view ${product.title}`}
+            <Heart className={cn("size-4", wished && "fill-accent text-accent")} />
+          </button>
+          <button
+            type="button"
             onClick={() => openQuickView(product.id)}
-            className="translate-x-12 opacity-0 group-hover:translate-x-0 group-hover:opacity-100 focus-visible:translate-x-0 focus-visible:opacity-100 max-sm:hidden"
+            aria-label={`Quick look at ${product.title}`}
+            className="grid size-8 place-items-center rounded-full bg-card/95 text-foreground opacity-0 shadow-soft transition group-hover:opacity-100 focus-visible:opacity-100 hover:text-primary max-md:hidden"
           >
             <Eye className="size-4" />
-          </TileAction>
+          </button>
         </div>
-
-        {!isList && (
-          <div className="absolute inset-x-3 bottom-3 translate-y-[140%] transition-transform duration-500 ease-[var(--ease-out-expo)] group-hover:translate-y-0 group-focus-within:translate-y-0 max-sm:hidden">
-            <button
-              type="button"
-              disabled={soldOut}
-              onClick={() => addToCart(product)}
-              className="flex h-11 w-full items-center justify-center gap-2 rounded-full bg-primary text-sm font-semibold text-primary-foreground transition hover:opacity-90 active:scale-[0.98] disabled:opacity-60"
-            >
-              <Plus className="size-4" /> {soldOut ? "Sold out" : "Quick add"}
-            </button>
-          </div>
-        )}
       </div>
 
-      <div className={cn("flex flex-1 flex-col", isList ? "justify-center gap-2" : "gap-1 pt-3")}>
-        {(soldOut || lowStock || product.isNew || off > 0) && (
-          <p className={cn("text-[13px] font-semibold", soldOut ? "text-muted-foreground" : "text-accent")}>
-            {soldOut ? "Sold out" : lowStock ? `Only ${product.stock} left` : product.isNew ? "Just In" : "Sale"}
-          </p>
-        )}
-        <h3 className={cn("line-clamp-2 leading-snug", isList ? "font-display text-3xl" : "text-[15px] font-semibold")}>
-          <Link href={href} className="underline-offset-4 transition-colors hover:underline">
+      <div className={cn("flex min-w-0 flex-1 flex-col p-3 sm:p-4", isList && "justify-center")}>
+        <p className="truncate text-xs font-medium text-muted-foreground">{product.brand}</p>
+        <h3 className={cn("mt-0.5 line-clamp-2 font-medium leading-snug", isList ? "text-base sm:text-lg" : "text-sm")}>
+          <Link href={href} className="transition-colors hover:text-primary">
             {product.title}
           </Link>
         </h3>
-        <p className="truncate text-[15px] text-muted-foreground">{product.brand}</p>
-        {isList && <p className="line-clamp-2 max-w-xl text-sm text-muted-foreground">{product.description}</p>}
-        <div className="mt-1 flex items-end justify-between gap-2">
-          <div>
-            <Price price={product.price} compareAtPrice={product.compareAtPrice} />
-          </div>
+        {product.reviewCount > 0 && (
+          <Rating className="mt-1.5" value={product.rating} showValue count={product.reviewCount} size={12} />
+        )}
+        {isList && (
+          <p className="mt-2 line-clamp-2 max-w-xl text-sm text-muted-foreground max-sm:hidden">
+            {product.description}
+          </p>
+        )}
+
+        <div className="mt-auto pt-2.5">
+          <Price price={product.price} compareAtPrice={product.compareAtPrice} />
+          {(soldOut || lowStock) && (
+            <p className={cn("mt-0.5 text-xs font-medium", soldOut ? "text-muted-foreground" : "text-warning")}>
+              {soldOut ? "Out of stock" : `Only ${product.stock} left`}
+            </p>
+          )}
           <button
             type="button"
             disabled={soldOut}
             onClick={() => addToCart(product)}
-            aria-label={`Add ${product.title} to bag`}
+            aria-label={`Add ${product.title} to cart`}
             className={cn(
-              "grid size-10 shrink-0 place-items-center rounded-full border border-border transition hover:bg-primary hover:text-primary-foreground active:scale-90 disabled:opacity-50",
-              !isList && "sm:hidden",
+              "mt-3 flex h-9 w-full items-center justify-center gap-2 rounded-lg border border-primary/30 bg-primary/5 text-sm font-semibold text-primary transition-colors hover:bg-primary hover:text-primary-foreground disabled:pointer-events-none disabled:border-border disabled:bg-muted disabled:text-muted-foreground",
+              isList && "sm:w-auto sm:px-5",
             )}
           >
-            <Plus className="size-4" />
+            <ShoppingCart className="size-4" /> {soldOut ? "Out of stock" : "Add to cart"}
           </button>
         </div>
       </div>
@@ -176,12 +133,13 @@ export const ProductCard = memo(ProductCardBase);
 
 export function ProductCardSkeleton() {
   return (
-    <div aria-hidden>
+    <div aria-hidden className="overflow-hidden rounded-2xl border border-border bg-card">
       <div className="skeleton aspect-square" />
-      <div className="space-y-2 pt-3">
+      <div className="space-y-2 p-4">
         <div className="skeleton h-3 w-1/3 rounded" />
         <div className="skeleton h-4 w-4/5 rounded" />
         <div className="skeleton h-4 w-1/4 rounded" />
+        <div className="skeleton mt-3 h-9 w-full rounded-lg" />
       </div>
     </div>
   );

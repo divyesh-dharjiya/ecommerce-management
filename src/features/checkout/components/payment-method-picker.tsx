@@ -25,11 +25,11 @@ export function PaymentMethodPicker({
             aria-checked={active}
             onClick={() => onChange(id)}
             className={cn(
-              "relative rounded-lg border-2 p-4 text-left transition-colors duration-300",
-              active ? "border-primary bg-accent/5" : "border-border hover:border-primary/40",
+              "relative rounded-xl border-2 p-4 text-left transition-colors duration-200",
+              active ? "border-primary bg-primary/5" : "border-border hover:border-primary/40",
             )}
           >
-            <Icon className={cn("size-5 transition-colors", active ? "text-accent" : "text-muted-foreground")} />
+            <Icon className={cn("size-5 transition-colors", active ? "text-primary" : "text-muted-foreground")} />
             <p className="mt-3 font-semibold">{label}</p>
             <p className="text-xs text-muted-foreground">{description}</p>
             {active && (
